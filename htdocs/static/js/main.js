@@ -47,4 +47,16 @@ function openListOfValue(table_name,mode)
 	$('#ListOfValueModal').modal()
 }
 
+function checkDirtyBit()
+{
+	if($('input[name="dirtybit"]').val() == 'true')
+	{
+		var ans = confirm('Are you sure to discard the changes?');
+		return ans;
+	}
+	else
+	{
+		return true;
+	}
+}
 //$('#mainform')
