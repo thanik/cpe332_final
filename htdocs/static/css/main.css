@@ -1,0 +1,132 @@
+body {
+	background-color: #ccdeff;
+	font-family: "proxima-nova"
+}
+
+.mainbody {
+	margin-top: 30px;
+	background-color: #fff;
+	border-radius: 10px;
+	-webkit-box-shadow: 0px 9px 32px 3px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 9px 32px 3px rgba(0,0,0,0.75);
+	box-shadow: 0px 9px 32px 3px rgba(0,0,0,0.75);
+	min-height: 500px;
+}
+
+.formheader {
+	background-color: #6890d8;
+	border-radius: 10px 10px 0px 0px;
+	margin-left: -15px;
+	margin-right: -15px;
+	
+	color: #fff;
+	font-weight: 200;
+	/* height: 250px; */
+}
+
+.app_name {
+	font-style: italic;
+	text-align: right;
+	margin-right: 20px;
+	float: right;
+}
+
+.nav_button {
+	background-color: #92b2ec;
+	color: #fff;
+	font-size: 1.75em;
+	width: 175px;
+	height: 45px;
+	text-align: center;
+	border-radius: 10px;
+	font-weight: 100;
+	margin-left: 15px;
+	margin-top: 15px;
+	float: left;
+	
+	/* vertically aligned */
+	/* Internet Explorer 10 */
+	display:-ms-flexbox;
+	-ms-flex-pack:center;
+	-ms-flex-align:center;
+	
+	/* Firefox */
+	display:-moz-box;
+	-moz-box-pack:center;
+	-moz-box-align:center;
+	
+	/* Safari, Opera, and Chrome */
+	display:-webkit-box;
+	-webkit-box-pack:center;
+	-webkit-box-align:center;
+	
+	/* W3C */
+	display:box;
+	box-pack:center;
+	box-align:center;
+	
+}
+
+.nav_button a {
+	color: #fff;
+	
+}
+
+.form_name {
+	font-weight: 100;
+	font-size: 3.5em;
+}
+
+.head_button_section {
+	/* margin-left: 25px; */
+	margin-bottom: 15px;
+}
+
+.head_button {
+	background-color: #fff;
+	color: #6890d8;
+	height: 72px;
+	width: 72px;
+	font-size: 1.3em;
+	font-weight: 100;
+	text-align: center;
+	margin-top: 2.5px;
+	margin-right: 2.5px;
+}
+
+.head_button .glyphicon {
+	font-size: 1.65em;
+}
+
+.form {
+	margin-top: 15px;
+	font-size: 1.5em;
+}
+
+.form tr {
+	margin-top: 3px;
+}
+
+.form_button {
+	background-color: #6890d8;
+	color: #fff;
+	font-size: 0.6em;
+	text-align: center;
+	height: 36px;
+	width: 36px;
+}
+
+.lineitem_table {
+	margin-bottom: 20px;
+	font-size: 0.8em;
+}
+
+.lineitem_table thead {
+	background-color: #6890d8;
+	color: #fff;
+}
+
+.lineitem_table thead th {
+	text-align: center;
+	vertical-align: middle;
+}
