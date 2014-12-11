@@ -64,7 +64,14 @@ class ListOfValueController extends BaseController {
 					<td><select name="component_type">';
 					foreach(AssetType::all()->ToArray() as $option)
 					{
-					echo '<option value="'.$option['asset_type'].'">'.$option['asset_type'].'</option>';
+						if(Session::get('lineitem')[intval(Input::get('num'))]['component_type'] == $option['asset_type'])
+						{
+							echo '<option value="'.$option['asset_type'].'" selected>'.$option['asset_type'].'</option>';
+						}
+						else
+						{
+							echo '<option value="'.$option['asset_type'].'">'.$option['asset_type'].'</option>';
+						}
 					}
 			echo '	</select></td>
 				</tr>
@@ -74,7 +81,7 @@ class ListOfValueController extends BaseController {
 				</tr>
 				<tr>
 					<td><b>Rough Value of this part :</b></td>
-					<td><input type="number" name="rough_value" step="0.25" placeholder="0.00" value="'.Session::get('lineitem')[intval(Input::get('num'))]['rough_value'].'"></td>
+					<td><input type="number" name="rough_value" step="0.25" placeholder="0.00" value="'.Session::get('lineitem')[floatval(Input::get('num'))]['rough_value'].'"></td>
 				</tr>
 				<tr>
 					<td><b>Notes :</b></td>

@@ -35,8 +35,8 @@
 					<button type="submit" name="action" value="new" onclick="if(checkDirtyBit()) return true; return false;" class="head_button btn"><span class="glyphicon glyphicon-plus"></span><br/>new</button>
 					<button type="button" class="head_button btn" onclick="if(checkDirtyBit()) openListOfValue('asset_id','edit');"><span class="glyphicon glyphicon-pencil"></span><br/>edit</button>
 					<button type="button" class="head_button btn" onclick="if(checkDirtyBit()) openListOfValue('asset_id','copy');"><span class="glyphicon glyphicon-file"></span><br/>copy</button>
-					<button type="button" onclick="checkRequiredField(); return false;" class="head_button btn"><span class="glyphicon glyphicon-floppy-disk"></span><br/>save</button>
-					<button type="button" class="head_button btn"><span class="glyphicon glyphicon-trash"></span><br/>delete</button>
+					<button type="button" name="action" value="save" onclick="checkRequiredField(); return save_asset();" class="head_button btn"><span class="glyphicon glyphicon-floppy-disk"></span><br/>save</button>
+					<button type="submit" name="action" value="delete" onclick="return delete_asset();" class="head_button btn"><span class="glyphicon glyphicon-trash"></span><br/>delete</button>
 					<button type="button" class="head_button btn"><span class="glyphicon glyphicon-print"></span><br/>print</button>
 				</form>
 			</div>

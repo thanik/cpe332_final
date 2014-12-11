@@ -110,14 +110,27 @@
 					<b>* Asset Type :</b>
 				</td>
 				<td>
-					<input name="asset_type" type="text" value="{{{ Session::get('asset_type') }}}" readonly><button class="btn form_button"><span class="glyphicon glyphicon-search"></span></button>
+					<select name="asset_type">
+						<?php foreach(AssetType::all()->ToArray() as $option)
+							{
+								if($option['asset_type'] == Session::get('asset_type'))
+								{ ?>
+									<option value="{{{ $option['asset_type'] }}}" selected>{{{ $option['asset_type'] }}}</option>
+						<?php		} 
+								else
+								{ ?>
+									<option value="{{{ $option['asset_type'] }}}">{{{ $option['asset_type'] }}}</option>
+						<?php		}
+							}
+						?>
+					</select>
 				</td>
 				
 				<td>
 					<b>* Beginning Value :</b>
 				</td>
 				<td>
-					<input name="beginning_value" type="number" step="0.25" placeholder="0.00 " value="{{ Session::get('beginning_value') }}">
+					<input name="beginning_value" type="number" step="0.25" min="0" placeholder="0.00 " value="{{ Session::get('beginning_value') }}">
 				</td>
 			</tr>
 			
@@ -133,7 +146,7 @@
 					<b>Depreciated Value :</b>
 				</td>
 				<td>
-					<input name="depreciated_value" type="number" step="0.25" placeholder="0.00" value="{{{ Session::get('depreciated_value') }}}">
+					<input name="depreciated_value" type="number" step="0.25" min="0" placeholder="0.00" value="{{{ Session::get('depreciated_value') }}}">
 				</td>
 			</tr>
 			
@@ -143,7 +156,7 @@
 				</td>
 				
 				<td>
-					<input name="yearly_depreciation" type="text" value="{{{ Session::get('yearly_depreciation') }}}"> %
+					<input name="yearly_depreciation" type="text" min="0" value="{{{ Session::get('yearly_depreciation') }}}"> %
 				</td>
 				
 				<td>
@@ -151,7 +164,7 @@
 				</td>
 				
 				<td>
-					<input name="current_value" type="number" step="0.25" placeholder="0.00" value="{{ Session::get('current_value') }}">
+					<input name="current_value" type="number" step="0.25" min="0" placeholder="0.00" value="{{ Session::get('current_value') }}">
 				</td>
 			</tr>
 			

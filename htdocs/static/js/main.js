@@ -60,4 +60,11 @@ function checkDirtyBit()
 	}
 }
 
-//$('#mainform')
+$(document).ready(function() {
+	$('input').on('change keypress', function() {
+		$('input[name="dirtybit"]').val('true');
+	});
+	$('select').on('change', function() {
+		$('input[name="dirtybit"]').val('true');
+	});
+});

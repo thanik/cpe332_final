@@ -1,56 +1,45 @@
 function checkRequiredField()
 {
-	if($('input[name="purchase_value"]').val() == '')
-	{
-		alert('Error: Please enter purchase value.');
-		return false;
-	}
 	
 	if($('input[name="asset_name"]').val() == '')
 	{
 		alert('Error: Please enter asset name.');
-		return false;
-	}
-	
-	if($('input[name="purchase_date"]').val() == '')
-	{
-		alert('Error: Please enter purchase date.');
-		return false;
-	}
-	
-	if($('input[name="asset_type"]').val() == '')
-	{
-		alert('Error: Please enter asset type.');
-		return false;
-	}
-	
-	if($('input[name="beginning_value"]').val() == '')
-	{
-		alert('Error: Please enter beginning value.');
+		$('input[name="asset_name"]').focus();
 		return false;
 	}
 	
 	if($('input[name="unit"]').val() == '')
 	{
 		alert('Error: Please enter unit.');
-		return false;
-	}
-	
-	if($('input[name="depreciated_value"]').val() == '')
-	{
-		alert('Error: Please enter depreciated value.');
+		$('input[name="unit"]').focus();
 		return false;
 	}
 	
 	if($('input[name="yearly_depreciation"]').val() == '')
 	{
 		alert('Error: Please enter yearly depreciation.');
+		$('input[name="yearly_depreciation"]').focus();
 		return false;
 	}
 	
-	if($('input[name="current_value"]').val() == '')
+	if($('input[name="purchase_value"]').val() == '')
 	{
-		alert('Error: Please enter current value.');
+		alert('Error: Please enter purchase value.');
+		$('input[name="purchase_value"]').focus();
+		return false;
+	}
+	
+	if($('input[name="purchase_date"]').val() == '')
+	{
+		alert('Error: Please enter purchase date.');
+		$('input[name="purchase_date"]').focus();
+		return false;
+	}
+	
+	if($('input[name="beginning_value"]').val() == '')
+	{
+		alert('Error: Please enter beginning value.');
+		$('input[name="beginning_value"]').focus();
 		return false;
 	}
 	
@@ -104,4 +93,48 @@ function editLineItem(num)
 		}
 	);
 	$('#editLineItemModal').modal()
+}
+
+function delete_asset()
+{
+	if($('input[name="asset_id"').val() != 'NEW') 
+	{ 
+		var ans = confirm('Are you sure to delete this asset?'); 
+		return ans;
+	} 
+	else 
+	{
+		alert('Error: Please select asset to delete!');
+		return false;
+	}
+}
+
+function save_asset()
+{
+	if($('input[name="dirtybit"]').val() == 'true')
+	{
+		var form_data = $('#mainform').serialize();
+		$.ajax(
+			{
+				url: '/ajax/update/assets',
+				data: form_data,
+				type: 'POST',
+				dataType: 'html',
+				success: function (data) {
+					console.log(data);
+				},
+				error: function (xhr, status) {
+					alert("Sorry, there is an error while updating data.");
+				},
+				complete: function (xhr, status) {
+					post('',{action: 'save'});
+					return true;
+				},
+			}
+		);
+	}
+	else
+	{
+		return false;
+	}
 }
