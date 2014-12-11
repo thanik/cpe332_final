@@ -76,6 +76,7 @@ function deleteLineItem(num)
 
 function editLineItem(num)
 {
+	$('input[name="item"]').val(num);
 	$('#edit').hide();
 	$.ajax(
 		{

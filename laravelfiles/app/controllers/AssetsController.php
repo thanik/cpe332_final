@@ -12,9 +12,9 @@ class AssetsController extends BaseController {
 		return View::make('assets');
 	}
 	
-	public function showSession()
+	public function showDebug()
 	{
-		var_dump(Session::all());
+		
 	}
 	
 	public function postNewItem()
@@ -77,14 +77,52 @@ class AssetsController extends BaseController {
 			else if(Input::get('action') == 'deleteLine')
 			{
 				$temp_lineitem = Session::get('lineitem');
-				unset($temp_lineitem[intval(Input::get('item'))]);
+				//unset($temp_lineitem[intval(Input::get('item'))]);
+				array_splice($temp_lineitem, intval(Input::get('item')), 1);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
 				return View::make('assets');
 			}
 			else if(Input::get('action') == 'save')
 			{
+				/* get new asset_id */
+				$newid = sprintf("A%04d",intval(substr(Asset::max('asset_id'), 1)) + 1);
 				
+				$asset = new Asset;
+				$asset->asset_id = $newid;
+				$asset->asset_name = Session::get('asset_name');
+				$asset->asset_type = Session::get('asset_type');
+				$asset->unit = Session::get('unit');
+				$asset->yearly_depreciation = Session::get('yearly_depreciation');
+				$asset->purchase_value = Session::get('purchase_value');
+				$asset->purchase_date = Session::get('purchase_date');
+				$asset->beginning_value = Session::get('beginning_value');
+				$asset->depreciated_value = Session::get('depreciated_value');
+				$asset->current_value = Session::get('current_value');
+
+				$i = 0;
+				$total_rough_value = 0;
+				foreach(Session::get('lineitem') as $itm)
+				{
+					$i++;
+					$assetlineitem = new AssetLineItem();
+					$assetlineitem->no = $i;
+					$assetlineitem->asset_id = $newid;
+					$assetlineitem->component_name = $itm['component_name'];
+					$assetlineitem->component_type = $itm['component_type'];
+					$assetlineitem->quantity = $itm['quantity'];
+					$assetlineitem->rough_value = $itm['rough_value'];
+					$assetlineitem->notes = $itm['notes'];
+					$total_rough_value += (floatval($itm['rough_value']) * floatval($itm['quantity']));
+					$assetlineitem->save();
+				}
+				$asset->total_component = $i;
+				$asset->total_component_value = $total_rough_value;
+				
+				Session::put('dirtybit','false');
+				Session::put('table','asset_id');
+				$asset->save();
+				return Redirect::action('AssetsController@showItem', array($newid));
 			}
 		}
 	}
@@ -172,7 +210,8 @@ class AssetsController extends BaseController {
 			else if(Input::get('action') == 'deleteLine')
 			{
 				$temp_lineitem = Session::get('lineitem');
-				unset($temp_lineitem[intval(Input::get('item'))]);
+				//unset($temp_lineitem[intval(Input::get('item'))]);
+				array_splice($temp_lineitem, intval(Input::get('item')), 1);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
 				return View::make('assets');
@@ -210,7 +249,7 @@ class AssetsController extends BaseController {
 					$assetlineitem->quantity = $itm['quantity'];
 					$assetlineitem->rough_value = $itm['rough_value'];
 					$assetlineitem->notes = $itm['notes'];
-					$total_rough_value += floatval($itm['rough_value']);
+					$total_rough_value += (floatval($itm['rough_value']) * floatval($itm['quantity']));
 					$assetlineitem->save();
 				}
 				$asset->total_component = $i;
