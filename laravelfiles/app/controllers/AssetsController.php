@@ -12,6 +12,11 @@ class AssetsController extends BaseController {
 		return View::make('assets');
 	}
 	
+	public function showSession()
+	{
+		var_dump(Session::all());
+	}
+	
 	public function postNewItem()
 	{
 		if(Input::has('action'))
@@ -41,6 +46,17 @@ class AssetsController extends BaseController {
 				Session::put('dirtybit','false');
 				Session::put('table','asset_id');
 				return View::make('assets');
+			}
+			else if(Input::get('action') == 'insertLine')
+			{
+				
+			}
+			else if(Input::get('action') == 'deleteLine')
+			{
+				$temp_lineitem = Session::get('lineitem');
+				unset($temp_lineitem[intval(Input::get('num'))]);
+				Session::put('lineitem', $temp_lineitem);
+				//return View::make('assets');
 			}
 			else if(Input::get('action') == 'save')
 			{
@@ -102,11 +118,65 @@ class AssetsController extends BaseController {
 				Session::put('table','asset_id');
 				return View::make('assets');	
 			}
+			else if(Input::get('action') == 'insertLine')
+			{
+				$temp_lineitem = Session::get('lineitem');
+				$data = array(
+					'component_name' => Input::get('newLine_component_name'),
+					'component_type' => Input::get('newLine_component_type'),
+					'quantity' => intval(Input::get('newLine_quantity')),
+					'rough_value' => floatval(Input::get('newLine_rough_value')),
+					'notes' => Input::get('newLine_notes'),
+				);
+				array_push($temp_lineitem, $data);
+				Session::put('lineitem', $temp_lineitem);
+				Session::put('dirtybit','true');
+				return View::make('assets');
+			}
+			else if(Input::get('action') == 'editLine')
+			{
+				$temp_lineitem = Session::get('lineitem');
+				$temp_lineitem[intval(Input::get('item'))]['component_name'] = Input::get('component_name');
+				$temp_lineitem[intval(Input::get('item'))]['component_type'] = Input::get('component_type');
+				$temp_lineitem[intval(Input::get('item'))]['quantity'] = intval(Input::get('quantity'));
+				$temp_lineitem[intval(Input::get('item'))]['rough_value'] = floatval(Input::get('rough_value'));
+				$temp_lineitem[intval(Input::get('item'))]['notes'] = Input::get('notes');
+				Session::put('lineitem', $temp_lineitem);
+				Session::put('dirtybit','true');
+				return View::make('assets');
+			}
+			else if(Input::get('action') == 'deleteLine')
+			{
+				$temp_lineitem = Session::get('lineitem');
+				unset($temp_lineitem[intval(Input::get('item'))]);
+				Session::put('lineitem', $temp_lineitem);
+				Session::put('dirtybit','true');
+				return View::make('assets');
+			}
 			else if(Input::get('action') == 'save')
 			{
 				
 			}
 		}
+	}
+	
+	public function ajaxUpdateSession()
+	{
+		Session::put('asset_id', Input::get('asset_id'));
+		Session::put('asset_name', Input::get('asset_name'));
+		Session::put('asset_type', Input::get('asset_type'));
+		Session::put('unit', Input::get('unit'));
+		Session::put('yearly_depreciation', Input::get('yearly_depreciation'));
+		Session::put('purchase_value', Input::get('purchase_value'));
+		Session::put('purchase_date', Input::get('purchase_date'));
+		Session::put('beginning_value', Input::get('beginning_value'));
+		Session::put('depreciated_value', Input::get('depreciated_value'));
+		Session::put('current_value', Input::get('current_value'));
+		Session::put('total_component', Input::get('total_component'));
+		Session::put('total_component_value', Input::get('total_component_value'));
+		Session::put('dirtybit',Input::get('dirtybit'));
+		Session::put('table',Input::get('table'));
+		echo 'Success';
 	}
 
 }

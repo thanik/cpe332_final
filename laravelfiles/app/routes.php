@@ -22,5 +22,10 @@ Route::post('assets', array('as' => 'post_new_assets', 'uses' => 'AssetsControll
 Route::get('assets/{id}', array('as' => 'get_assets', 'uses' => 'AssetsController@showItem'));
 Route::post('assets/{id}', array('as' => 'post_assets', 'uses' => 'AssetsController@postItem'));
 
+Route::get('debug', array('as' => 'debug_assets', 'uses' => 'AssetsController@showSession'));
+
+
 /* AJAX Request */
 Route::get('ajax/listofvalue', array('as' => 'listofvalue_ajax', 'uses' => 'ListOfValueController@show'));
+Route::post('ajax/update/assets', array('as' => 'asset_update_ajax', 'uses' => 'AssetsController@ajaxUpdateSession'));
+Route::get('ajax/editlistofvalue', array('as' => 'edit_listofvalue_ajax', 'uses' => 'ListOfValueController@edit'));

@@ -57,4 +57,51 @@ function checkRequiredField()
 	return true;
 }
 
+function sendFormDataAjax()
+{
+	var form_data = $('#mainform').serialize();
+	$.ajax(
+		{
+			url: '/ajax/update/assets',
+			data: form_data,
+			type: 'POST',
+			dataType: 'html',
+			success: function (data) {
+				console.log(data);
+			},
+			error: function (xhr, status) {
+				alert("Sorry, there is an error while updating data.");
+			},
+		}
+	);
+}
 
+function deleteLineItem(num)
+{
+	var ans = confirm('Are you sure to delete this item?');
+	if(ans)
+	{
+		post('', {action: 'deleteLine',item: num});
+	}
+}
+
+function editLineItem(num)
+{
+	$('#edit').hide();
+	$.ajax(
+		{
+			url: '/ajax/editlistofvalue',
+			type: 'GET',
+			data: {item: num,table_name: 'assets'},
+			dataType: 'html',
+			success: function (data) {
+				$('#edit').html(data);
+				$('#edit').slideDown('slow');
+			},
+			error: function (xhr,status) {
+				alert("Sorry, there is an error while loading data.");
+			},
+		}
+	);
+	$('#editLineItemModal').modal()
+}

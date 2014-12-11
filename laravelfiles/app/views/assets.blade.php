@@ -8,55 +8,77 @@
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 				<h4 class="modal-title" id="myModalLabel">Add new lineitem</h4>
     		</div>
-
-			<div class="modal-body">
-				<table width="100%">
-					<tr>
-						<td><b>* Component Name :</b></td>
-						<td><input type="text" name="newLine_component_name"></td>
-					</tr>
-					<tr>
-						<td><b>* Component Type :</b></td>
-						<td><select name="newLine_component_type">
-						<?php foreach(AssetType::all()->ToArray() as $option): ?>
-						<option value="{{ $option['asset_type'] }}">{{ $option['asset_type'] }}</option>
-						<?php endforeach; ?>	
-						</select></td>
-					</tr>
-					<tr>
-						<td><b>* Quantity :</b></td>
-						<td><input type="number" name="newLine_component_type" step="1" min="1"></td>
-					</tr>
-					<tr>
-						<td><b>Rough Value of this part :</b></td>
-						<td><input type="number" name="newLine_rough_value" step="0.25" placeholder="0.00"></td>
-					</tr>
-					<tr>
-						<td><b>Notes :</b></td>
-						<td><input type="text" name="newLine_notes" step="1"></td>
-					</tr>
-				</table>
-    		</div>
-			
-			<div class="modal-footer">
-				<button class="btn btn-primary btn-lg" name="action" value="addLineItem">Add</button>
-				<button class="btn btn-default btn-lg" onclick="$('#newLineItemModal').modal('hide');">Cancel</button>
-    		</div>
-    		
-    		<form>
-    		</form>
+			<form method="post">
+				<div class="modal-body">
+					<table width="100%">
+						<tr>
+							<td><b>* Component Name :</b></td>
+							<td><input type="text" name="newLine_component_name" required></td>
+						</tr>
+						<tr>
+							<td><b>* Component Type :</b></td>
+							<td><select name="newLine_component_type">
+							<?php foreach(AssetType::all()->ToArray() as $option): ?>
+							<option value="{{ $option['asset_type'] }}">{{ $option['asset_type'] }}</option>
+							<?php endforeach; ?>	
+							</select></td>
+						</tr>
+						<tr>
+							<td><b>* Quantity :</b></td>
+							<td><input type="number" name="newLine_quantity" step="1" min="1" required></td>
+						</tr>
+						<tr>
+							<td><b>Rough Value of this part :</b></td>
+							<td><input type="number" name="newLine_rough_value" step="0.25" placeholder="0.00"></td>
+						</tr>
+						<tr>
+							<td><b>Notes :</b></td>
+							<td><input type="text" name="newLine_notes" step="1"></td>
+						</tr>
+					</table>
+	    		</div>
+				
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary btn-lg" name="action" value="insertLine">Add</button>
+					<button type="button" class="btn btn-default btn-lg" onclick="$('#newLineItemModal').modal('hide');">Cancel</button>
+	    		</div>
+			</form>
     	</div>
 	</div>
 </div>
 
-<div class="form container">
+<div class="modal fade" id="editLineItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">Edit lineitem</h4>
+    		</div>
+			<form method="post">
+				<div class="modal-body">
+					<div id="edit">
+						
+					</div>
+	    		</div>
+				<input type="hidden" name="item">
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary btn-lg" name="action" value="editLine">Edit</button>
+					<button type="button" class="btn btn-default btn-lg" onclick="$('#editLineItemModal').modal('hide');">Cancel</button>
+	    		</div>
+			</form>
+    	</div>
+	</div>
+</div>
+
+<form method="post" id="mainform">
+	<div class="form container">
 		<table width="100%">
 			<tr>
 				<td>
 					<b>* Asset ID :</b>
 				</td>
 				<td>
-					<input name="asset_id" type="text" value="{{ Session::get('asset_id') }}" disabled>
+					<input name="asset_id" type="text" value="{{{ Session::get('asset_id') }}}" readonly>
 				</td>
 				
 				<td>
@@ -72,14 +94,14 @@
 					<b>* Asset Name :</b>
 				</td>
 				<td>
-					<input name="asset_name" type="text" value="{{ Session::get('asset_name') }}">
+					<input name="asset_name" type="text" value="{{{ Session::get('asset_name') }}}">
 				</td>
 				
 				<td>
 					<b>* Purchase Date :</b>
 				</td>
 				<td>
-					<input name="purchase_date" type="date" value="{{ Session::get('purchase_date') }}">
+					<input name="purchase_date" type="date" value="{{{ Session::get('purchase_date') }}}">
 				</td>
 			</tr>
 			
@@ -88,7 +110,7 @@
 					<b>* Asset Type :</b>
 				</td>
 				<td>
-					<input name="asset_type" type="text" value="{{ Session::get('asset_type') }}" disabled><button class="btn form_button"><span class="glyphicon glyphicon-search"></span></button>
+					<input name="asset_type" type="text" value="{{{ Session::get('asset_type') }}}" readonly><button class="btn form_button"><span class="glyphicon glyphicon-search"></span></button>
 				</td>
 				
 				<td>
@@ -104,14 +126,14 @@
 					<b>* Unit :</b>
 				</td>
 				<td>
-					<input name="unit" type="text" value="{{ Session::get('unit') }}">	
+					<input name="unit" type="text" value="{{{ Session::get('unit') }}}">	
 				</td>
 				
 				<td>
 					<b>Depreciated Value :</b>
 				</td>
 				<td>
-					<input name="depreciated_value" type="number" step="0.25" placeholder="0.00" value="{{ Session::get('depreciated_value') }}">
+					<input name="depreciated_value" type="number" step="0.25" placeholder="0.00" value="{{{ Session::get('depreciated_value') }}}">
 				</td>
 			</tr>
 			
@@ -121,7 +143,7 @@
 				</td>
 				
 				<td>
-					<input name="yearly_depreciation" type="text" value="{{ Session::get('yearly_depreciation') }}"> %
+					<input name="yearly_depreciation" type="text" value="{{{ Session::get('yearly_depreciation') }}}"> %
 				</td>
 				
 				<td>
@@ -151,15 +173,15 @@
 				<th>Notes</th>
 			</thead>
 			<tbody>
-				<?php $i = 1; ?>
+				<?php $i = 0; ?>
 				@foreach (Session::get('lineitem') as $itm)
 				<tr>
 					<td style="text-align: center">
-						<button class="btn btn-info btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>
-						<button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
+						<button type="button" class="btn btn-info btn-xs" onclick="sendFormDataAjax(); editLineItem({{ $i }});"><span class="glyphicon glyphicon-pencil"></span></button>
+						<button type="button" class="btn btn-danger btn-xs" onclick="sendFormDataAjax(); deleteLineItem({{ $i }});"><span class="glyphicon glyphicon-trash"></span></button>
 					</td>
 					<td>
-						{{ $i }}
+						{{ $i+1 }}
 					</td>
 					<td>
 						{{ $itm['component_name'] }}
@@ -181,16 +203,14 @@
 				@endforeach
 				<tr>
 					<td colspan="7" style="border: none;">
-						<button type="button" class="btn btn-success btn-lg btn-block" onclick="$('#newLineItemModal').modal();"><span class="glyphicon glyphicon-plus"></span> add new lineitem</button>
+						<button type="button" class="btn btn-success btn-lg btn-block" onclick="sendFormDataAjax(); $('#newLineItemModal').modal();"><span class="glyphicon glyphicon-plus"></span> add new lineitem</button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		
 		<input type="hidden" name="dirtybit" value="{{ Session::get('dirtybit') }}">
-		<input type="hidden" name="mode">
 		<input type="hidden" name="table" value="assetid">
-		
 	</form>
 </div>
 @include('footer')

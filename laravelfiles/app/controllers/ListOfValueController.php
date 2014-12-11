@@ -47,4 +47,41 @@ class ListOfValueController extends BaseController {
 			}
 		}
 	}
+	
+	public function edit()
+	{
+		if(Input::has('table_name'))
+		{
+			if(Input::get('table_name') == 'assets')
+			{
+			echo '<table width="100%">
+				<tr>
+					<td><b>* Component Name :</b></td>
+					<td><input type="text" name="component_name" required value="'.Session::get('lineitem')[intval(Input::get('num'))]['component_name'].'"></td>
+				</tr>
+				<tr>
+					<td><b>* Component Type :</b></td>
+					<td><select name="component_type">';
+					foreach(AssetType::all()->ToArray() as $option)
+					{
+					echo '<option value="'.$option['asset_type'].'">'.$option['asset_type'].'</option>';
+					}
+			echo '	</select></td>
+				</tr>
+				<tr>
+					<td><b>* Quantity :</b></td>
+					<td><input type="number" name="quantity" step="1" min="1" required value="'.Session::get('lineitem')[intval(Input::get('num'))]['quantity'].'"></td>
+				</tr>
+				<tr>
+					<td><b>Rough Value of this part :</b></td>
+					<td><input type="number" name="rough_value" step="0.25" placeholder="0.00" value="'.Session::get('lineitem')[intval(Input::get('num'))]['rough_value'].'"></td>
+				</tr>
+				<tr>
+					<td><b>Notes :</b></td>
+					<td><input type="text" name="notes" step="1" value="'.Session::get('lineitem')[intval(Input::get('num'))]['notes'].'"></td>
+				</tr>
+			</table>';
+			}
+		}
+	}
 }
