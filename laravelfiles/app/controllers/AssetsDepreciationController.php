@@ -1,6 +1,6 @@
 <?php
 
-class AssetsController extends BaseController {
+class AssetsDepreciationController extends BaseController {
 	public function showNewItem()
 	{
 		Session::flush();
@@ -50,16 +50,6 @@ class AssetsController extends BaseController {
 			else if(Input::get('action') == 'insertLine')
 			{
 				$temp_lineitem = Session::get('lineitem');
-				/* check for duplicated lineitem */
-				foreach($temp_lineitem as $itm)
-				{
-					if(Input::get('newLine_component_name') == $itm['component_name'] || Input::get('newLine_component_type') == $itm['component_type'])
-					{
-						echo '<script type="text/javascript">alert("Error: Duplicated lineitem");</script>';
-						return View::make('assets');
-					}
-				}
-				/* add to lineitem session */
 				$data = array(
 					'component_name' => Input::get('newLine_component_name'),
 					'component_type' => Input::get('newLine_component_type'),
@@ -193,16 +183,6 @@ class AssetsController extends BaseController {
 			else if(Input::get('action') == 'insertLine')
 			{
 				$temp_lineitem = Session::get('lineitem');
-				/* check for duplicated lineitem */
-				foreach($temp_lineitem as $itm)
-				{
-					if(Input::get('newLine_component_name') == $itm['component_name'] || Input::get('newLine_component_type') == $itm['component_type'])
-					{
-						echo '<script type="text/javascript">alert("Error: Duplicated lineitem");</script>';
-						return View::make('assets');
-					}
-				}
-				/* add to lineitem session */
 				$data = array(
 					'component_name' => Input::get('newLine_component_name'),
 					'component_type' => Input::get('newLine_component_type'),
