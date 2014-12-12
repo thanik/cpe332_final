@@ -14,7 +14,7 @@ class ListOfValueController extends BaseController {
 				$itms_obj = Asset::all();
 				if(Input::has('search'))
 				{
-					$itms_obj = $itms->where();
+					$itms_obj = Asset::whereRaw(Input::get('search'))->get();
 				}
 				$itms = $itms_obj->toArray();
 				
@@ -29,6 +29,10 @@ class ListOfValueController extends BaseController {
 					else if(Input::get('mode') == 'copy')
 					{
 						echo '<td><button onclick="post(\'assets\',{action: \'copy\', id: \''.$itm['asset_id'].'\'});" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					}
+					else
+					{
+						echo '<td><button onclick="'.Input::get('mode').'();" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
 					}
 					echo '<td>';
 					echo $itm['asset_id'];

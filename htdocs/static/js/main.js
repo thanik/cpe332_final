@@ -24,7 +24,8 @@ function post(path, params, method) {
 
 function openListOfValue(table_name,mode)
 {
-	$('#listofvalue_table').val(table_name);
+	$('input[name="listofvalue_table"]').val(table_name);
+	$('input[name="listofvalue_mode"]').val(mode);
 	$('#listofvalue').hide();
 	$.ajax(
 		{

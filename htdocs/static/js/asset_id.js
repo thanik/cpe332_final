@@ -139,3 +139,75 @@ function save_asset()
 		return false;
 	}
 }
+
+function getListOfValueSearch()
+{
+	if($('#listCondition').val() == "startwith")
+	{
+		var search_query = '(' + $('#columnName').val() + ' LIKE "' + $('#searchQuery1').val() + '%")';
+	}
+	else if($('#listCondition').val() == "has")
+	{
+		var search_query = '(' + $('#columnName').val() + ' LIKE "%' + $('#searchQuery1').val() + '%")';
+	}
+	else if($('#listCondition').val() == "between")
+	{
+		var search_query = '(' + $('#columnName').val() + ' BETWEEN "' + $('#searchQuery1').val() + '" AND "' + $('#searchQuery2').val() + '")';
+	}
+	else
+	{
+		var search_query = '(' + $('#columnName').val() + ' ' + $('#listCondition').val() + ' "' + $('#searchQuery1').val() + '")';
+	}
+	
+	$.ajax(
+		{
+			url: '/ajax/listofvalue',
+			data: {
+				table_name: $('input[name="listofvalue_table"]').val(),
+				mode: $('input[name="listofvalue_mode"]').val(),
+				search: search_query,
+			},
+			type: 'GET',
+			dataType: 'html',
+			success: function (data) {
+				$('#listofvalue').html(data);
+				$('#listofvalue').slideDown('slow');
+			},
+			error: function (xhr, status) {
+				alert("Sorry, there is an error while getting list of value.");
+			},
+		}
+	);
+}
+
+function getListOfValueAll()
+{
+	$.ajax(
+		{
+			url: '/ajax/listofvalue',
+			data: {
+				table_name: $('input[name="listofvalue_table"]').val(),
+				mode: $('input[name="listofvalue_mode"]').val(),
+			},
+			type: 'GET',
+			dataType: 'html',
+			success: function (data) {
+				$('#listofvalue').html(data);
+				$('#listofvalue').slideDown('slow');
+			},
+			error: function (xhr, status) {
+				alert("Sorry, there is an error while getting list of value.");
+			},
+		}
+	);
+}
+
+function addSearchColumn()
+{
+	selectValues = {"asset_id": "Asset ID", "asset_name": "Asset Name"};
+	$.each(selectValues, function(key, value) {   
+     $('#columnName')
+          .append($('<option>', { value : key })
+          .text(value)); 
+	});
+}

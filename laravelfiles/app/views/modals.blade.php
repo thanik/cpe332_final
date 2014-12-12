@@ -13,7 +13,25 @@
     		</div>
 			
 			<div class="modal-footer">
-				
+				Search:
+                <select id="columnName">
+                    
+                </select>
+                <select id="listCondition">
+                    <option value="startwith">start with</option>
+                    <option value="has">has</option>
+                    <option value="between">between</option>
+                    <option value="=">=</option>
+                    <option value="&gt;">&gt;</option>
+                    <option value="&gt;=">&gt;=</option>
+                    <option value="&lt;">&lt;</option>
+                    <option value="&lt;">&lt;</option>
+                </select>
+                <input type="text" id="searchQuery1" placeholder="Search query" />
+                <input type="text" id="searchQuery2" />
+
+                <a id="cmdEmployeeSearch" href="#" onclick="getListOfValueSearch();" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></a>
+                <a id="cmdEmployeeAll" href="#" onclick="getListOfValueAll();" class="btn btn-default"><span class="glyphicon glyphicon-th-list"></span></a>
     		</div>
     		
     		<form>
