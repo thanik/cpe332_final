@@ -17,8 +17,8 @@ function checkRequiredField()
 	
 	if($('input[name="CustomerCode"]').val() == '')
 	{
-		alert('Error: Please enter customer code.');
-		$('input[name="CustomerCode"]').focus();
+		alert('Error: Please enter supplier code.');
+		$('input[name="SupplierCode"]').focus();
 		return false;
 	}
 	
@@ -68,7 +68,7 @@ function editLineItem(num)
 		{
 			url: '/ajax/editlistofvalue',
 			type: 'GET',
-			data: {item: num,table_name: 'purchases'},
+			data: {item: num,table_name: 'sales'},
 			dataType: 'html',
 			success: function (data) {
 				$('#edit').html(data);
@@ -103,7 +103,7 @@ function save_asset()
 		var form_data = $('#mainform').serialize();
 		$.ajax(
 			{
-				url: '/ajax/update/assets_purchase',
+				url: '/ajax/update/assets_sale',
 				data: form_data,
 				type: 'POST',
 				dataType: 'html',
@@ -190,7 +190,7 @@ function getListOfValueAll()
 
 function addSearchColumn(table_name)
 {
-	if(table_name == 'purchases')
+	if(table_name == 'sales')
 	{
 		$('#columnName').empty();
 		selectValues = {"InvoiceNo": "Invoice No", "InvoiceDate": "Invoice Date"};
@@ -200,10 +200,10 @@ function addSearchColumn(table_name)
 	          .text(value)); 
 		});
 	}
-	else if(table_name == 'supplier')
+	else if(table_name == 'customer')
 	{
 		$('#columnName').empty();
-		selectValues = {"Code": "Supplier Code", "Name": "Supplier Name"};
+		selectValues = {"Code": "Customer Code", "Name": "Customer Name"};
 		$.each(selectValues, function(key, value) {   
 	     $('#columnName')
 	          .append($('<option>', { value : key })
@@ -212,28 +212,30 @@ function addSearchColumn(table_name)
 	}
 }
 
-function chooseSupplier(code,name,address)
+function chooseCustomer(code,name,address)
 {
 	$('input[name="dirtybit"]').val('true');
-	$('input[name="SupplierCode"]').val(code);
-	$('input[name="SupplierName"]').val(name);
-	$('input[name="SupplierAddress"]').val(address);
+	$('input[name="CustomerCode"]').val(code);
+	$('input[name="CustomerName"]').val(name);
+	$('input[name="CustomerAddress"]').val(address);
 }
 
-function selectAsset(asset_id,asset_name,unit)
+function selectAsset(asset_id,asset_name,unit,price)
 {
 	$('input[name="newLine_AssetID"]').val(asset_id);
 	$('input[name="newLine_AssetName"]').val(asset_name);
 	$('input[name="newLine_Unit"]').val(unit);
+	$('input[name="newLine_Price"').val(price);
 	$('#ListOfValueModal').modal('hide');
 	$('#newLineItemModal').modal('show');
 }
 
-function selectEditAsset(asset_id,asset_name,unit)
+function selectEditAsset(asset_id,asset_name,unit,price)
 {
 	$('input[name="AssetID"]').val(asset_id);
 	$('input[name="AssetName"]').val(asset_name);
-	$('input[name="Unit"]').val(unit);
+	$('input[name="Units"]').val(unit);
+	$('input[name="Price"]').val(price);
 	$('#ListOfValueModal').modal('hide');
 	$('#editLineItemModal').modal('show');
 }

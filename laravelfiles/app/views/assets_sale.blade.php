@@ -25,7 +25,7 @@
 						</tr>
 						<tr>
 							<td><b>Price :</b></td>
-							<td><input type="number" name="newLine_Price" step="0.25" placeholder="0.00" required></td>
+							<td><input type="number" name="newLine_Price" step="0.25" min="0.25" placeholder="0.00" required></td>
 						</tr>
 					</table>
 	    		</div>
@@ -83,18 +83,18 @@
 			
 			<tr>
 				<td>
-					<b>* Supplier Code :</b>
+					<b>* Customer Code :</b>
 				</td>
 				<td>
-					<input name="SupplierCode" type="text" value="{{{ Session::get('SupplierCode') }}}" required readonly>
-					<button type="button" onclick="addSearchColumn('supplier'); openListOfValue('supplier','chooseSupplier');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button>
+					<input name="CustomerCode" type="text" value="{{{ Session::get('CustomerCode') }}}" required readonly>
+					<button type="button" onclick="addSearchColumn('customer'); openListOfValue('customer','chooseCustomer');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button>
 				</td>
 				
 				<td>
-					<b>Supplier Name :</b>
+					<b>Customer Name :</b>
 				</td>
 				<td>
-					<input name="SupplierName" type="text" value="{{{ Session::get('SupplierName') }}}" readonly>
+					<input name="CustomerName" type="text" value="{{{ Session::get('CustomerName') }}}" readonly>
 				</td>
 			</tr>
 			
@@ -103,7 +103,7 @@
 					<b>Address :</b>
 				</td>
 				<td colspan="3">
-					<input name="SupplierAddress" style="width: 100%" type="text" value="{{{ Session::get('SupplierAddress') }}}" readonly>
+					<input name="CustomerAddress" style="width: 100%" type="text" value="{{{ Session::get('CustomerAddress') }}}" readonly>
 				</td>
 			</tr>
 			
@@ -115,15 +115,6 @@
 					<input name="PaymentDueDate" type="date" value="{{{ Session::get('PaymentDueDate') }}}">	
 				</td>
 				
-				<td>
-					<b>Payment Term :</b>
-				</td>
-				<td>
-					<select name="PaymentTerm">
-						<option value="cash" <?php if(Session::get('PaymentTerm') == 'cash') echo 'selected'; ?>>Cash</option>
-						<option value="check" <?php if(Session::get('PaymentTerm') == 'check') echo 'selected'; ?>>Check</option>
-					</select>
-				</td>
 			</tr>
 		</table>
 		
@@ -151,10 +142,10 @@
 						{{ $itm['AssetID'] }}
 					</td>
 					<td>
-						{{ Asset::where('asset_id','=',$itm['AssetID'])->first()->asset_name }}
+						{{ $itm['AssetName'] }}
 					</td>
 					<td>
-						{{ Asset::where('asset_id','=',$itm['AssetID'])->first()->unit }}
+						{{ $itm['Units'] }}
 					</td>
 					<td>
 						{{ $itm['Price'] }}

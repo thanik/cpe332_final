@@ -25,7 +25,7 @@
                     <option value="&gt;">&gt;</option>
                     <option value="&gt;=">&gt;=</option>
                     <option value="&lt;">&lt;</option>
-                    <option value="&lt;">&lt;</option>
+                    <option value="&lt;=">&lt;=</option>
                 </select>
                 <input type="text" id="searchQuery1" placeholder="Search query" />
                 <input type="text" id="searchQuery2" />

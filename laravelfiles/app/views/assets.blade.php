@@ -29,7 +29,7 @@
 						</tr>
 						<tr>
 							<td><b>Rough Value of this part :</b></td>
-							<td><input type="number" name="newLine_rough_value" step="0.25" placeholder="0.00"></td>
+							<td><input type="number" name="newLine_rough_value" step="0.25" min="0" placeholder="0.00"></td>
 						</tr>
 						<tr>
 							<td><b>Notes :</b></td>

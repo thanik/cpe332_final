@@ -105,6 +105,69 @@ class ListOfValueController extends BaseController {
 				}
 				echo '</tbody>';
 			}
+			else if(Input::get('table_name') == 'sales')
+			{
+				echo '<thead><tr><th>Select</th>';
+				echo '<th>Invoice No</th>';
+				echo '<th>Invoice Date</th>';
+				echo '<th>Customer Name</th></tr></thead>';
+				$itms_obj = Sale::all();
+				if(Input::has('search'))
+				{
+					$itms_obj = Sale::whereRaw(Input::get('search'))->get();
+				}
+				$itms = $itms_obj->toArray();
+				
+				echo '<tbody>';
+				foreach($itms as $itm)
+				{
+					echo '<tr>';
+					if(Input::get('mode') == 'edit')
+					{
+						echo '<td><a href="'.URL::action('AssetsSaleController@showItem',$itm['InvoiceNo']).'" class="btn btn-primary btn-xs" style="width: 100%">select</a></td>';
+					}
+					else if(Input::get('mode') == 'copy')
+					{
+						echo '<td><button onclick="post(\'/assets_sale\',{action: \'copy\', id: \''.$itm['InvoiceNo'].'\'});" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					}
+					else
+					{
+						echo '<td><button onclick="'.Input::get('mode').'();" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					}
+					echo '<td>';
+					echo $itm['InvoiceNo'];
+					echo '</td><td>';
+					echo $itm['InvoiceDate'];
+					echo '</td><td>';
+					echo Customer::where('Code','=',$itm['CustomerCode'])->firstOrFail()->Name;
+					echo '</td></tr>';
+				}
+				echo '</tbody>';
+			}
+			else if(Input::get('table_name') == 'customer')
+			{
+				echo '<thead><tr><th>Select</th>';
+				echo '<th>Customer Code</th>';
+				echo '<th>Customer Name</th></tr></thead>';
+				$itms_obj = Customer::all();
+				if(Input::has('search'))
+				{
+					$itms_obj = Customer::whereRaw(Input::get('search'))->get();
+				}
+				$itms = $itms_obj->toArray();
+				echo '<tbody>';
+				foreach($itms as $itm)
+				{
+					echo '<tr>';
+					echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['Code'].'\',\''.$itm['Name'].'\',\''.$itm['Address'].'\'); $(\'#ListOfValueModal\').modal(\'hide\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					echo '<td>';
+					echo $itm['Code'];
+					echo '</td><td>';
+					echo $itm['Name'];
+					echo '</td></tr>';
+				}
+				echo '</tbody>';
+			}
 		}
 	}
 	
@@ -150,6 +213,27 @@ class ListOfValueController extends BaseController {
 			</table>';
 			}
 			else if(Input::get('table_name') == 'purchases')
+			{
+				echo '<table width="100%">
+						<tr>
+							<td><b>* Asset ID :</b></td>
+							<td><input type="text" name="AssetID" value="'.Session::get('lineitem')[intval(Input::get('item'))]['AssetID'].'" required><button type="button" onclick="openListOfValue(\'asset_id\',\'selectEditAsset\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+						</tr>
+						<tr>
+							<td><b>Asset Name :</b></td>
+							<td><input type="text" name="AssetName" value="'.Session::get('lineitem')[intval(Input::get('item'))]['AssetName'].'" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Unit :</b></td>
+							<td><input type="text" name="Units" value="'.Session::get('lineitem')[intval(Input::get('item'))]['Units'].'" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Price :</b></td>
+							<td><input type="number" name="Price" step="0.25" placeholder="0.00" min="0.25" value="'.Session::get('lineitem')[intval(Input::get('item'))]['Price'].'" required></td>
+						</tr>
+					</table>';
+			}
+			else if(Input::get('table_name') == 'sales')
 			{
 				echo '<table width="100%">
 						<tr>

@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.21)
 # Database: asset
-# Generation Time: 2014-12-13 13:42:12 +0000
+# Generation Time: 2014-12-13 14:48:35 +0000
 # ************************************************************
 
 
@@ -247,18 +247,18 @@ LOCK TABLES `assetmoveline` WRITE;
 
 INSERT INTO `assetmoveline` (`assetmoveNo`, `asset_id`, `currentLocation`, `newLocation`, `moveList`, `asset_name`)
 VALUES
-	('M0001','A0004',NULL,'room37',2,'Macbook Pro 15\" with Retina Display'),
+	('M0001','A0004',NULL,'room37',2,'Macbook Pro 15-inch with Retina Display'),
 	('M0001','A0005',NULL,'room39',1,'Dell Inspiron 5547'),
-	('M0002','A0004','room37','room12',1,'Macbook Pro 15\" with Retina Display'),
+	('M0002','A0004','room37','room12',1,'Macbook Pro 15-inch with Retina Display'),
 	('M0003','A0013',NULL,'room16',1,'Cisco SF302-08MPP'),
 	('M0004','A0014',NULL,'room37',1,'D-Link DES-3828P'),
 	('M0005','A0012',NULL,'room01',1,'Dell PowerEdge R210 II'),
 	('M0006','A0001',NULL,'room05',1,'HP Z420 Workstation'),
 	('M0006','A0002',NULL,'room06',2,'Dell Precision T3610'),
 	('M0006','A0005','room39','room45',3,'Dell Inspiron 5547'),
-	('M0007','A0004','room12','room15',2,'Macbook Pro 15\" with Retina Display'),
+	('M0007','A0004','room12','room15',2,'Macbook Pro 15-inch with Retina Display'),
 	('M0007','A0007',NULL,'room01',1,'Canon PIXMA IX7000'),
-	('M0008','A0003',NULL,'room16',1,'iMac 27\" with 4K display'),
+	('M0008','A0003',NULL,'room16',1,'iMac 27-inch with 4K display'),
 	('M0009','A0006',NULL,'room03',3,'Lenovo Z510'),
 	('M0009','A0011',NULL,'room02',2,'IBM System x3250 M5'),
 	('M0009','A0015',NULL,'room14',1,'D-Link DES-3052'),
@@ -412,8 +412,7 @@ VALUES
 	('IN0012','2014-10-02','S0004','2014-10-02','cash',27900.00,1953.00,29853.00),
 	('IN0013','2014-10-02','S0003','2014-10-02','cash',45000.00,3150.00,48150.00),
 	('IN0014','2014-10-02','S0011','2014-10-02','cash',22470.00,1572.90,24042.90),
-	('IN0015','2014-10-05','S0003','2014-10-07','check',32000.00,2240.00,34240.00),
-	('IN0016','2014-12-13','S0009','2014-12-15','check',10400.00,728.00,11128.00);
+	('IN0015','2014-10-05','S0003','2014-10-07','check',32000.00,2240.00,34240.00);
 
 /*!40000 ALTER TABLE `purchases` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -456,8 +455,7 @@ VALUES
 	('IN0013',1,'A0005','Dell Inspiron 5547','pcs',45000.00),
 	('IN0014',1,'A0015','D-Link DES-3052','pcs',22470.00),
 	('IN0015',1,'A0012','Dell PowerEdge R210 II','unit',32000.00),
-	('NEW',1,'A0001','HP Z420 Workstation','unit',1500.00),
-	('NEW',2,'A0013','Cisco SF302-08MPP','pcs',8900.00);
+	('IN0016',1,'A0003','iMac 27-inch with 4K display','unit',66000.00);
 
 /*!40000 ALTER TABLE `purchaseslineitem` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -533,15 +531,15 @@ VALUES
 	('IN0004',1,'A0011','IBM System x3250 M5','unit',26505.00),
 	('IN0005',1,'A0012','Dell PowerEdge R210 II','unit',31680.00),
 	('IN0006',1,'A0002','Dell Precision T3610','unit',67500.00),
-	('IN0007',1,'A0004','Macbook Pro 15\" with Retina Display','pcs',72375.00),
+	('IN0007',1,'A0004','Macbook Pro 15-inch with Retina Display','pcs',72375.00),
 	('IN0008',1,'A0013','Cisco SF302-08MPP','pcs',13600.00),
 	('IN0009',1,'A0001','HP Z420 Workstation','unit',58900.00),
-	('IN0010',1,'A0003','iMac 27\" with 4K display','unit',56000.00),
+	('IN0010',1,'A0003','iMac 27-inch with 4K display','unit',56000.00),
 	('IN0011',1,'A0008','BROTHER MFC-J825DW','pcs',7560.00),
 	('IN0012',1,'A0006','Lenovo Z510','pcs',27412.50),
 	('IN0013',1,'A0014','D-Link DES-3828P','pcs',62275.50),
 	('IN0014',1,'A0015','D-Link DES-3052','pcs',21458.85),
-	('IN0015',1,'A0004','Macbook Pro 15\" with Retina Display','pcs',72375.00);
+	('IN0015',1,'A0004','Macbook Pro 15-inch with Retina Display','pcs',72375.00);
 
 /*!40000 ALTER TABLE `saleslineitem` ENABLE KEYS */;
 UNLOCK TABLES;
