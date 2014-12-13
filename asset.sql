@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.21)
 # Database: asset
-# Generation Time: 2014-12-13 12:47:03 +0000
+# Generation Time: 2014-12-13 12:56:31 +0000
 # ************************************************************
 
 
@@ -507,10 +507,7 @@ DROP TABLE IF EXISTS `saleslineitem`;
 CREATE TABLE `saleslineitem` (
   `ItemNo` int(10) NOT NULL,
   `InvoiceNo` varchar(10) NOT NULL,
-  `InvoiceDate` date NOT NULL,
   `AssetID` varchar(10) NOT NULL,
-  `AssetName` varchar(50) NOT NULL,
-  `Units` varchar(10) NOT NULL,
   `Price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`ItemNo`,`InvoiceNo`),
   KEY `1` (`AssetID`),
@@ -520,23 +517,23 @@ CREATE TABLE `saleslineitem` (
 LOCK TABLES `saleslineitem` WRITE;
 /*!40000 ALTER TABLE `saleslineitem` DISABLE KEYS */;
 
-INSERT INTO `saleslineitem` (`ItemNo`, `InvoiceNo`, `InvoiceDate`, `AssetID`, `AssetName`, `Units`, `Price`)
+INSERT INTO `saleslineitem` (`ItemNo`, `InvoiceNo`, `AssetID`, `Price`)
 VALUES
-	(1,'IN0001','2014-10-01','A0001','HP Z420 Workstation','unit',58900.00),
-	(1,'IN0009','2014-10-13','A0001','HP Z420 Workstation','unit',58900.00),
-	(1,'IN0002','2014-10-02','A0002','Dell Precision T3610','unit',67500.00),
-	(1,'IN0006','2014-10-08','A0002','Dell Precision T3610','unit',67500.00),
-	(1,'IN0010','2014-10-14','A0003','iMac 27\" with 4K display','unit',56000.00),
-	(1,'IN0015','2014-10-31','A0004','Macbook Pro 15\" with Retina Display','pcs',72375.00),
-	(1,'IN0012','2014-10-22','A0006','Lenovo Z510','pcs',27412.50),
-	(1,'IN0007','2014-10-09','A0004','Macbook Pro 15\" with Retina Display','pcs',72375.00),
-	(1,'IN0011','2014-10-20','A0008','BROTHER MFC-J825DW','pcs',7560.00),
-	(1,'IN0003','2014-10-03','A0009','Cisco UCS C220 M3','unit',79120.00),
-	(1,'IN0004','2014-10-06','A0011','IBM System x3250 M5','unit',26505.00),
-	(1,'IN0005','2014-10-08','A0012','Dell PowerEdge R210 II','unit',31680.00),
-	(1,'IN0008','2014-10-10','A0013','Cisco SF302-08MPP','pcs',13600.00),
-	(1,'IN0013','2014-10-25','A0014','D-Link DES-3828P','pcs',62275.50),
-	(1,'IN0014','2014-10-27','A0015','D-Link DES-3052','pcs',21458.85);
+	(1,'IN0001','A0001',58900.00),
+	(1,'IN0009','A0001',58900.00),
+	(1,'IN0002','A0002',67500.00),
+	(1,'IN0006','A0002',67500.00),
+	(1,'IN0010','A0003',56000.00),
+	(1,'IN0015','A0004',72375.00),
+	(1,'IN0012','A0006',27412.50),
+	(1,'IN0007','A0004',72375.00),
+	(1,'IN0011','A0008',7560.00),
+	(1,'IN0003','A0009',79120.00),
+	(1,'IN0004','A0011',26505.00),
+	(1,'IN0005','A0012',31680.00),
+	(1,'IN0008','A0013',13600.00),
+	(1,'IN0013','A0014',62275.50),
+	(1,'IN0014','A0015',21458.85);
 
 /*!40000 ALTER TABLE `saleslineitem` ENABLE KEYS */;
 UNLOCK TABLES;
