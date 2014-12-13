@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.21)
 # Database: asset
-# Generation Time: 2014-12-13 14:48:35 +0000
+# Generation Time: 2014-12-13 18:04:18 +0000
 # ************************************************************
 
 
@@ -147,134 +147,6 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table assetlocation
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `assetlocation`;
-
-CREATE TABLE `assetlocation` (
-  `location` varchar(20) NOT NULL,
-  `description` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`location`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `assetlocation` WRITE;
-/*!40000 ALTER TABLE `assetlocation` DISABLE KEYS */;
-
-INSERT INTO `assetlocation` (`location`, `description`)
-VALUES
-	('room01',NULL),
-	('room02',NULL),
-	('room03',NULL),
-	('room04',NULL),
-	('room05',NULL),
-	('room06',NULL),
-	('room07',NULL),
-	('room08',NULL),
-	('room09',NULL),
-	('room10',NULL),
-	('room12',NULL),
-	('room14',NULL),
-	('room15',NULL),
-	('room16',NULL),
-	('room17',NULL),
-	('room19',NULL),
-	('room20',NULL),
-	('room37',NULL),
-	('room39',NULL),
-	('room45',NULL);
-
-/*!40000 ALTER TABLE `assetlocation` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table assetmove
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `assetmove`;
-
-CREATE TABLE `assetmove` (
-  `assetmoveNo` varchar(10) NOT NULL,
-  `movementDate` date NOT NULL,
-  `assetmoveReason` varchar(10) NOT NULL,
-  PRIMARY KEY (`assetmoveNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `assetmove` WRITE;
-/*!40000 ALTER TABLE `assetmove` DISABLE KEYS */;
-
-INSERT INTO `assetmove` (`assetmoveNo`, `movementDate`, `assetmoveReason`)
-VALUES
-	('M0001','2014-10-05','purchase'),
-	('M0002','2014-10-05','transfer'),
-	('M0003','2014-10-06','sales'),
-	('M0004','2014-10-07','purchase'),
-	('M0005','2014-10-07','sales'),
-	('M0006','2014-10-08','sales'),
-	('M0007','2014-10-09','transfer'),
-	('M0008','2014-10-09','purchase'),
-	('M0009','2014-10-09','purchase'),
-	('M0010','2014-10-09','sales'),
-	('M0011','2014-10-10','purchase'),
-	('M0012','2014-10-10','transfer'),
-	('M0013','2014-10-10','sales'),
-	('M0014','2014-10-11','purchase'),
-	('M0015','2014-10-11','sales');
-
-/*!40000 ALTER TABLE `assetmove` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table assetmoveline
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `assetmoveline`;
-
-CREATE TABLE `assetmoveline` (
-  `assetmoveNo` varchar(10) NOT NULL,
-  `asset_id` varchar(10) NOT NULL,
-  `currentLocation` varchar(50) DEFAULT NULL,
-  `newLocation` varchar(50) NOT NULL,
-  `moveList` int(11) NOT NULL,
-  `asset_name` varchar(50) NOT NULL,
-  PRIMARY KEY (`assetmoveNo`,`asset_id`),
-  KEY `asset_id` (`asset_id`),
-  KEY `currentLocation` (`currentLocation`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-LOCK TABLES `assetmoveline` WRITE;
-/*!40000 ALTER TABLE `assetmoveline` DISABLE KEYS */;
-
-INSERT INTO `assetmoveline` (`assetmoveNo`, `asset_id`, `currentLocation`, `newLocation`, `moveList`, `asset_name`)
-VALUES
-	('M0001','A0004',NULL,'room37',2,'Macbook Pro 15-inch with Retina Display'),
-	('M0001','A0005',NULL,'room39',1,'Dell Inspiron 5547'),
-	('M0002','A0004','room37','room12',1,'Macbook Pro 15-inch with Retina Display'),
-	('M0003','A0013',NULL,'room16',1,'Cisco SF302-08MPP'),
-	('M0004','A0014',NULL,'room37',1,'D-Link DES-3828P'),
-	('M0005','A0012',NULL,'room01',1,'Dell PowerEdge R210 II'),
-	('M0006','A0001',NULL,'room05',1,'HP Z420 Workstation'),
-	('M0006','A0002',NULL,'room06',2,'Dell Precision T3610'),
-	('M0006','A0005','room39','room45',3,'Dell Inspiron 5547'),
-	('M0007','A0004','room12','room15',2,'Macbook Pro 15-inch with Retina Display'),
-	('M0007','A0007',NULL,'room01',1,'Canon PIXMA IX7000'),
-	('M0008','A0003',NULL,'room16',1,'iMac 27-inch with 4K display'),
-	('M0009','A0006',NULL,'room03',3,'Lenovo Z510'),
-	('M0009','A0011',NULL,'room02',2,'IBM System x3250 M5'),
-	('M0009','A0015',NULL,'room14',1,'D-Link DES-3052'),
-	('M0010','A0009',NULL,'room05',1,'Cisco UCS C220 M3'),
-	('M0011','A0008',NULL,'room17',1,'BROTHER MFC-J825DW'),
-	('M0012','A0008','room17','room16',1,'BROTHER MFC-J825DW'),
-	('M0013','A0009','room05','room19',1,'Cisco UCS C220 M3'),
-	('M0014','A0010',NULL,'room07',1,'Samsung CLP-325'),
-	('M0014','A0015',NULL,'room09',2,'D-Link DES-3052'),
-	('M0015','A0001','room05','room20',2,'HP Z420 Workstation'),
-	('M0015','A0011','room09','room45',1,'IBM System x3250 M5');
-
-/*!40000 ALTER TABLE `assetmoveline` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 # Dump of table customer
 # ------------------------------------------------------------
 
@@ -351,7 +223,7 @@ CREATE TABLE `depreciation_line` (
   `asset_name` varchar(50) NOT NULL,
   `depreciation_percent` decimal(10,2) NOT NULL,
   `purchase_value` decimal(10,2) NOT NULL,
-  `beginning value` decimal(10,2) NOT NULL,
+  `beginning_value` decimal(10,2) NOT NULL,
   `depreciation_value` decimal(10,2) NOT NULL,
   `current_value` decimal(10,2) NOT NULL,
   `depreciation_value_month` decimal(10,2) NOT NULL,
@@ -365,13 +237,140 @@ CREATE TABLE `depreciation_line` (
 LOCK TABLES `depreciation_line` WRITE;
 /*!40000 ALTER TABLE `depreciation_line` DISABLE KEYS */;
 
-INSERT INTO `depreciation_line` (`depreciation_no`, `asset_type`, `asset_id`, `asset_name`, `depreciation_percent`, `purchase_value`, `beginning value`, `depreciation_value`, `current_value`, `depreciation_value_month`, `new_depreciation_value_month`, `item_no`)
+INSERT INTO `depreciation_line` (`depreciation_no`, `asset_type`, `asset_id`, `asset_name`, `depreciation_percent`, `purchase_value`, `beginning_value`, `depreciation_value`, `current_value`, `depreciation_value_month`, `new_depreciation_value_month`, `item_no`)
 VALUES
 	('D001','Server','A0009','Cisco UCS C220 M3',8.00,86000.00,86000.00,6880.00,79120.00,573.33,85426.67,1),
 	('D002','Desktop','A0001','HP Z420 Workstation',5.00,62000.00,62000.00,3100.00,58900.00,258.33,61741.67,1),
 	('D003','Desktop','A0001','HP Z420 Workstation',5.00,62000.00,62000.00,3100.00,58900.00,258.33,61741.67,1);
 
 /*!40000 ALTER TABLE `depreciation_line` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table location
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `location`;
+
+CREATE TABLE `location` (
+  `location` varchar(20) NOT NULL,
+  PRIMARY KEY (`location`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `location` WRITE;
+/*!40000 ALTER TABLE `location` DISABLE KEYS */;
+
+INSERT INTO `location` (`location`)
+VALUES
+	('room01'),
+	('room02'),
+	('room03'),
+	('room04'),
+	('room05'),
+	('room06'),
+	('room07'),
+	('room08'),
+	('room09'),
+	('room10'),
+	('room12'),
+	('room14'),
+	('room15'),
+	('room16'),
+	('room17'),
+	('room19'),
+	('room20'),
+	('room37'),
+	('room39'),
+	('room45');
+
+/*!40000 ALTER TABLE `location` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table movement
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `movement`;
+
+CREATE TABLE `movement` (
+  `assetmoveNo` varchar(10) NOT NULL,
+  `movementDate` date NOT NULL,
+  `assetmoveReason` varchar(10) NOT NULL,
+  PRIMARY KEY (`assetmoveNo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `movement` WRITE;
+/*!40000 ALTER TABLE `movement` DISABLE KEYS */;
+
+INSERT INTO `movement` (`assetmoveNo`, `movementDate`, `assetmoveReason`)
+VALUES
+	('M0001','2014-10-05','purchase'),
+	('M0002','2014-10-05','transfer'),
+	('M0003','2014-10-06','sales'),
+	('M0004','2014-10-07','purchase'),
+	('M0005','2014-10-07','sales'),
+	('M0006','2014-10-08','sales'),
+	('M0007','2014-10-09','transfer'),
+	('M0008','2014-10-09','purchase'),
+	('M0009','2014-10-09','purchase'),
+	('M0010','2014-10-09','sales'),
+	('M0011','2014-10-10','purchase'),
+	('M0012','2014-10-10','transfer'),
+	('M0013','2014-10-10','sales'),
+	('M0014','2014-10-11','purchase'),
+	('M0015','2014-10-11','sales');
+
+/*!40000 ALTER TABLE `movement` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table movementline
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `movementline`;
+
+CREATE TABLE `movementline` (
+  `assetmoveNo` varchar(10) NOT NULL,
+  `moveList` int(11) NOT NULL,
+  `asset_id` varchar(10) NOT NULL,
+  `asset_name` varchar(50) NOT NULL,
+  `currentLocation` varchar(50) DEFAULT NULL,
+  `newLocation` varchar(50) NOT NULL,
+  PRIMARY KEY (`assetmoveNo`,`asset_id`),
+  KEY `asset_id` (`asset_id`),
+  KEY `currentLocation` (`currentLocation`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+LOCK TABLES `movementline` WRITE;
+/*!40000 ALTER TABLE `movementline` DISABLE KEYS */;
+
+INSERT INTO `movementline` (`assetmoveNo`, `moveList`, `asset_id`, `asset_name`, `currentLocation`, `newLocation`)
+VALUES
+	('M0001',2,'A0004','Macbook Pro 15-inch with Retina Display',NULL,'room37'),
+	('M0001',1,'A0005','Dell Inspiron 5547',NULL,'room39'),
+	('M0002',1,'A0004','Macbook Pro 15-inch with Retina Display','room37','room12'),
+	('M0003',1,'A0013','Cisco SF302-08MPP',NULL,'room16'),
+	('M0004',1,'A0014','D-Link DES-3828P',NULL,'room37'),
+	('M0005',1,'A0012','Dell PowerEdge R210 II',NULL,'room01'),
+	('M0006',1,'A0001','HP Z420 Workstation',NULL,'room05'),
+	('M0006',2,'A0002','Dell Precision T3610',NULL,'room06'),
+	('M0006',3,'A0005','Dell Inspiron 5547','room39','room45'),
+	('M0007',2,'A0004','Macbook Pro 15-inch with Retina Display','room12','room15'),
+	('M0007',1,'A0007','Canon PIXMA IX7000',NULL,'room01'),
+	('M0008',1,'A0003','iMac 27-inch with 4K display',NULL,'room16'),
+	('M0009',3,'A0006','Lenovo Z510',NULL,'room03'),
+	('M0009',2,'A0011','IBM System x3250 M5',NULL,'room02'),
+	('M0009',1,'A0015','D-Link DES-3052',NULL,'room14'),
+	('M0010',1,'A0009','Cisco UCS C220 M3',NULL,'room05'),
+	('M0011',1,'A0008','BROTHER MFC-J825DW',NULL,'room17'),
+	('M0012',1,'A0008','BROTHER MFC-J825DW','room17','room16'),
+	('M0013',1,'A0009','Cisco UCS C220 M3','room05','room19'),
+	('M0014',1,'A0010','Samsung CLP-325',NULL,'room07'),
+	('M0014',2,'A0015','D-Link DES-3052',NULL,'room09'),
+	('M0015',2,'A0001','HP Z420 Workstation','room05','room20'),
+	('M0015',1,'A0011','IBM System x3250 M5','room09','room45');
+
+/*!40000 ALTER TABLE `movementline` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

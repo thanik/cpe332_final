@@ -32,7 +32,7 @@ class ListOfValueController extends BaseController {
 					}
 					else
 					{
-						echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['asset_id'].'\',\''.$itm['asset_name'].'\',\''.$itm['unit'].'\',\''.$itm['purchase_value'].'\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+						echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['asset_id'].'\',\''.$itm['asset_name'].'\',\''.$itm['unit'].'\',\''.$itm['purchase_value'].'\',\''.$itm['current_location'].'\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
 					}
 					echo '<td>';
 					echo $itm['asset_id'];
@@ -168,6 +168,67 @@ class ListOfValueController extends BaseController {
 				}
 				echo '</tbody>';
 			}
+			else if(Input::get('table_name') == 'movement')
+			{
+				echo '<thead><tr><th>Select</th>';
+				echo '<th>Asset Movement No</th>';
+				echo '<th>Movement Date</th>';
+				echo '<th>Movement Reason</th></tr></thead>';
+				$itms_obj = Movement::all();
+				if(Input::has('search'))
+				{
+					$itms_obj = Movement::whereRaw(Input::get('search'))->get();
+				}
+				$itms = $itms_obj->toArray();
+				
+				echo '<tbody>';
+				foreach($itms as $itm)
+				{
+					echo '<tr>';
+					if(Input::get('mode') == 'edit')
+					{
+						echo '<td><a href="'.URL::action('AssetsMovementController@showItem',$itm['assetmoveNo']).'" class="btn btn-primary btn-xs" style="width: 100%">select</a></td>';
+					}
+					else if(Input::get('mode') == 'copy')
+					{
+						echo '<td><button onclick="post(\'/assets_movement\',{action: \'copy\', id: \''.$itm['assetmoveNo'].'\'});" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					}
+					else
+					{
+						echo '<td><button onclick="'.Input::get('mode').'();" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					}
+					echo '<td>';
+					echo $itm['assetmoveNo'];
+					echo '</td><td>';
+					echo $itm['movementDate'];
+					echo '</td><td>';
+					echo $itm['assetmoveReason'];
+					echo '</td></tr>';
+				}
+				echo '</tbody>';
+			}
+			else if(Input::get('table_name') == 'location')
+			{
+				echo '<thead><tr><th>Select</th>';
+				echo '<th>Location</th>';
+				echo '</tr></thead>';
+				$itms_obj = Location::all();
+				if(Input::has('search'))
+				{
+					$itms_obj = Location::whereRaw(Input::get('search'))->get();
+				}
+				$itms = $itms_obj->toArray();
+				echo '<tbody>';
+				foreach($itms as $itm)
+				{
+					echo '<tr>';
+					echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['location'].'\'); $(\'#ListOfValueModal\').modal(\'hide\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					echo '<td>';
+					echo $itm['location'];
+					echo '</td></tr>';
+				}
+				echo '</tbody>';
+			}
 		}
 	}
 	
@@ -251,6 +312,27 @@ class ListOfValueController extends BaseController {
 						<tr>
 							<td><b>Price :</b></td>
 							<td><input type="number" name="Price" step="0.25" placeholder="0.00" min="0.25" value="'.Session::get('lineitem')[intval(Input::get('item'))]['Price'].'" required></td>
+						</tr>
+					</table>';
+			}
+			else if(Input::get('table_name') == 'movement')
+			{
+				echo '<table width="100%">
+						<tr>
+							<td><b>* Asset ID :</b></td>
+							<td><input type="text" name="asset_id" value="'.Session::get('lineitem')[intval(Input::get('item'))]['asset_id'].'" required><button type="button" onclick="openListOfValue(\'asset_id\',\'selectEditAsset\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+						</tr>
+						<tr>
+							<td><b>Asset Name :</b></td>
+							<td><input type="text" name="asset_name" value="'.Session::get('lineitem')[intval(Input::get('item'))]['asset_name'].'" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Current Location :</b></td>
+							<td><input type="text" name="currentLocation" value="'.Session::get('lineitem')[intval(Input::get('item'))]['currentLocation'].'" readonly></td>
+						</tr>
+						<tr>
+							<td><b>New Location :</b></td>
+							<td><input type="text" name="newLocation" value="'.Session::get('lineitem')[intval(Input::get('item'))]['newLocation'].'" required><button type="button" onclick="openListOfValue(\'location\',\'selectEditLocation\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 					</table>';
 			}

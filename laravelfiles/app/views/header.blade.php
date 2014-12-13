@@ -25,7 +25,7 @@
 						<li role="presentation"><a role="menuitem" tabindex="-1" href="{{ URL::to('assets_depreciation') }}">Asset Depreciation Form</a></li>
 						<li role="presentation"><a role="menuitem" tabindex="-1" href="{{ URL::to('assets_purchase') }}">Asset Purchase Form</a></li>
 						<li role="presentation"><a role="menuitem" tabindex="-1" href="{{ URL::to('assets_sale') }}">Asset Sales Form</a></li>
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="{{ URL::to('assets_location') }}">Asset Location Movement Form</a></li>
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="{{ URL::to('assets_movement') }}">Asset Location Movement Form</a></li>
 				</ul>
 			</div>
 			<div class="app_name"><h1 style="clear:both">Asset Management</h1></div>

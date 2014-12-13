@@ -13,7 +13,7 @@
 
 Route::get('/', function()
 {
-	return View::make('sample');
+	return Redirect::action('AssetsController@showNewItem');
 });
 
 /* Asset ID with components */
@@ -60,3 +60,13 @@ Route::post('assets_sale/{id}', array('as' => 'post_assets_sa', 'uses' => 'Asset
 
 /* AJAX Request */
 Route::post('ajax/update/assets_sale', array('as' => 'asset_update_ajax', 'uses' => 'AssetsSaleController@ajaxUpdateSession'));
+
+/* Asset Location Movement */
+Route::get('assets_movement', array('as' => 'get_new_assets_mo', 'uses' => 'AssetsMovementController@showNewItem'));
+Route::post('assets_movement', array('as' => 'post_new_assets_mo', 'uses' => 'AssetsMovementController@postNewItem'));
+
+Route::get('assets_movement/{id}', array('as' => 'get_assets_mo', 'uses' => 'AssetsMovementController@showItem'));
+Route::post('assets_movement/{id}', array('as' => 'post_assets_mo', 'uses' => 'AssetsMovementController@postItem'));
+
+/* AJAX Request */
+Route::post('ajax/update/assets_movement', array('as' => 'asset_update_ajax', 'uses' => 'AssetsMovementController@ajaxUpdateSession'));
