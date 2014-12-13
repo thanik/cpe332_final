@@ -50,3 +50,13 @@ Route::post('assets_purchase/{id}', array('as' => 'post_assets_pu', 'uses' => 'A
 
 /* AJAX Request */
 Route::post('ajax/update/assets_purchase', array('as' => 'asset_update_ajax', 'uses' => 'AssetsPurchaseController@ajaxUpdateSession'));
+
+/* Asset Sales */
+Route::get('assets_sale', array('as' => 'get_new_assets_sa', 'uses' => 'AssetsSaleController@showNewItem'));
+Route::post('assets_sale', array('as' => 'post_new_assets_sa', 'uses' => 'AssetsSaleController@postNewItem'));
+
+Route::get('assets_sale/{id}', array('as' => 'get_assets_sa', 'uses' => 'AssetsSaleController@showItem'));
+Route::post('assets_sale/{id}', array('as' => 'post_assets_sa', 'uses' => 'AssetsSaleController@postItem'));
+
+/* AJAX Request */
+Route::post('ajax/update/assets_sale', array('as' => 'asset_update_ajax', 'uses' => 'AssetsSaleController@ajaxUpdateSession'));

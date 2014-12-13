@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.21)
 # Database: asset
-# Generation Time: 2014-12-13 13:19:47 +0000
+# Generation Time: 2014-12-13 13:42:12 +0000
 # ************************************************************
 
 
@@ -236,39 +236,40 @@ CREATE TABLE `assetmoveline` (
   `currentLocation` varchar(50) DEFAULT NULL,
   `newLocation` varchar(50) NOT NULL,
   `moveList` int(11) NOT NULL,
+  `asset_name` varchar(50) NOT NULL,
   PRIMARY KEY (`assetmoveNo`,`asset_id`),
   KEY `asset_id` (`asset_id`),
   KEY `currentLocation` (`currentLocation`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 LOCK TABLES `assetmoveline` WRITE;
 /*!40000 ALTER TABLE `assetmoveline` DISABLE KEYS */;
 
-INSERT INTO `assetmoveline` (`assetmoveNo`, `asset_id`, `currentLocation`, `newLocation`, `moveList`)
+INSERT INTO `assetmoveline` (`assetmoveNo`, `asset_id`, `currentLocation`, `newLocation`, `moveList`, `asset_name`)
 VALUES
-	('M0001','A0004',NULL,'room37',2),
-	('M0001','A0005',NULL,'room39',1),
-	('M0002','A0004','room37','room12',1),
-	('M0003','A0013',NULL,'room16',1),
-	('M0004','A0014',NULL,'room37',1),
-	('M0005','A0012',NULL,'room01',1),
-	('M0006','A0001',NULL,'room05',1),
-	('M0006','A0002',NULL,'room06',2),
-	('M0006','A0005','room39','room45',3),
-	('M0007','A0004','room12','room15',2),
-	('M0007','A0007',NULL,'room01',1),
-	('M0008','A0003',NULL,'room16',1),
-	('M0009','A0006',NULL,'room03',3),
-	('M0009','A0011',NULL,'room02',2),
-	('M0009','A0015',NULL,'room14',1),
-	('M0010','A0009',NULL,'room05',1),
-	('M0011','A0008',NULL,'room17',1),
-	('M0012','A0008','room17','room16',1),
-	('M0013','A0009','room05','room19',1),
-	('M0014','A0010',NULL,'room07',1),
-	('M0014','A0015',NULL,'room09',2),
-	('M0015','A0001','room05','room20',2),
-	('M0015','A0011','room09','room45',1);
+	('M0001','A0004',NULL,'room37',2,'Macbook Pro 15\" with Retina Display'),
+	('M0001','A0005',NULL,'room39',1,'Dell Inspiron 5547'),
+	('M0002','A0004','room37','room12',1,'Macbook Pro 15\" with Retina Display'),
+	('M0003','A0013',NULL,'room16',1,'Cisco SF302-08MPP'),
+	('M0004','A0014',NULL,'room37',1,'D-Link DES-3828P'),
+	('M0005','A0012',NULL,'room01',1,'Dell PowerEdge R210 II'),
+	('M0006','A0001',NULL,'room05',1,'HP Z420 Workstation'),
+	('M0006','A0002',NULL,'room06',2,'Dell Precision T3610'),
+	('M0006','A0005','room39','room45',3,'Dell Inspiron 5547'),
+	('M0007','A0004','room12','room15',2,'Macbook Pro 15\" with Retina Display'),
+	('M0007','A0007',NULL,'room01',1,'Canon PIXMA IX7000'),
+	('M0008','A0003',NULL,'room16',1,'iMac 27\" with 4K display'),
+	('M0009','A0006',NULL,'room03',3,'Lenovo Z510'),
+	('M0009','A0011',NULL,'room02',2,'IBM System x3250 M5'),
+	('M0009','A0015',NULL,'room14',1,'D-Link DES-3052'),
+	('M0010','A0009',NULL,'room05',1,'Cisco UCS C220 M3'),
+	('M0011','A0008',NULL,'room17',1,'BROTHER MFC-J825DW'),
+	('M0012','A0008','room17','room16',1,'BROTHER MFC-J825DW'),
+	('M0013','A0009','room05','room19',1,'Cisco UCS C220 M3'),
+	('M0014','A0010',NULL,'room07',1,'Samsung CLP-325'),
+	('M0014','A0015',NULL,'room09',2,'D-Link DES-3052'),
+	('M0015','A0001','room05','room20',2,'HP Z420 Workstation'),
+	('M0015','A0011','room09','room45',1,'IBM System x3250 M5');
 
 /*!40000 ALTER TABLE `assetmoveline` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -411,7 +412,8 @@ VALUES
 	('IN0012','2014-10-02','S0004','2014-10-02','cash',27900.00,1953.00,29853.00),
 	('IN0013','2014-10-02','S0003','2014-10-02','cash',45000.00,3150.00,48150.00),
 	('IN0014','2014-10-02','S0011','2014-10-02','cash',22470.00,1572.90,24042.90),
-	('IN0015','2014-10-05','S0003','2014-10-07','check',32000.00,2240.00,34240.00);
+	('IN0015','2014-10-05','S0003','2014-10-07','check',32000.00,2240.00,34240.00),
+	('IN0016','2014-12-13','S0009','2014-12-15','check',10400.00,728.00,11128.00);
 
 /*!40000 ALTER TABLE `purchases` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -453,7 +455,9 @@ VALUES
 	('IN0012',1,'A0011','IBM System x3250 M5','unit',27900.00),
 	('IN0013',1,'A0005','Dell Inspiron 5547','pcs',45000.00),
 	('IN0014',1,'A0015','D-Link DES-3052','pcs',22470.00),
-	('IN0015',1,'A0012','Dell PowerEdge R210 II','unit',32000.00);
+	('IN0015',1,'A0012','Dell PowerEdge R210 II','unit',32000.00),
+	('NEW',1,'A0001','HP Z420 Workstation','unit',1500.00),
+	('NEW',2,'A0013','Cisco SF302-08MPP','pcs',8900.00);
 
 /*!40000 ALTER TABLE `purchaseslineitem` ENABLE KEYS */;
 UNLOCK TABLES;

@@ -1,5 +1,5 @@
 @include('header')
-{{ HTML::script('static/js/asset_purchase.js') }}
+{{ HTML::script('static/js/asset_sale.js') }}
 
 <div class="modal fade" id="newLineItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -25,7 +25,7 @@
 						</tr>
 						<tr>
 							<td><b>Price :</b></td>
-							<td><input type="number" name="newLine_Price" step="0.25" min="0.25" placeholder="0.00" required></td>
+							<td><input type="number" name="newLine_Price" step="0.25" placeholder="0.00" required></td>
 						</tr>
 					</table>
 	    		</div>
@@ -151,10 +151,10 @@
 						{{ $itm['AssetID'] }}
 					</td>
 					<td>
-						{{ $itm['AssetName'] }}
+						{{ Asset::where('asset_id','=',$itm['AssetID'])->first()->asset_name }}
 					</td>
 					<td>
-						{{ $itm['Units'] }}
+						{{ Asset::where('asset_id','=',$itm['AssetID'])->first()->unit }}
 					</td>
 					<td>
 						{{ $itm['Price'] }}

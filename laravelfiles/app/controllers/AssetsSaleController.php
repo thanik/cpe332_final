@@ -1,9 +1,9 @@
 <?php
 
-class AssetsPurchaseController extends BaseController {
+class AssetsSaleController extends BaseController {
 	public $page = array(
-		'table_name' => 'purchases',
-		'form_name' => 'Asset Purchase Form',
+		'table_name' => 'sales',
+		'form_name' => 'Asset Sales Form',
 	);
 	
 	public function showNewItem()
@@ -54,8 +54,6 @@ class AssetsPurchaseController extends BaseController {
 				/* add to lineitem session */
 				$data = array(
 					'AssetID' => Input::get('newLine_AssetID'),
-					'AssetName' => Input::get('newLine_AssetName'),
-					'Units' => Input::get('newLine_Unit'),
 					'Price' => Input::get('newLine_Price'),
 				);
 				array_push($temp_lineitem, $data);
@@ -76,10 +74,7 @@ class AssetsPurchaseController extends BaseController {
 			{
 				$temp_lineitem = Session::get('lineitem');
 				$temp_lineitem[intval(Input::get('item'))]['AssetID'] = Input::get('AssetID');
-				$temp_lineitem[intval(Input::get('item'))]['AssetName'] = Input::get('AssetName');
-				$temp_lineitem[intval(Input::get('item'))]['Units'] = Input::get('Units');
 				$temp_lineitem[intval(Input::get('item'))]['Price'] = Input::get('Price');
-				
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
 				/* recalculate */
@@ -134,8 +129,6 @@ class AssetsPurchaseController extends BaseController {
 					$purchaselineitem->InvoiceNo = $newid;
 					$purchaselineitem->ItemNo = $i;
 					$purchaselineitem->AssetID = $itm['AssetID'];
-					$purchaselineitem->AssetName = $itm['AssetName'];
-					$purchaselineitem->Units = $itm['Units'];
 					$purchaselineitem->Price = $itm['Price'];
 					$purchaselineitem->save();
 				}
@@ -203,8 +196,6 @@ class AssetsPurchaseController extends BaseController {
 				/* add to lineitem session */
 				$data = array(
 					'AssetID' => Input::get('newLine_AssetID'),
-					'AssetName' => Input::get('newLine_AssetName'),
-					'Units' => Input::get('newLine_Unit'),
 					'Price' => Input::get('newLine_Price'),
 				);
 				array_push($temp_lineitem, $data);
@@ -225,10 +216,7 @@ class AssetsPurchaseController extends BaseController {
 			{
 				$temp_lineitem = Session::get('lineitem');
 				$temp_lineitem[intval(Input::get('item'))]['AssetID'] = Input::get('AssetID');
-				$temp_lineitem[intval(Input::get('item'))]['AssetName'] = Input::get('AssetName');
-				$temp_lineitem[intval(Input::get('item'))]['Units'] = Input::get('Units');
 				$temp_lineitem[intval(Input::get('item'))]['Price'] = Input::get('Price');
-				
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
 				/* recalculate */
@@ -286,8 +274,6 @@ class AssetsPurchaseController extends BaseController {
 					$purchaselineitem->InvoiceNo = Session::get('InvoiceNo');
 					$purchaselineitem->ItemNo = $i;
 					$purchaselineitem->AssetID = $itm['AssetID'];
-					$purchaselineitem->AssetName = $itm['AssetName'];
-					$purchaselineitem->Units = $itm['Units'];
 					$purchaselineitem->Price = $itm['Price'];
 					$purchaselineitem->save();
 				}

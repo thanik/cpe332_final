@@ -15,10 +15,10 @@ function checkRequiredField()
 		return false;
 	}
 	
-	if($('input[name="SupplierCode"]').val() == '')
+	if($('input[name="CustomerCode"]').val() == '')
 	{
-		alert('Error: Please enter supplier code.');
-		$('input[name="SupplierCode"]').focus();
+		alert('Error: Please enter customer code.');
+		$('input[name="CustomerCode"]').focus();
 		return false;
 	}
 	
@@ -37,7 +37,7 @@ function sendFormDataAjax()
 	var form_data = $('#mainform').serialize();
 	$.ajax(
 		{
-			url: '/ajax/update/assets_purchase',
+			url: '/ajax/update/assets_sale',
 			data: form_data,
 			type: 'POST',
 			dataType: 'html',
@@ -220,22 +220,20 @@ function chooseSupplier(code,name,address)
 	$('input[name="SupplierAddress"]').val(address);
 }
 
-function selectAsset(asset_id,asset_name,unit,price)
+function selectAsset(asset_id,asset_name,unit)
 {
 	$('input[name="newLine_AssetID"]').val(asset_id);
 	$('input[name="newLine_AssetName"]').val(asset_name);
 	$('input[name="newLine_Unit"]').val(unit);
-	$('input[name="newLine_Price"').val(price);
 	$('#ListOfValueModal').modal('hide');
 	$('#newLineItemModal').modal('show');
 }
 
-function selectEditAsset(asset_id,asset_name,unit,price)
+function selectEditAsset(asset_id,asset_name,unit)
 {
 	$('input[name="AssetID"]').val(asset_id);
 	$('input[name="AssetName"]').val(asset_name);
-	$('input[name="Units"]').val(unit);
-	$('input[name="Price"]').val(price);
+	$('input[name="Unit"]').val(unit);
 	$('#ListOfValueModal').modal('hide');
 	$('#editLineItemModal').modal('show');
 }
