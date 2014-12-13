@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.21)
 # Database: asset
-# Generation Time: 2014-12-13 12:23:37 +0000
+# Generation Time: 2014-12-13 12:36:57 +0000
 # ************************************************************
 
 
@@ -120,12 +120,12 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table asset_sale_header
+# Dump of table sales
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `asset_sale_header`;
+DROP TABLE IF EXISTS `sales`;
 
-CREATE TABLE `asset_sale_header` (
+CREATE TABLE `sales` (
   `InvoiceNo` varchar(10) NOT NULL,
   `InvoiceDate` date NOT NULL,
   `CustomerCode` varchar(10) NOT NULL,
@@ -139,10 +139,10 @@ CREATE TABLE `asset_sale_header` (
   KEY `1` (`CustomerCode`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-LOCK TABLES `asset_sale_header` WRITE;
-/*!40000 ALTER TABLE `asset_sale_header` DISABLE KEYS */;
+LOCK TABLES `sales` WRITE;
+/*!40000 ALTER TABLE `sales` DISABLE KEYS */;
 
-INSERT INTO `asset_sale_header` (`InvoiceNo`, `InvoiceDate`, `CustomerCode`, `CustomerName`, `Address`, `PaymentDueDate`, `Total`, `VAT`, `AmountDue`)
+INSERT INTO `sales` (`InvoiceNo`, `InvoiceDate`, `CustomerCode`, `CustomerName`, `Address`, `PaymentDueDate`, `Total`, `VAT`, `AmountDue`)
 VALUES
 	('IN0001','2014-10-01','C0001','King Mongkut’s University of Technology Thonburi','126 Pracha Uthit Rd., Bang Mod, Thung Khru, \r\nBangkok 10140','2014-10-04',58900.00,5890.00,64790.00),
 	('IN0002','2014-10-02','C0002','kasikornbank Head Office',' 1 Soi Rat Burana 27/1, Rat Burana Road, Rat Burana District, Rat Burana, Bangkok 10140','2014-10-05',67500.00,6750.00,74250.00),
@@ -160,16 +160,16 @@ VALUES
 	('IN0014','2014-10-27','C0014','SIAM INTER MULTIMEDIA PUBLIC COMPANY LIMITED','459 Soi Ladprao 48. Samsen-nork, Huay Kwang, Bangkok 10310 Thailand ','2014-10-30',21458.85,2145.89,23604.74),
 	('IN0015','2014-10-31','C0015','Vibulkij Publishing Group','101/1 Soi Sukhumvit 36, Sukhumvit 22, Wattana, Bangkok 10260','2014-11-01',72375.00,7237.50,79612.50);
 
-/*!40000 ALTER TABLE `asset_sale_header` ENABLE KEYS */;
+/*!40000 ALTER TABLE `sales` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table asset_sale_lineitem
+# Dump of table saleslineitem
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `asset_sale_lineitem`;
+DROP TABLE IF EXISTS `saleslineitem`;
 
-CREATE TABLE `asset_sale_lineitem` (
+CREATE TABLE `saleslineitem` (
   `ItemNo` int(10) NOT NULL,
   `InvoiceNo` varchar(10) NOT NULL,
   `InvoiceDate` date NOT NULL,
@@ -182,10 +182,10 @@ CREATE TABLE `asset_sale_lineitem` (
   KEY `InvoiceNo` (`InvoiceNo`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-LOCK TABLES `asset_sale_lineitem` WRITE;
-/*!40000 ALTER TABLE `asset_sale_lineitem` DISABLE KEYS */;
+LOCK TABLES `saleslineitem` WRITE;
+/*!40000 ALTER TABLE `saleslineitem` DISABLE KEYS */;
 
-INSERT INTO `asset_sale_lineitem` (`ItemNo`, `InvoiceNo`, `InvoiceDate`, `AssetID`, `AssetName`, `Units`, `Price`)
+INSERT INTO `saleslineitem` (`ItemNo`, `InvoiceNo`, `InvoiceDate`, `AssetID`, `AssetName`, `Units`, `Price`)
 VALUES
 	(1,'IN0001','2014-10-01','A0001','HP Z420 Workstation','unit',58900.00),
 	(1,'IN0009','2014-10-13','A0001','HP Z420 Workstation','unit',58900.00),
@@ -203,7 +203,7 @@ VALUES
 	(14,'IN0013','2014-10-25','A0014','D-Link DES-3828P','pcs',62275.50),
 	(15,'IN0014','2014-10-27','A0015','D-Link DES-3052','pcs',21458.85);
 
-/*!40000 ALTER TABLE `asset_sale_lineitem` ENABLE KEYS */;
+/*!40000 ALTER TABLE `saleslineitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -275,22 +275,22 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table assetmoveheader
+# Dump of table assetmove
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `assetmoveheader`;
+DROP TABLE IF EXISTS `assetmove`;
 
-CREATE TABLE `assetmoveheader` (
+CREATE TABLE `assetmove` (
   `assetmoveNo` varchar(10) NOT NULL,
   `movementDate` date NOT NULL,
   `assetmoveReason` varchar(10) NOT NULL,
   PRIMARY KEY (`assetmoveNo`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-LOCK TABLES `assetmoveheader` WRITE;
-/*!40000 ALTER TABLE `assetmoveheader` DISABLE KEYS */;
+LOCK TABLES `assetmove` WRITE;
+/*!40000 ALTER TABLE `assetmove` DISABLE KEYS */;
 
-INSERT INTO `assetmoveheader` (`assetmoveNo`, `movementDate`, `assetmoveReason`)
+INSERT INTO `assetmove` (`assetmoveNo`, `movementDate`, `assetmoveReason`)
 VALUES
 	('M0001','2014-10-05','purchase'),
 	('M0002','2014-10-05','transfer'),
@@ -308,7 +308,7 @@ VALUES
 	('M0014','2014-10-11','purchase'),
 	('M0015','2014-10-11','sales');
 
-/*!40000 ALTER TABLE `assetmoveheader` ENABLE KEYS */;
+/*!40000 ALTER TABLE `assetmove` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
