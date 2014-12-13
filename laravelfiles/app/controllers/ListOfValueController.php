@@ -28,7 +28,7 @@ class ListOfValueController extends BaseController {
 					}
 					else if(Input::get('mode') == 'copy')
 					{
-						echo '<td><button onclick="post(\'assets\',{action: \'copy\', id: \''.$itm['asset_id'].'\'});" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+						echo '<td><button onclick="post(\'/assets\',{action: \'copy\', id: \''.$itm['asset_id'].'\'});" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
 					}
 					else
 					{
