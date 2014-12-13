@@ -42,6 +42,15 @@ class AssetsMovementController extends BaseController {
 			else if(Input::get('action') == 'insertLine')
 			{
 				$temp_lineitem = Session::get('lineitem');
+				/* check for duplicated lineitem */
+				foreach($temp_lineitem as $itm)
+				{
+					if(Input::get('newLine_asset_id') == $itm['asset_id'] || Input::get('newLine_asset_name') == $itm['asset_name'])
+					{
+						echo '<script type="text/javascript">alert("Error: Duplicated lineitem");</script>';
+						return View::make('assets_movement', $this->page);
+					}
+				}
 				/* add to lineitem session */
 				$data = array(
 					'asset_id' => Input::get('newLine_asset_id'),

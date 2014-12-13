@@ -23,28 +23,22 @@ class AssetsDepreciationController extends BaseController {
 		{
 			if(Input::get('action') == 'new')
 			{
-				return Redirect::action('AssetsController@showNewItem');
+				return Redirect::action('AssetsDepreciationController@showNewItem');
 			}
 			else if(Input::get('action') == 'copy')
 			{
-				$select_asset = Asset::where('asset_id','=',Input::get('id'))->firstOrFail();
+				$select_depreciation = Depreciation::where('depreciation_no','=',Input::get('id'))->firstOrFail();
 				Session::flush();
-				Session::put('asset_id', 'NEW');
-				Session::put('asset_name', $select_asset->asset_name);
-				Session::put('asset_type', $select_asset->asset_type);
-				Session::put('unit', $select_asset->unit);
-				Session::put('yearly_depreciation', $select_asset->yearly_depreciation);
-				Session::put('purchase_value', $select_asset->purchase_value);
-				Session::put('purchase_date', $select_asset->purchase_date);
-				Session::put('beginning_value', $select_asset->beginning_value);
-				Session::put('depreciated_value', $select_asset->depreciated_value);
-				Session::put('current_value', $select_asset->current_value);
-				Session::put('total_component', $select_asset->total_component);
-				Session::put('total_component_value', $select_asset->total_component_value);
-				$lineitems = AssetLineItem::where('asset_id','=',Input::get('id'))->get()->toArray();
+				Session::put('depreciation_no', 'NEW');
+				Session::put('depreciation_date', $select_depreciation->depreciation_date);
+				Session::put('for_month', $select_depreciation->for_month);
+				Session::put('for_year', $select_depreciation->for_year);
+				Session::put('total_depreciation', $select_depreciation->total_depreciation);
+
+				$lineitems = DepreciationLineItem::where('depreciation_no','=',Input::get('id'))->get()->toArray();
 				Session::put('lineitem',$lineitems);
 				Session::put('dirtybit','false');
-				Session::put('table','asset_id');
+				Session::put('table','depreciation');
 				return View::make('assets_depreciation', $this->page);
 			}
 			else if(Input::get('action') == 'insertLine')
@@ -53,7 +47,7 @@ class AssetsDepreciationController extends BaseController {
 				/* check for duplicated lineitem */
 				foreach($temp_lineitem as $itm)
 				{
-					if(Input::get('newLine_component_name') == $itm['component_name'] || Input::get('newLine_component_type') == $itm['component_type'])
+					if(Input::get('newLine_AssetID') == $itm['component_name'])
 					{
 						echo '<script type="text/javascript">alert("Error: Duplicated lineitem");</script>';
 						return View::make('assets_depreciation', $this->page);
@@ -96,64 +90,58 @@ class AssetsDepreciationController extends BaseController {
 			else if(Input::get('action') == 'save')
 			{
 				/* get new asset_id */
-				$newid = sprintf("A%04d",intval(substr(Asset::max('asset_id'), 1)) + 1);
+				$newid = sprintf("D%04d",intval(substr(Depreciation::max('asset_id'), 1)) + 1);
 				
-				$asset = new Asset;
-				$asset->asset_id = $newid;
-				$asset->asset_name = Session::get('asset_name');
-				$asset->asset_type = Session::get('asset_type');
-				$asset->unit = Session::get('unit');
-				$asset->yearly_depreciation = Session::get('yearly_depreciation');
-				$asset->purchase_value = Session::get('purchase_value');
-				$asset->purchase_date = Session::get('purchase_date');
-				$asset->beginning_value = Session::get('beginning_value');
-				$asset->depreciated_value = Session::get('depreciated_value');
-				$asset->current_value = Session::get('current_value');
+				$depreciation = new Depreciation;
+				$depreciation->asset_id = $newid;
+				$depreciation->asset_name = Session::get('asset_name');
+				$depreciation->asset_type = Session::get('asset_type');
+				$depreciation->unit = Session::get('unit');
+				$depreciation->yearly_depreciation = Session::get('yearly_depreciation');
+				$depreciation->purchase_value = Session::get('purchase_value');
+				$depreciation->purchase_date = Session::get('purchase_date');
+				$depreciation->beginning_value = Session::get('beginning_value');
+				$depreciation->depreciated_value = Session::get('depreciated_value');
+				$depreciation->current_value = Session::get('current_value');
 
 				$i = 0;
 				$total_rough_value = 0;
 				foreach(Session::get('lineitem') as $itm)
 				{
 					$i++;
-					$assetlineitem = new AssetLineItem();
-					$assetlineitem->no = $i;
-					$assetlineitem->asset_id = $newid;
-					$assetlineitem->component_name = $itm['component_name'];
-					$assetlineitem->component_type = $itm['component_type'];
-					$assetlineitem->quantity = $itm['quantity'];
-					$assetlineitem->rough_value = $itm['rough_value'];
-					$assetlineitem->notes = $itm['notes'];
+					$depreciationlineitem = new DepreciationLineItem();
+					$depreciationlineitem->no = $i;
+					$depreciationlineitem->asset_id = $newid;
+					$depreciationlineitem->component_name = $itm['component_name'];
+					$depreciationlineitem->component_type = $itm['component_type'];
+					$depreciationlineitem->quantity = $itm['quantity'];
+					$depreciationlineitem->rough_value = $itm['rough_value'];
+					$depreciationlineitem->notes = $itm['notes'];
 					$total_rough_value += (floatval($itm['rough_value']) * floatval($itm['quantity']));
-					$assetlineitem->save();
+					$depreciationlineitem->save();
 				}
-				$asset->total_component = $i;
-				$asset->total_component_value = $total_rough_value;
+				$depreciation->total_component = $i;
+				$depreciation->total_component_value = $total_rough_value;
 				
 				Session::put('dirtybit','false');
-				Session::put('table','asset_id');
-				$asset->save();
-				return Redirect::action('AssetsController@showItem', array($newid));
+				Session::put('table','depreciation');
+				$depreciation->save();
+				return Redirect::action('AssetsDepreciationController@showItem', array($newid));
 			}
 		}
 	}
 	
 	public function showItem($id)
 	{
-		$select_asset = Asset::where('asset_id','=',$id)->firstOrFail();
+		$select_depreciation = Depreciation::where('depreciation_no','=',$id)->firstOrFail();
 		Session::flush();
-		Session::put('asset_id', $select_asset->asset_id);
-		Session::put('asset_name', $select_asset->asset_name);
-		Session::put('asset_type', $select_asset->asset_type);
-		Session::put('unit', $select_asset->unit);
-		Session::put('yearly_depreciation', $select_asset->yearly_depreciation);
-		Session::put('purchase_value', $select_asset->purchase_value);
-		Session::put('purchase_date', $select_asset->purchase_date);
-		Session::put('beginning_value', $select_asset->beginning_value);
-		Session::put('depreciated_value', $select_asset->depreciated_value);
-		Session::put('current_value', $select_asset->current_value);
-		Session::put('total_component', $select_asset->total_component);
-		Session::put('total_component_value', $select_asset->total_component_value);
-		$lineitems = AssetLineItem::where('asset_id','=',$id)->get()->toArray();
+		Session::put('depreciation_no', $select_depreciation->depreciation_no);
+		Session::put('depreciation_date', $select_depreciation->depreciation_date);
+		Session::put('for_month', $select_depreciation->for_month);
+		Session::put('for_year', $select_depreciation->for_year);
+		Session::put('total_depreciation', $select_depreciation->total_depreciation);
+		
+		$lineitems = DepreciationLineItem::where('depreciation_no','=',$id)->get()->toArray();
 		Session::put('lineitem',$lineitems);
 		Session::put('dirtybit','false');
 		Session::put('table','asset_id');
@@ -166,25 +154,19 @@ class AssetsDepreciationController extends BaseController {
 		{
 			if(Input::get('action') == 'new')
 			{
-				return Redirect::action('AssetsController@showNewItem');
+				return Redirect::action('AssetsDepreciationController@showNewItem');
 			}
 			else if(Input::get('action') == 'copy')
 			{
-				$select_asset = Asset::where('asset_id','=',Input::get('id'))->firstOrFail();
+				$select_depreciation = Depreciation::where('depreciation_no','=',$id)->firstOrFail();
 				Session::flush();
-				Session::put('asset_id', 'NEW');
-				Session::put('asset_name', $select_asset->asset_name);
-				Session::put('asset_type', $select_asset->asset_type);
-				Session::put('unit', $select_asset->unit);
-				Session::put('yearly_depreciation', $select_asset->yearly_depreciation);
-				Session::put('purchase_value', $select_asset->purchase_value);
-				Session::put('purchase_date', $select_asset->purchase_date);
-				Session::put('beginning_value', $select_asset->beginning_value);
-				Session::put('depreciated_value', $select_asset->depreciated_value);
-				Session::put('current_value', $select_asset->current_value);
-				Session::put('total_component', $select_asset->total_component);
-				Session::put('total_component_value', $select_asset->total_component_value);
-				$lineitems = AssetLineItem::where('asset_id','=',Input::get('id'))->get()->toArray();
+				Session::put('depreciation_no', 'NEW');
+				Session::put('depreciation_date', $select_depreciation->depreciation_date);
+				Session::put('for_month', $select_depreciation->for_month);
+				Session::put('for_year', $select_depreciation->for_year);
+				Session::put('total_depreciation', $select_depreciation->total_depreciation);
+				
+				$lineitems = DepreciationLineItem::where('depreciation_no','=',$id)->get()->toArray();
 				Session::put('lineitem',$lineitems);
 				Session::put('dirtybit','false');
 				Session::put('table','asset_id');
@@ -238,46 +220,46 @@ class AssetsDepreciationController extends BaseController {
 			}
 			else if(Input::get('action') == 'delete')
 			{
-				AssetLineItem::where('asset_id','=',Session::get('asset_id'))->delete();
-				Asset::where('asset_id','=',Session::get('asset_id'))->delete();
-				return Redirect::action('AssetsController@showNewItem'); 
+				DepreciationLineItem::where('depreciation_no','=',Session::get('depreciation_no'))->delete();
+				Depreciation::where('depreciation_no','=',Session::get('depreciation_no'))->delete();
+				return Redirect::action('AssetsDepreciationController@showNewItem'); 
 			}
 			else if(Input::get('action') == 'save')
 			{
-				$asset = Asset::where('asset_id','=',Session::get('asset_id'))->first();
-				$asset->asset_name = Session::get('asset_name');
-				$asset->asset_type = Session::get('asset_type');
-				$asset->unit = Session::get('unit');
-				$asset->yearly_depreciation = Session::get('yearly_depreciation');
-				$asset->purchase_value = Session::get('purchase_value');
-				$asset->purchase_date = Session::get('purchase_date');
-				$asset->beginning_value = Session::get('beginning_value');
-				$asset->depreciated_value = Session::get('depreciated_value');
-				$asset->current_value = Session::get('current_value');
+				$depreciation = Depreciation::where('asset_id','=',Session::get('asset_id'))->first();
+				$depreciation->asset_name = Session::get('asset_name');
+				$depreciation->asset_type = Session::get('asset_type');
+				$depreciation->unit = Session::get('unit');
+				$depreciation->yearly_depreciation = Session::get('yearly_depreciation');
+				$depreciation->purchase_value = Session::get('purchase_value');
+				$depreciation->purchase_date = Session::get('purchase_date');
+				$depreciation->beginning_value = Session::get('beginning_value');
+				$depreciation->depreciated_value = Session::get('depreciated_value');
+				$depreciation->current_value = Session::get('current_value');
 				
-				AssetLineItem::where('asset_id','=',Session::get('asset_id'))->delete();
+				DepreciationLineItem::where('asset_id','=',Session::get('asset_id'))->delete();
 				$i = 0;
 				$total_rough_value = 0;
 				foreach(Session::get('lineitem') as $itm)
 				{
 					$i++;
-					$assetlineitem = new AssetLineItem();
-					$assetlineitem->no = $i;
-					$assetlineitem->asset_id = Session::get('asset_id');
-					$assetlineitem->component_name = $itm['component_name'];
-					$assetlineitem->component_type = $itm['component_type'];
-					$assetlineitem->quantity = $itm['quantity'];
-					$assetlineitem->rough_value = $itm['rough_value'];
-					$assetlineitem->notes = $itm['notes'];
+					$depreciationlineitem = new DepreciationLineItem();
+					$depreciationlineitem->no = $i;
+					$depreciationlineitem->asset_id = Session::get('asset_id');
+					$depreciationlineitem->component_name = $itm['component_name'];
+					$depreciationlineitem->component_type = $itm['component_type'];
+					$depreciationlineitem->quantity = $itm['quantity'];
+					$depreciationlineitem->rough_value = $itm['rough_value'];
+					$depreciationlineitem->notes = $itm['notes'];
 					$total_rough_value += (floatval($itm['rough_value']) * floatval($itm['quantity']));
-					$assetlineitem->save();
+					$depreciationlineitem->save();
 				}
-				$asset->total_component = $i;
-				$asset->total_component_value = $total_rough_value;
+				$depreciation->total_component = $i;
+				$depreciation->total_component_value = $total_rough_value;
 				
 				Session::put('dirtybit','false');
 				Session::put('table','asset_id');
-				$asset->save();
+				$depreciation->save();
 				return View::make('assets_depreciation', $this->page);
 			}
 		}

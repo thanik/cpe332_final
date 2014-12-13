@@ -1,45 +1,24 @@
 function checkRequiredField()
 {
 	
-	if($('input[name="asset_name"]').val() == '')
+	if($('input[name="depreciation_date"]').val() == '')
 	{
-		alert('Error: Please enter asset name.');
+		alert('Error: Please enter Depreciation Date.');
 		$('input[name="asset_name"]').focus();
 		return false;
 	}
 	
-	if($('input[name="unit"]').val() == '')
+	if($('input[name="for_month"]').val() == '' || parseInt($('input[name="for_month"]').val()) <= 0 || parseInt($('input[name="for_month"]').val()) > 12)
 	{
-		alert('Error: Please enter unit.');
-		$('input[name="unit"]').focus();
-		return false;
-	}
-	
-	if($('input[name="yearly_depreciation"]').val() == '')
-	{
-		alert('Error: Please enter yearly depreciation.');
+		alert('Error: Please enter valid Depreciation For Month.');
 		$('input[name="yearly_depreciation"]').focus();
 		return false;
 	}
 	
-	if($('input[name="purchase_value"]').val() == '')
+	if($('input[name="for_year"]').val() == '' || parseInt($('input[name="for_year"]').val()) <= 1900)
 	{
-		alert('Error: Please enter purchase value.');
-		$('input[name="purchase_value"]').focus();
-		return false;
-	}
-	
-	if($('input[name="purchase_date"]').val() == '')
-	{
-		alert('Error: Please enter purchase date.');
-		$('input[name="purchase_date"]').focus();
-		return false;
-	}
-	
-	if($('input[name="beginning_value"]').val() == '')
-	{
-		alert('Error: Please enter beginning value.');
-		$('input[name="beginning_value"]').focus();
+		alert('Error: Please enter valid Depreciation For Year.');
+		$('input[name="yearly_depreciation"]').focus();
 		return false;
 	}
 	
@@ -51,7 +30,7 @@ function sendFormDataAjax()
 	var form_data = $('#mainform').serialize();
 	$.ajax(
 		{
-			url: '/ajax/update/assets',
+			url: '/ajax/update/assets_depreciation',
 			data: form_data,
 			type: 'POST',
 			dataType: 'html',
@@ -82,7 +61,7 @@ function editLineItem(num)
 		{
 			url: '/ajax/editlistofvalue',
 			type: 'GET',
-			data: {item: num,table_name: 'assets'},
+			data: {item: num,table_name: 'depreciation'},
 			dataType: 'html',
 			success: function (data) {
 				$('#edit').html(data);
@@ -98,14 +77,14 @@ function editLineItem(num)
 
 function delete_asset()
 {
-	if($('input[name="asset_id"').val() != 'NEW') 
+	if($('input[name="depreciation_no"').val() != 'NEW') 
 	{ 
-		var ans = confirm('Are you sure to delete this asset?'); 
+		var ans = confirm('Are you sure to delete this Depreciation No?'); 
 		return ans;
 	} 
 	else 
 	{
-		alert('Error: Please select asset to delete!');
+		alert('Error: Please select Depreciation No to delete!');
 		return false;
 	}
 }
@@ -117,7 +96,7 @@ function save_asset()
 		var form_data = $('#mainform').serialize();
 		$.ajax(
 			{
-				url: '/ajax/update/assets',
+				url: '/ajax/update/assets_depreciation',
 				data: form_data,
 				type: 'POST',
 				dataType: 'html',
@@ -202,12 +181,26 @@ function getListOfValueAll()
 	);
 }
 
-function addSearchColumn()
+function addSearchColumn(table_name)
 {
-	selectValues = {"asset_id": "Asset ID", "asset_name": "Asset Name"};
-	$.each(selectValues, function(key, value) {   
-     $('#columnName')
+	if(table_name == 'depreciation')
+	{
+		$('#columnName').empty();
+			selectValues = {"depreciation_no": "Depreciation No", "depreciation_date": "Depreciation Date","for_month": "For Month","for_year":"For Year"};
+		$.each(selectValues, function(key, value) {   
+			$('#columnName')
           .append($('<option>', { value : key })
           .text(value)); 
-	});
+		});
+	}
+	else if(table_name == 'asset')
+	{
+		$('#columnName').empty();
+			selectValues = {"asset_id": "Asset ID", "asset_name": "Asset Name"};
+		$.each(selectValues, function(key, value) {   
+			$('#columnName')
+          .append($('<option>', { value : key })
+          .text(value)); 
+		});
+	}
 }

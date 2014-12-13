@@ -229,6 +229,45 @@ class ListOfValueController extends BaseController {
 				}
 				echo '</tbody>';
 			}
+			else if(Input::get('table_name') == 'depreciation')
+			{
+				echo '<thead><tr><th>Select</th>';
+				echo '<th>Depreciation No</th>';
+				echo '<th>Depreciation Date</th>';
+				echo '<th>For Month/Year</th></tr></thead>';
+				$itms_obj = Depreciation::all();
+				if(Input::has('search'))
+				{
+					$itms_obj = Depreciation::whereRaw(Input::get('search'))->get();
+				}
+				$itms = $itms_obj->toArray();
+				
+				echo '<tbody>';
+				foreach($itms as $itm)
+				{
+					echo '<tr>';
+					if(Input::get('mode') == 'edit')
+					{
+						echo '<td><a href="'.URL::action('AssetsDepreciationController@showItem',$itm['depreciation_no']).'" class="btn btn-primary btn-xs" style="width: 100%">select</a></td>';
+					}
+					else if(Input::get('mode') == 'copy')
+					{
+						echo '<td><button onclick="post(\'/assets_depreciation\',{action: \'copy\', id: \''.$itm['depreciation_no'].'\'});" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					}
+					else
+					{
+						echo '<td><button onclick="'.Input::get('mode').'();" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					}
+					echo '<td>';
+					echo $itm['depreciation_no'];
+					echo '</td><td>';
+					echo $itm['depreciation_date'];
+					echo '</td><td>';
+					echo $itm['for_month'].'/'.$itm['for_year'];
+					echo '</td></tr>';
+				}
+				echo '</tbody>';
+			}
 		}
 	}
 	
@@ -278,7 +317,7 @@ class ListOfValueController extends BaseController {
 				echo '<table width="100%">
 						<tr>
 							<td><b>* Asset ID :</b></td>
-							<td><input type="text" name="AssetID" value="'.Session::get('lineitem')[intval(Input::get('item'))]['AssetID'].'" required><button type="button" onclick="openListOfValue(\'asset_id\',\'selectEditAsset\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+							<td><input type="text" name="AssetID" value="'.Session::get('lineitem')[intval(Input::get('item'))]['AssetID'].'" required><button type="button" onclick="addSearchColumn(\'asset\'); openListOfValue(\'asset_id\',\'selectEditAsset\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 						<tr>
 							<td><b>Asset Name :</b></td>
@@ -299,7 +338,7 @@ class ListOfValueController extends BaseController {
 				echo '<table width="100%">
 						<tr>
 							<td><b>* Asset ID :</b></td>
-							<td><input type="text" name="AssetID" value="'.Session::get('lineitem')[intval(Input::get('item'))]['AssetID'].'" required><button type="button" onclick="openListOfValue(\'asset_id\',\'selectEditAsset\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+							<td><input type="text" name="AssetID" value="'.Session::get('lineitem')[intval(Input::get('item'))]['AssetID'].'" required><button type="button" onclick="addSearchColumn(\'asset\'); addSearchColumn(\'asset\'); openListOfValue(\'asset_id\',\'selectEditAsset\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 						<tr>
 							<td><b>Asset Name :</b></td>
@@ -320,7 +359,7 @@ class ListOfValueController extends BaseController {
 				echo '<table width="100%">
 						<tr>
 							<td><b>* Asset ID :</b></td>
-							<td><input type="text" name="asset_id" value="'.Session::get('lineitem')[intval(Input::get('item'))]['asset_id'].'" required><button type="button" onclick="openListOfValue(\'asset_id\',\'selectEditAsset\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+							<td><input type="text" name="asset_id" value="'.Session::get('lineitem')[intval(Input::get('item'))]['asset_id'].'" required><button type="button" onclick="addSearchColumn(\'asset\'); addSearchColumn(\'asset\'); openListOfValue(\'asset_id\',\'selectEditAsset\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 						<tr>
 							<td><b>Asset Name :</b></td>
@@ -332,7 +371,52 @@ class ListOfValueController extends BaseController {
 						</tr>
 						<tr>
 							<td><b>New Location :</b></td>
-							<td><input type="text" name="newLocation" value="'.Session::get('lineitem')[intval(Input::get('item'))]['newLocation'].'" required><button type="button" onclick="openListOfValue(\'location\',\'selectEditLocation\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+							<td><input type="text" name="newLocation" value="'.Session::get('lineitem')[intval(Input::get('item'))]['newLocation'].'" required><button type="button" onclick="addSearchColumn(\'location\'); openListOfValue(\'location\',\'selectEditLocation\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+						</tr>
+					</table>';
+			}
+			else if(Input::get('table_name') == 'depreciation')
+			{
+				echo '<table width="100%">
+						<tr>
+							<td><b>* Asset ID :</b></td>
+							<td><input type="text" name="newLine_AssetID" required><button type="button" onclick="addSearchColumn(\'asset\'); openListOfValue(\'asset_id\',\'selectAssetDe\'); $(\'#newLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+						</tr>
+						<tr>
+							<td><b>Asset Name :</b></td>
+							<td><input type="text" name="newLine_AssetName" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Asset Type :</b></td>
+							<td><input type="text" name="newLine_AssetType" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Depreciation Percent :</b></td>
+							<td><input type="number" name="newLine_DepreciationPercent" step="0.25" min="0.25" placeholder="0.00" readonly> %</td>
+						</tr>
+						<tr>
+							<td><b>Purchase Value :</b></td>
+							<td><input type="number" name="newLine_PurchaseValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Beginning Value :</b></td>
+							<td><input type="number" name="newLine_BeginningValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Depreciation Value :</b></td>
+							<td><input type="number" name="newLine_DepreciationValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Current Value :</b></td>
+							<td><input type="number" name="newLine_CurrentValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Depreciation This Month :</b></td>
+							<td><input type="number" name="newLine_DepreciationValueMonth" step="0.25" min="0.25" placeholder="0.00"></td>
+						</tr>
+						<tr>
+							<td><b>New Value After This Month :</b></td>
+							<td><input type="number" name="newLine_NewDepreciationValueMonth" step="0.25" min="0.25" placeholder="0.00" readonly></td>
 						</tr>
 					</table>';
 			}

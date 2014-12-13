@@ -13,7 +13,7 @@
 					<table width="100%">
 						<tr>
 							<td><b>* Asset ID :</b></td>
-							<td><input type="text" name="newLine_asset_id" required><button type="button" onclick="openListOfValue('asset_id','selectAsset'); $('#newLineItemModal').modal('hide');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+							<td><input type="text" name="newLine_asset_id" required><button type="button" onclick="addSearchColumn('asset'); openListOfValue('asset_id','selectAsset'); $('#newLineItemModal').modal('hide');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 						<tr>
 							<td><b>Asset Name :</b></td>
@@ -25,7 +25,7 @@
 						</tr>
 						<tr>
 							<td><b>* New Location :</b></td>
-							<td><input type="text" name="newLine_newLocation" required><button type="button" onclick="openListOfValue('location','selectLocation'); $('#newLineItemModal').modal('hide');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+							<td><input type="text" name="newLine_newLocation" required><button type="button" onclick="addSearchColumn('location'); openListOfValue('location','selectLocation'); $('#newLineItemModal').modal('hide');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 					</table>
 	    		</div>

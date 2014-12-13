@@ -210,6 +210,16 @@ function addSearchColumn(table_name)
 	          .text(value)); 
 		});
 	}
+	else if(table_name == 'asset')
+	{
+		$('#columnName').empty();
+			selectValues = {"asset_id": "Asset ID", "asset_name": "Asset Name"};
+		$.each(selectValues, function(key, value) {   
+			$('#columnName')
+          .append($('<option>', { value : key })
+          .text(value)); 
+		});
+	}
 }
 
 function chooseSupplier(code,name,address)

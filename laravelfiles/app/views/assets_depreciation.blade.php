@@ -12,28 +12,44 @@
 				<div class="modal-body">
 					<table width="100%">
 						<tr>
-							<td><b>* Component Name :</b></td>
-							<td><input type="text" name="newLine_component_name" required></td>
+							<td><b>* Asset ID :</b></td>
+							<td><input type="text" name="newLine_AssetID" required><button type="button" onclick="addSearchColumn('asset'); openListOfValue('asset_id','selectAsset'); $('#newLineItemModal').modal('hide');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 						<tr>
-							<td><b>* Component Type :</b></td>
-							<td><select name="newLine_component_type">
-							<?php foreach(AssetType::all()->ToArray() as $option): ?>
-							<option value="{{ $option['asset_type'] }}">{{ $option['asset_type'] }}</option>
-							<?php endforeach; ?>	
-							</select></td>
+							<td><b>Asset Name :</b></td>
+							<td><input type="text" name="newLine_AssetName" readonly></td>
 						</tr>
 						<tr>
-							<td><b>* Quantity :</b></td>
-							<td><input type="number" name="newLine_quantity" step="1" min="1" required></td>
+							<td><b>Asset Type :</b></td>
+							<td><input type="text" name="newLine_AssetType" readonly></td>
 						</tr>
 						<tr>
-							<td><b>Rough Value of this part :</b></td>
-							<td><input type="number" name="newLine_rough_value" step="0.25" placeholder="0.00"></td>
+							<td><b>Depreciation Percent :</b></td>
+							<td><input type="number" name="newLine_DepreciationPercent" step="0.25" min="0.25" placeholder="0.00" readonly> %</td>
 						</tr>
 						<tr>
-							<td><b>Notes :</b></td>
-							<td><input type="text" name="newLine_notes" step="1"></td>
+							<td><b>Purchase Value :</b></td>
+							<td><input type="number" name="newLine_PurchaseValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Beginning Value :</b></td>
+							<td><input type="number" name="newLine_BeginningValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Depreciation Value :</b></td>
+							<td><input type="number" name="newLine_DepreciationValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Current Value :</b></td>
+							<td><input type="number" name="newLine_CurrentValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Depreciation This Month :</b></td>
+							<td><input type="number" name="newLine_DepreciationValueMonth" step="0.25" min="0.25" placeholder="0.00"></td>
+						</tr>
+						<tr>
+							<td><b>New Value After This Month :</b></td>
+							<td><input type="number" name="newLine_NewDepreciationValueMonth" step="0.25" min="0.25" placeholder="0.00" readonly></td>
 						</tr>
 					</table>
 	    		</div>
@@ -85,92 +101,31 @@
 					<b>* Depreciation Date :</b>
 				</td>
 				<td>
-					<input type="number" step="0.25" placeholder="0.00" name="purchase_value" value="{{ Session::get('purchase_value') }}">
+					<input name="depreciation_date" type="date" value="{{ Session::get('depreciation_date') }}">
 				</td>
 			</tr>
 			
 			<tr>
 				<td>
-					<b>* Asset Name :</b>
+					<b>* For Month/Year :</b>
 				</td>
 				<td>
-					<input name="asset_name" type="text" value="{{{ Session::get('asset_name') }}}">
+					<input style="width:100px" name="for_month" type="number" value="{{{ Session::get('for_month') }}}"> / 
+					<input style="width:100px" name="for_year" type="number" value="{{{ Session::get('for_year') }}}">
 				</td>
 				
-				<td>
-					<b>* Purchase Date :</b>
-				</td>
-				<td>
-					<input name="purchase_date" type="date" value="{{{ Session::get('purchase_date') }}}">
-				</td>
 			</tr>
 			
 			<tr>
 				<td>
-					<b>* Asset Type :</b>
+					<b>Asset List :</b>
 				</td>
 				<td>
-					<select name="asset_type">
-						<?php foreach(AssetType::all()->ToArray() as $option)
-							{
-								if($option['asset_type'] == Session::get('asset_type'))
-								{ ?>
-									<option value="{{{ $option['asset_type'] }}}" selected>{{{ $option['asset_type'] }}}</option>
-						<?php		} 
-								else
-								{ ?>
-									<option value="{{{ $option['asset_type'] }}}">{{{ $option['asset_type'] }}}</option>
-						<?php		}
-							}
-						?>
-					</select>
-				</td>
-				
-				<td>
-					<b>* Beginning Value :</b>
 				</td>
 				<td>
-					<input name="beginning_value" type="number" step="0.25" min="0" placeholder="0.00 " value="{{ Session::get('beginning_value') }}">
-				</td>
-			</tr>
-			
-			<tr>
-				<td>
-					<b>* Unit :</b>
 				</td>
 				<td>
-					<input name="unit" type="text" value="{{{ Session::get('unit') }}}">	
-				</td>
-				
-				<td>
-					<b>Depreciated Value :</b>
-				</td>
-				<td>
-					<input name="depreciated_value" type="number" step="0.25" min="0" placeholder="0.00" value="{{{ Session::get('depreciated_value') }}}">
-				</td>
-			</tr>
-			
-			<tr>
-				<td>
-					<b>* Yearly Depreciation :</b>
-				</td>
-				
-				<td>
-					<input name="yearly_depreciation" type="text" min="0" value="{{{ Session::get('yearly_depreciation') }}}"> %
-				</td>
-				
-				<td>
-					<b>Current Value :</b>
-				</td>
-				
-				<td>
-					<input name="current_value" type="number" step="0.25" min="0" placeholder="0.00" value="{{ Session::get('current_value') }}">
-				</td>
-			</tr>
-			
-			<tr>
-				<td>
-					<b>Components :</b>
+					<button type="button" class="btn btn-success btn-nm btn-block" onclick=""> Load All Asset</button>
 				</td>
 			</tr>
 		</table>
@@ -179,11 +134,16 @@
 			<thead>
 				<th></th>
 				<th>#</th>
-				<th>* Component Name</th>
-				<th>* Component Type</th>
-				<th>* Quantity</th>
-				<th>Rough Value of this part</th>
-				<th>Notes</th>
+				<th>* Asset ID</th>
+				<th>Asset Name</th>
+				<th>Asset Type</th>
+				<th>Depreciation Percent</th>
+				<th>Purchase Value</th>
+				<th>Beginning Value</th>
+				<th>Depreciation Value</th>
+				<th>Current Value</th>
+				<th>Depreciation This Month</th>
+				<th>New Value After This Month</th>
 			</thead>
 			<tbody>
 				<?php $i = 0; ?>
@@ -197,29 +157,52 @@
 						{{ $i+1 }}
 					</td>
 					<td>
-						{{ $itm['component_name'] }}
+						{{ $itm['asset_id'] }}
 					</td>
 					<td>
-						{{ $itm['component_type']}}
+						{{ $itm['asset_name']}}
 					</td>
 					<td>
-						{{ $itm['quantity'] }}
+						{{ $itm['asset_type'] }}
 					</td>
 					<td>
-						{{ $itm['rough_value' ]}}
+						{{ $itm['depreciation_percent'] }}
 					</td>
 					<td>
-						{{ $itm['notes'] }}
+						{{ $itm['purchase_value' ]}}
+					</td>
+					<td>
+						{{ $itm['beginning_value'] }}
+					</td>
+					<td>
+						{{ $itm['depreciation_value'] }}
+					</td>
+					<td>
+						{{ $itm['current_value'] }}
+					</td>
+					<td>
+						{{ $itm['depreciation_value_month'] }}
+					</td>
+					<td>
+						{{ $itm['new_depreciation_value_month'] }}
 					</td>
 				</tr>
 				<?php $i++; ?>
 				@endforeach
 				<tr>
-					<td colspan="7" style="border: none;">
+					<td colspan="12" style="border: none;">
 						<button type="button" class="btn btn-success btn-lg btn-block" onclick="sendFormDataAjax(); $('#newLineItemModal').modal();"><span class="glyphicon glyphicon-plus"></span> add new lineitem</button>
 					</td>
 				</tr>
 			</tbody>
+		</table>
+
+		<table width="100%" style="text-align: right; margin-bottom: 20px;">
+			<tr>
+				<td style="width: 55%"></td>
+				<td>Total Depreciation Value :</td>
+				<td><input type="text" name="Total" style="text-align:right;" value="{{{ Session::get('total_depreciation') }}}" readonly></td>
+			</tr>
 		</table>
 		
 		<input type="hidden" name="dirtybit" value="{{ Session::get('dirtybit') }}">
