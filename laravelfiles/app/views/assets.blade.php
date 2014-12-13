@@ -8,7 +8,7 @@
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 				<h4 class="modal-title" id="myModalLabel">Add new lineitem</h4>
     		</div>
-			<form method="post">
+			<form method="post" id="addLineForm">
 				<div class="modal-body">
 					<table width="100%">
 						<tr>
@@ -40,7 +40,7 @@
 				
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-primary btn-lg" name="action" value="insertLine">Add</button>
-					<button type="button" class="btn btn-default btn-lg" onclick="$('#newLineItemModal').modal('hide');">Cancel</button>
+					<button type="button" class="btn btn-default btn-lg" onclick="$('#addLineForm')[0].reset(); $('#newLineItemModal').modal('hide');">Cancel</button>
 	    		</div>
 			</form>
     	</div>

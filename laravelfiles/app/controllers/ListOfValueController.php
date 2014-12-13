@@ -32,7 +32,7 @@ class ListOfValueController extends BaseController {
 					}
 					else
 					{
-						echo '<td><button onclick="'.Input::get('mode').'();" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+						echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['asset_id'].'\',\''.$itm['asset_name'].'\',\''.$itm['unit'].'\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
 					}
 					echo '<td>';
 					echo $itm['asset_id'];
@@ -151,7 +151,24 @@ class ListOfValueController extends BaseController {
 			}
 			else if(Input::get('table_name') == 'purchases')
 			{
-				
+				echo '<table width="100%">
+						<tr>
+							<td><b>* Asset ID :</b></td>
+							<td><input type="text" name="AssetID" value="'.Session::get('lineitem')[intval(Input::get('item'))]['AssetID'].'" required><button type="button" onclick="openListOfValue(\'asset_id\',\'selectEditAsset\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+						</tr>
+						<tr>
+							<td><b>Asset Name :</b></td>
+							<td><input type="text" name="AssetName" value="'.Asset::where('asset_id','=',Session::get('lineitem')[intval(Input::get('item'))]['AssetID'])->first()->asset_name.'" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Unit :</b></td>
+							<td><input type="text" name="Unit" value="'.Asset::where('asset_id','=',Session::get('lineitem')[intval(Input::get('item'))]['AssetID'])->first()->unit.'" readonly></td>
+						</tr>
+						<tr>
+							<td><b>Price :</b></td>
+							<td><input type="number" name="Price" step="0.25" placeholder="0.00" value="'.Session::get('lineitem')[intval(Input::get('item'))]['Price'].'" required></td>
+						</tr>
+					</table>';
 			}
 		}
 	}

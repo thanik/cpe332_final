@@ -8,31 +8,31 @@
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 				<h4 class="modal-title" id="myModalLabel">Add new lineitem</h4>
     		</div>
-			<form method="post">
+			<form method="post" id="addLineForm">
 				<div class="modal-body">
 					<table width="100%">
 						<tr>
 							<td><b>* Asset ID :</b></td>
-							<td><input type="text" name="newLine_AssetID" required><button type="button" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+							<td><input type="text" name="newLine_AssetID" required><button type="button" onclick="openListOfValue('asset_id','selectAsset'); $('#newLineItemModal').modal('hide');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 						<tr>
 							<td><b>Asset Name :</b></td>
 							<td><input type="text" name="newLine_AssetName" readonly></td>
 						</tr>
 						<tr>
-							<td><b>Units :</b></td>
-							<td><input type="text" name="newLine_Units" readonly></td>
+							<td><b>Unit :</b></td>
+							<td><input type="text" name="newLine_Unit" readonly></td>
 						</tr>
 						<tr>
 							<td><b>Price :</b></td>
-							<td><input type="number" name="newLine_rough_value" step="0.25" placeholder="0.00" required></td>
+							<td><input type="number" name="newLine_Price" step="0.25" placeholder="0.00" required></td>
 						</tr>
 					</table>
 	    		</div>
 				
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-primary btn-lg" name="action" value="insertLine">Add</button>
-					<button type="button" class="btn btn-default btn-lg" onclick="$('#newLineItemModal').modal('hide');">Cancel</button>
+					<button type="button" class="btn btn-default btn-lg" onclick="$('#addLineForm')[0].reset(); $('#newLineItemModal').modal('hide');">Cancel</button>
 	    		</div>
 			</form>
     	</div>

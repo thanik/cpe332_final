@@ -31,15 +31,15 @@ Route::post('ajax/update/assets', array('as' => 'asset_update_ajax', 'uses' => '
 Route::get('ajax/editlistofvalue', array('as' => 'edit_listofvalue_ajax', 'uses' => 'ListOfValueController@edit'));
 
 
-/* Asset Depreciation
+/* Asset Depreciation */
 Route::get('assets_depreciation', array('as' => 'get_new_assets_de', 'uses' => 'AssetsDepreciationController@showNewItem'));
 Route::post('assets_depreciation', array('as' => 'post_new_assets_de', 'uses' => 'AssetsDepreciationController@postNewItem'));
 
 Route::get('assets_depreciation/{id}', array('as' => 'get_assets_de', 'uses' => 'AssetsDepreciationController@showItem'));
 Route::post('assets_depreciation/{id}', array('as' => 'post_assets_de', 'uses' => 'AssetsDepreciationController@postItem'));
 
-/* AJAX Request
-Route::post('ajax/update/assets_depreciation', array('as' => 'asset_update_ajax', 'uses' => 'AssetsDepreciationController@ajaxUpdateSession')); */
+/* AJAX Request */
+Route::post('ajax/update/assets_depreciation', array('as' => 'asset_update_ajax', 'uses' => 'AssetsDepreciationController@ajaxUpdateSession'));
 
 /* Asset Purchases */
 Route::get('assets_purchase', array('as' => 'get_new_assets_pu', 'uses' => 'AssetsPurchaseController@showNewItem'));

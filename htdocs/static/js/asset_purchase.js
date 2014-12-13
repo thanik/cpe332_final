@@ -219,3 +219,21 @@ function chooseSupplier(code,name,address)
 	$('input[name="SupplierName"]').val(name);
 	$('input[name="SupplierAddress"]').val(address);
 }
+
+function selectAsset(asset_id,asset_name,unit)
+{
+	$('input[name="newLine_AssetID"]').val(asset_id);
+	$('input[name="newLine_AssetName"]').val(asset_name);
+	$('input[name="newLine_Unit"]').val(unit);
+	$('#ListOfValueModal').modal('hide');
+	$('#newLineItemModal').modal('show');
+}
+
+function selectEditAsset(asset_id,asset_name,unit)
+{
+	$('input[name="AssetID"]').val(asset_id);
+	$('input[name="AssetName"]').val(asset_name);
+	$('input[name="Unit"]').val(unit);
+	$('#ListOfValueModal').modal('hide');
+	$('#editLineItemModal').modal('show');
+}

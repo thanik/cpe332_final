@@ -44,7 +44,7 @@ class AssetsPurchaseController extends BaseController {
 				Session::put('AmountDue', $select_purchase->AmountDue);
 				$lineitems = PurchaseLineItem::where('InvoiceNo','=',Input::get('id'))->get()->toArray();
 				Session::put('lineitem',$lineitems);
-				Session::put('dirtybit','false');
+				Session::put('dirtybit','true');
 				Session::put('table','purchases');
 				return View::make('assets_purchase', $this->page);
 			}
@@ -53,13 +53,21 @@ class AssetsPurchaseController extends BaseController {
 				$temp_lineitem = Session::get('lineitem');
 				/* add to lineitem session */
 				$data = array(
-					'AssetID' => Input::get('AssetID'),
-					'Price' => Input::get('Price'),
+					'AssetID' => Input::get('newLine_AssetID'),
+					'Price' => Input::get('newLine_Price'),
 				);
 				array_push($temp_lineitem, $data);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
-				
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['Price']);
+				}
+				Session::put('Total', $Total);
+				Session::put('VAT', $Total * 7 / 100);
+				Session::put('AmountDue', $Total + ($Total * 7 / 100));
 				return View::make('assets_purchase', $this->page);
 			}
 			else if(Input::get('action') == 'editLine')
@@ -69,6 +77,15 @@ class AssetsPurchaseController extends BaseController {
 				$temp_lineitem[intval(Input::get('item'))]['Price'] = Input::get('Price');
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['Price']);
+				}
+				Session::put('Total', $Total);
+				Session::put('VAT', $Total * 7 / 100);
+				Session::put('AmountDue', $Total + ($Total * 7 / 100));
 				return View::make('assets_purchase', $this->page);
 			}
 			else if(Input::get('action') == 'deleteLine')
@@ -78,48 +95,48 @@ class AssetsPurchaseController extends BaseController {
 				array_splice($temp_lineitem, intval(Input::get('item')), 1);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['Price']);
+				}
+				Session::put('Total', $Total);
+				Session::put('VAT', $Total * 7 / 100);
+				Session::put('AmountDue', $Total + ($Total * 7 / 100));
 				return View::make('assets_purchase', $this->page);
 			}
 			else if(Input::get('action') == 'save')
 			{
-				/* get new asset_id
-				$newid = sprintf("A%04d",intval(substr(Asset::max('asset_id'), 1)) + 1);
+				/* get new asset_id */
+				$newid = sprintf("IN%04d",intval(substr(Purchase::max('InvoiceNo'), 2)) + 1);
 				
-				$asset = new Asset;
-				$asset->asset_id = $newid;
-				$asset->asset_name = Session::get('asset_name');
-				$asset->asset_type = Session::get('asset_type');
-				$asset->unit = Session::get('unit');
-				$asset->yearly_depreciation = Session::get('yearly_depreciation');
-				$asset->purchase_value = Session::get('purchase_value');
-				$asset->purchase_date = Session::get('purchase_date');
-				$asset->beginning_value = Session::get('beginning_value');
-				$asset->depreciated_value = Session::get('depreciated_value');
-				$asset->current_value = Session::get('current_value');
+				$purchase = new Purchase;
+				$purchase->InvoiceNo = $newid;
+				$purchase->InvoiceDate = Session::get('InvoiceDate');
+				$purchase->SupplierCode = Session::get('SupplierCode');
+				$purchase->PaymentDueDate = Session::get('PaymentDueDate');
+				$purchase->PaymentTerm = Session::get('PaymentTerm');
+				$purchase->Total = Session::get('Total');
+				$purchase->VAT = Session::get('VAT');
+				$purchase->AmountDue = Session::get('AmountDue');
 
 				$i = 0;
-				$total_rough_value = 0;
 				foreach(Session::get('lineitem') as $itm)
 				{
 					$i++;
-					$assetlineitem = new AssetLineItem();
-					$assetlineitem->no = $i;
-					$assetlineitem->asset_id = $newid;
-					$assetlineitem->component_name = $itm['component_name'];
-					$assetlineitem->component_type = $itm['component_type'];
-					$assetlineitem->quantity = $itm['quantity'];
-					$assetlineitem->rough_value = $itm['rough_value'];
-					$assetlineitem->notes = $itm['notes'];
-					$total_rough_value += (floatval($itm['rough_value']) * floatval($itm['quantity']));
-					$assetlineitem->save();
+					$purchaselineitem = new PurchaseLineItem();
+					$purchaselineitem->InvoiceNo = $newid;
+					$purchaselineitem->ItemNo = $i;
+					$purchaselineitem->AssetID = $itm['AssetID'];
+					$purchaselineitem->Price = $itm['Price'];
+					$purchaselineitem->save();
 				}
-				$asset->total_component = $i;
-				$asset->total_component_value = $total_rough_value;
 				
 				Session::put('dirtybit','false');
-				Session::put('table','asset_id');
-				$asset->save();
-				return Redirect::action('AssetsPurchaseController@showItem', array($newid)); */
+				Session::put('table','purchases');
+				$purchase->save();
+				return Redirect::action('AssetsPurchaseController@showItem', array($newid));
 			}
 		}
 	}
@@ -169,7 +186,7 @@ class AssetsPurchaseController extends BaseController {
 				Session::put('AmountDue', $select_purchase->AmountDue);
 				$lineitems = PurchaseLineItem::where('InvoiceNo','=',$id)->get()->toArray();
 				Session::put('lineitem',$lineitems);
-				Session::put('dirtybit','false');
+				Session::put('dirtybit','true');
 				Session::put('table','purchases');
 				return View::make('assets_purchase', $this->page);
 			}
@@ -178,12 +195,21 @@ class AssetsPurchaseController extends BaseController {
 				$temp_lineitem = Session::get('lineitem');
 				/* add to lineitem session */
 				$data = array(
-					'AssetID' => Input::get('AssetID'),
-					'Price' => Input::get('Price'),
+					'AssetID' => Input::get('newLine_AssetID'),
+					'Price' => Input::get('newLine_Price'),
 				);
 				array_push($temp_lineitem, $data);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['Price']);
+				}
+				Session::put('Total', $Total);
+				Session::put('VAT', $Total * 7 / 100);
+				Session::put('AmountDue', $Total + ($Total * 7 / 100));
 				return View::make('assets_purchase', $this->page);
 			}
 			else if(Input::get('action') == 'editLine')
@@ -193,6 +219,15 @@ class AssetsPurchaseController extends BaseController {
 				$temp_lineitem[intval(Input::get('item'))]['Price'] = Input::get('Price');
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['Price']);
+				}
+				Session::put('Total', $Total);
+				Session::put('VAT', $Total * 7 / 100);
+				Session::put('AmountDue', $Total + ($Total * 7 / 100));
 				return View::make('assets_purchase', $this->page);
 			}
 			else if(Input::get('action') == 'deleteLine')
@@ -202,6 +237,15 @@ class AssetsPurchaseController extends BaseController {
 				array_splice($temp_lineitem, intval(Input::get('item')), 1);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['Price']);
+				}
+				Session::put('Total', $Total);
+				Session::put('VAT', $Total * 7 / 100);
+				Session::put('AmountDue', $Total + ($Total * 7 / 100));
 				return View::make('assets_purchase', $this->page);
 			}
 			else if(Input::get('action') == 'delete')
@@ -212,41 +256,32 @@ class AssetsPurchaseController extends BaseController {
 			}
 			else if(Input::get('action') == 'save')
 			{
-				/* $asset = Purchase::where('InvoiceID','=',Session::get('InvoiceID'))->first();
-				$asset->asset_name = Session::get('asset_name');
-				$asset->asset_type = Session::get('asset_type');
-				$asset->unit = Session::get('unit');
-				$asset->yearly_depreciation = Session::get('yearly_depreciation');
-				$asset->purchase_value = Session::get('purchase_value');
-				$asset->purchase_date = Session::get('purchase_date');
-				$asset->beginning_value = Session::get('beginning_value');
-				$asset->depreciated_value = Session::get('depreciated_value');
-				$asset->current_value = Session::get('current_value');
+				$purchase = Purchase::where('InvoiceNo','=',Session::get('InvoiceNo'))->first();
+				$purchase->InvoiceDate = Session::get('InvoiceDate');
+				$purchase->SupplierCode = Session::get('SupplierCode');
+				$purchase->PaymentDueDate = Session::get('PaymentDueDate');
+				$purchase->PaymentTerm = Session::get('PaymentTerm');
+				$purchase->Total = Session::get('Total');
+				$purchase->VAT = Session::get('VAT');
+				$purchase->AmountDue = Session::get('AmountDue');
 				
-				AssetLineItem::where('asset_id','=',Session::get('asset_id'))->delete();
+				PurchaseLineItem::where('InvoiceNo','=',Session::get('InvoiceNo'))->delete();
 				$i = 0;
-				$total_rough_value = 0;
 				foreach(Session::get('lineitem') as $itm)
 				{
 					$i++;
-					$assetlineitem = new AssetLineItem();
-					$assetlineitem->no = $i;
-					$assetlineitem->asset_id = Session::get('asset_id');
-					$assetlineitem->component_name = $itm['component_name'];
-					$assetlineitem->component_type = $itm['component_type'];
-					$assetlineitem->quantity = $itm['quantity'];
-					$assetlineitem->rough_value = $itm['rough_value'];
-					$assetlineitem->notes = $itm['notes'];
-					$total_rough_value += (floatval($itm['rough_value']) * floatval($itm['quantity']));
-					$assetlineitem->save();
+					$purchaselineitem = new PurchaseLineItem();
+					$purchaselineitem->InvoiceNo = Session::get('InvoiceNo');
+					$purchaselineitem->ItemNo = $i;
+					$purchaselineitem->AssetID = Session::get('AssetID');
+					$purchaselineitem->Price = $itm['Price'];
+					$purchaselineitem->save();
 				}
-				$asset->total_component = $i;
-				$asset->total_component_value = $total_rough_value;
 				
 				Session::put('dirtybit','false');
-				Session::put('table','asset_id');
-				$asset->save();
-				return View::make('assets_purchase', $this->page); */
+				Session::put('table','purchases');
+				$purchase->save();
+				return View::make('assets_purchase', $this->page);
 			}
 		}
 	}
@@ -256,6 +291,8 @@ class AssetsPurchaseController extends BaseController {
 		Session::put('InvoiceNo', Input::get('InvoiceNo'));
 		Session::put('InvoiceDate', Input::get('InvoiceDate'));
 		Session::put('SupplierCode', Input::get('SupplierCode'));
+		Session::put('SupplierName', Input::get('SupplierName'));
+		Session::put('SupplierAddress', Input::get('SupplierAddress'));
 		Session::put('PaymentDueDate', Input::get('PaymentDueDate'));
 		Session::put('PaymentTerm', Input::get('PaymentTerm'));
 		Session::put('Total', Input::get('Total'));
