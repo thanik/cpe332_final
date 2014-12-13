@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.21)
 # Database: asset
-# Generation Time: 2014-12-13 12:36:57 +0000
+# Generation Time: 2014-12-13 12:47:03 +0000
 # ************************************************************
 
 
@@ -117,93 +117,6 @@ VALUES
 	(4,'A0011','Intel Xeon E3-1220V3 3.1GHz LGA 1150 CPU','Part',1,6000.00,'CPU replacement');
 
 /*!40000 ALTER TABLE `asset_id_lineitem` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table sales
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sales`;
-
-CREATE TABLE `sales` (
-  `InvoiceNo` varchar(10) NOT NULL,
-  `InvoiceDate` date NOT NULL,
-  `CustomerCode` varchar(10) NOT NULL,
-  `CustomerName` varchar(50) NOT NULL,
-  `Address` varchar(200) NOT NULL,
-  `PaymentDueDate` date NOT NULL,
-  `Total` decimal(10,2) NOT NULL,
-  `VAT` decimal(10,2) NOT NULL,
-  `AmountDue` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`InvoiceNo`),
-  KEY `1` (`CustomerCode`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-LOCK TABLES `sales` WRITE;
-/*!40000 ALTER TABLE `sales` DISABLE KEYS */;
-
-INSERT INTO `sales` (`InvoiceNo`, `InvoiceDate`, `CustomerCode`, `CustomerName`, `Address`, `PaymentDueDate`, `Total`, `VAT`, `AmountDue`)
-VALUES
-	('IN0001','2014-10-01','C0001','King Mongkut’s University of Technology Thonburi','126 Pracha Uthit Rd., Bang Mod, Thung Khru, \r\nBangkok 10140','2014-10-04',58900.00,5890.00,64790.00),
-	('IN0002','2014-10-02','C0002','kasikornbank Head Office',' 1 Soi Rat Burana 27/1, Rat Burana Road, Rat Burana District, Rat Burana, Bangkok 10140','2014-10-05',67500.00,6750.00,74250.00),
-	('IN0003','2014-10-03','C0003','Asiasoft Corporation Public Company Limited',' 9 U.M. Tower, Room 9/283-5, 28th Floor, Ramkhamhaeng Road, Suanluang, Bangkok 10250, Thailand ','2014-10-05',79120.00,7912.00,87032.00),
-	('IN0004','2014-10-06','C0004','Rose Media & Entertainment Co., Ltd.','1 Pishid Building Ratchadapisek Road, Bangphor, Yanawa, Bangkok 10120','2014-10-09',26505.00,2650.50,29155.50),
-	('IN0005','2014-10-08','C0005','VIRIYAH INSURANCE ','121/28, 121/65 RS Tower, Ratchadapisek Rd., Dindang, Bangkok 10400','2014-10-10',31680.00,3168.00,34848.00),
-	('IN0006','2014-10-08','C0005','VIRIYAH INSURANCE ','121/28, 121/65 RS Tower, Ratchadapisek Rd., Dindang, Bangkok 10400','2014-10-10',67500.00,6750.00,74250.00),
-	('IN0007','2014-10-09','C0006','Tiga Co Ltd.','2076/8 Nara Thiwas Rajanakarin Road\r\nChongnonsi Yannawa Bangkok,  10120 Thailand','2014-10-13',72375.00,7237.50,79612.50),
-	('IN0008','2014-10-10','C0007','King Mongkut\'s Institute of Technology Ladkrabang.','Chalongkrung Rd. Ladkrabang, Bangkok Thailand 10520','2014-10-14',13600.00,1360.00,14960.00),
-	('IN0009','2014-10-13','C0008','Central Retail Corporation Ltd.','ZEN World Level 16 , 4, 4/5 Rajadamri Road \r\nPathumwan,Bangkok 10330 Thailand ','2014-10-17',58900.00,5890.00,64790.00),
-	('IN0010','2014-10-14','C0009','TOT Public Company Limited','  89/2 Moo 3, Chaeng Watthana Road, Thungsong-Hong, Laksi, Bangkok 10210','2014-10-17',56000.00,5600.00,61600.00),
-	('IN0011','2014-10-20','C0010','True Corporation Public Company Limited ','18 True Tower, Ratchadaphisek Road,\r\nHuai Khwang, Bangkok 10310, Thailand','2014-10-25',7560.00,756.00,8316.00),
-	('IN0012','2014-10-22','C0012','PTT Public Company Limited','555 Vibhavadi Rangsit Road, Chatuchak Bangkok 10900 Thailand','2014-10-26',27412.50,2741.25,30153.75),
-	('IN0013','2014-10-25','C0011','Thailand Post Co., Ltd.','111 M.3 Changwattana Road, Laksi, \r\nBangkok, Thailand 10210-0299','2014-10-29',62275.50,6227.55,68503.05),
-	('IN0014','2014-10-27','C0014','SIAM INTER MULTIMEDIA PUBLIC COMPANY LIMITED','459 Soi Ladprao 48. Samsen-nork, Huay Kwang, Bangkok 10310 Thailand ','2014-10-30',21458.85,2145.89,23604.74),
-	('IN0015','2014-10-31','C0015','Vibulkij Publishing Group','101/1 Soi Sukhumvit 36, Sukhumvit 22, Wattana, Bangkok 10260','2014-11-01',72375.00,7237.50,79612.50);
-
-/*!40000 ALTER TABLE `sales` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table saleslineitem
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `saleslineitem`;
-
-CREATE TABLE `saleslineitem` (
-  `ItemNo` int(10) NOT NULL,
-  `InvoiceNo` varchar(10) NOT NULL,
-  `InvoiceDate` date NOT NULL,
-  `AssetID` varchar(10) NOT NULL,
-  `AssetName` varchar(50) NOT NULL,
-  `Units` varchar(10) NOT NULL,
-  `Price` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`ItemNo`,`InvoiceNo`),
-  KEY `1` (`AssetID`),
-  KEY `InvoiceNo` (`InvoiceNo`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-LOCK TABLES `saleslineitem` WRITE;
-/*!40000 ALTER TABLE `saleslineitem` DISABLE KEYS */;
-
-INSERT INTO `saleslineitem` (`ItemNo`, `InvoiceNo`, `InvoiceDate`, `AssetID`, `AssetName`, `Units`, `Price`)
-VALUES
-	(1,'IN0001','2014-10-01','A0001','HP Z420 Workstation','unit',58900.00),
-	(1,'IN0009','2014-10-13','A0001','HP Z420 Workstation','unit',58900.00),
-	(2,'IN0002','2014-10-02','A0002','Dell Precision T3610','unit',67500.00),
-	(2,'IN0006','2014-10-08','A0002','Dell Precision T3610','unit',67500.00),
-	(3,'IN0010','2014-10-14','A0003','iMac 27\" with 4K display','unit',56000.00),
-	(4,'IN0015','2014-10-31','A0004','Macbook Pro 15\" with Retina Display','pcs',72375.00),
-	(6,'IN0012','2014-10-22','A0006','Lenovo Z510','pcs',27412.50),
-	(7,'IN0007','2014-10-09','A0004','Macbook Pro 15\" with Retina Display','pcs',72375.00),
-	(8,'IN0011','2014-10-20','A0008','BROTHER MFC-J825DW','pcs',7560.00),
-	(9,'IN0003','2014-10-03','A0009','Cisco UCS C220 M3','unit',79120.00),
-	(11,'IN0004','2014-10-06','A0011','IBM System x3250 M5','unit',26505.00),
-	(12,'IN0005','2014-10-08','A0012','Dell PowerEdge R210 II','unit',31680.00),
-	(13,'IN0008','2014-10-10','A0013','Cisco SF302-08MPP','pcs',13600.00),
-	(14,'IN0013','2014-10-25','A0014','D-Link DES-3828P','pcs',62275.50),
-	(15,'IN0014','2014-10-27','A0015','D-Link DES-3052','pcs',21458.85);
-
-/*!40000 ALTER TABLE `saleslineitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -378,17 +291,17 @@ LOCK TABLES `customer` WRITE;
 
 INSERT INTO `customer` (`Code`, `Name`, `Address`)
 VALUES
-	('C0001','King Mongkut’s University of Technology Thonburi ','126 Pracha Uthit Rd., Bang Mod, Thung Khru, \r\nBangkok 10140'),
-	('C0002','kasikornbank Head Office',' 1 Soi Rat Burana 27/1, Rat Burana Road, Rat Burana District, Rat Burana, Bangkok 10140'),
-	('C0003','Asiasoft Corporation Public Company Limited',' 9 U.M. Tower, Room 9/283-5, 28th Floor, Ramkhamhaeng Road, Suanluang, Bangkok 10250, Thailand '),
+	('C0001','King Mongkut’s University of Technology Thonburi ','126 Pracha Uthit Rd., Bang Mod, Thung Khru, Bangkok 10140'),
+	('C0002','Kasikorn Bank Head Office','1 Soi Rat Burana 27/1, Rat Burana Road, Rat Burana District, Rat Burana, Bangkok 10140'),
+	('C0003','Asiasoft Corporation Public Company Limited','9 U.M. Tower, Room 9/283-5, 28th Floor, Ramkhamhaeng Road, Suanluang, Bangkok 10250, Thailand '),
 	('C0004','Rose Media & Entertainment Co., Ltd.','1 Pishid Building Ratchadapisek Road, Bangphor, Yanawa, Bangkok 10120'),
 	('C0005','VIRIYAH INSURANCE ','121/28, 121/65 RS Tower, Ratchadapisek Rd., Dindang, Bangkok 10400'),
-	('C0006','Tiga Co Ltd.','2076/8 Nara Thiwas Rajanakarin Road\r\nChongnonsi Yannawa Bangkok,  10120 Thailand'),
+	('C0006','Tiga Co Ltd.','2076/8 Nara Thiwas Rajanakarin Road, Chongnonsi Yannawa Bangkok,  10120 Thailand'),
 	('C0007','King Mongkut\'s Institute of Technology Ladkrabang.','Chalongkrung Rd. Ladkrabang, Bangkok Thailand 10520'),
-	('C0008','Central Retail Corporation Ltd.','ZEN World Level 16 , 4, 4/5 Rajadamri Road \r\nPathumwan,Bangkok 10330 Thailand '),
-	('C0009','TOT Public Company Limited','  89/2 Moo 3, Chaeng Watthana Road, Thungsong-Hong, Laksi, Bangkok 10210'),
-	('C0010','True Corporation Public Company Limited ','18 True Tower, Ratchadaphisek Road,\r\nHuai Khwang, Bangkok 10310, Thailand'),
-	('C0011','Thailand Post Co., Ltd.','111 M.3 Changwattana Road, Laksi, \r\nBangkok, Thailand 10210-0299'),
+	('C0008','Central Retail Corporation Ltd.','ZEN World Level 16 , 4, 4/5 Rajadamri Road, Pathumwan,Bangkok 10330 Thailand '),
+	('C0009','TOT Public Company Limited','89/2 Moo 3, Chaeng Watthana Road, Thungsong-Hong, Laksi, Bangkok 10210'),
+	('C0010','True Corporation Public Company Limited ','18 True Tower, Ratchadaphisek Road, Huai Khwang, Bangkok 10310, Thailand'),
+	('C0011','Thailand Post Co., Ltd.','111 M.3 Changwattana Road, Laksi, Bangkok, Thailand 10210-0299'),
 	('C0012','PTT Public Company Limited','555 Vibhavadi Rangsit Road, Chatuchak Bangkok 10900 Thailand'),
 	('C0013','Nationgroup','1858/118-119, 121-122, 124-130 Interlink Tower, 27th-32nd Floor, Bangna -Trad Road, Bangna, Bangkok 10260'),
 	('C0014','SIAM INTER MULTIMEDIA PUBLIC COMPANY LIMITED','459 Soi Ladprao 48. Samsen-nork, Huay Kwang, Bangkok 10310 Thailand '),
@@ -541,6 +454,91 @@ VALUES
 	('IN0007',2,'A0015',22470.00);
 
 /*!40000 ALTER TABLE `purchaseslineitem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table sales
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `sales`;
+
+CREATE TABLE `sales` (
+  `InvoiceNo` varchar(10) NOT NULL,
+  `InvoiceDate` date NOT NULL,
+  `CustomerCode` varchar(10) NOT NULL,
+  `PaymentDueDate` date NOT NULL,
+  `Total` decimal(10,2) NOT NULL,
+  `VAT` decimal(10,2) NOT NULL,
+  `AmountDue` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`InvoiceNo`),
+  KEY `1` (`CustomerCode`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+LOCK TABLES `sales` WRITE;
+/*!40000 ALTER TABLE `sales` DISABLE KEYS */;
+
+INSERT INTO `sales` (`InvoiceNo`, `InvoiceDate`, `CustomerCode`, `PaymentDueDate`, `Total`, `VAT`, `AmountDue`)
+VALUES
+	('IN0001','2014-10-01','C0001','2014-10-04',58900.00,5890.00,64790.00),
+	('IN0002','2014-10-02','C0002','2014-10-05',67500.00,6750.00,74250.00),
+	('IN0003','2014-10-03','C0003','2014-10-05',79120.00,7912.00,87032.00),
+	('IN0004','2014-10-06','C0004','2014-10-09',26505.00,2650.50,29155.50),
+	('IN0005','2014-10-08','C0005','2014-10-10',31680.00,3168.00,34848.00),
+	('IN0006','2014-10-08','C0005','2014-10-10',67500.00,6750.00,74250.00),
+	('IN0007','2014-10-09','C0006','2014-10-13',72375.00,7237.50,79612.50),
+	('IN0008','2014-10-10','C0007','2014-10-14',13600.00,1360.00,14960.00),
+	('IN0009','2014-10-13','C0008','2014-10-17',58900.00,5890.00,64790.00),
+	('IN0010','2014-10-14','C0009','2014-10-17',56000.00,5600.00,61600.00),
+	('IN0011','2014-10-20','C0010','2014-10-25',7560.00,756.00,8316.00),
+	('IN0012','2014-10-22','C0012','2014-10-26',27412.50,2741.25,30153.75),
+	('IN0013','2014-10-25','C0011','2014-10-29',62275.50,6227.55,68503.05),
+	('IN0014','2014-10-27','C0014','2014-10-30',21458.85,2145.89,23604.74),
+	('IN0015','2014-10-31','C0015','2014-11-01',72375.00,7237.50,79612.50);
+
+/*!40000 ALTER TABLE `sales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table saleslineitem
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `saleslineitem`;
+
+CREATE TABLE `saleslineitem` (
+  `ItemNo` int(10) NOT NULL,
+  `InvoiceNo` varchar(10) NOT NULL,
+  `InvoiceDate` date NOT NULL,
+  `AssetID` varchar(10) NOT NULL,
+  `AssetName` varchar(50) NOT NULL,
+  `Units` varchar(10) NOT NULL,
+  `Price` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`ItemNo`,`InvoiceNo`),
+  KEY `1` (`AssetID`),
+  KEY `InvoiceNo` (`InvoiceNo`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+LOCK TABLES `saleslineitem` WRITE;
+/*!40000 ALTER TABLE `saleslineitem` DISABLE KEYS */;
+
+INSERT INTO `saleslineitem` (`ItemNo`, `InvoiceNo`, `InvoiceDate`, `AssetID`, `AssetName`, `Units`, `Price`)
+VALUES
+	(1,'IN0001','2014-10-01','A0001','HP Z420 Workstation','unit',58900.00),
+	(1,'IN0009','2014-10-13','A0001','HP Z420 Workstation','unit',58900.00),
+	(1,'IN0002','2014-10-02','A0002','Dell Precision T3610','unit',67500.00),
+	(1,'IN0006','2014-10-08','A0002','Dell Precision T3610','unit',67500.00),
+	(1,'IN0010','2014-10-14','A0003','iMac 27\" with 4K display','unit',56000.00),
+	(1,'IN0015','2014-10-31','A0004','Macbook Pro 15\" with Retina Display','pcs',72375.00),
+	(1,'IN0012','2014-10-22','A0006','Lenovo Z510','pcs',27412.50),
+	(1,'IN0007','2014-10-09','A0004','Macbook Pro 15\" with Retina Display','pcs',72375.00),
+	(1,'IN0011','2014-10-20','A0008','BROTHER MFC-J825DW','pcs',7560.00),
+	(1,'IN0003','2014-10-03','A0009','Cisco UCS C220 M3','unit',79120.00),
+	(1,'IN0004','2014-10-06','A0011','IBM System x3250 M5','unit',26505.00),
+	(1,'IN0005','2014-10-08','A0012','Dell PowerEdge R210 II','unit',31680.00),
+	(1,'IN0008','2014-10-10','A0013','Cisco SF302-08MPP','pcs',13600.00),
+	(1,'IN0013','2014-10-25','A0014','D-Link DES-3828P','pcs',62275.50),
+	(1,'IN0014','2014-10-27','A0015','D-Link DES-3052','pcs',21458.85);
+
+/*!40000 ALTER TABLE `saleslineitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
