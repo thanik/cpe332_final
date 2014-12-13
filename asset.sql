@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.21)
 # Database: asset
-# Generation Time: 2014-12-11 18:55:55 +0000
+# Generation Time: 2014-12-13 12:23:37 +0000
 # ************************************************************
 
 
@@ -490,7 +490,7 @@ VALUES
 	('IN0004','2014-09-18','S0008','2014-10-18','cash',13750.00,962.50,14712.50),
 	('IN0005','2014-09-19','S0010','2014-09-21','check',8400.00,588.00,8988.00),
 	('IN0006','2014-09-20','S0003','2014-09-20','cash',75000.00,5250.00,80250.00),
-	('IN0007','2014-09-24','S0011','2014-09-24','cash',65900.00,4613.00,70513.00),
+	('IN0007','2014-09-24','S0011','2014-09-24','cash',88370.00,6185.90,94555.90),
 	('IN0008','2014-09-25','S0012','2014-09-25','cash',56000.00,3920.00,69920.00),
 	('IN0009','2014-10-01','S0012','2014-10-03','check',75000.00,5250.00,80250.00),
 	('IN0010','2014-10-01','S0006','2014-10-01','cash',7470.00,529.00,7999.00),
@@ -511,7 +511,6 @@ DROP TABLE IF EXISTS `purchaseslineitem`;
 
 CREATE TABLE `purchaseslineitem` (
   `InvoiceNo` varchar(10) NOT NULL,
-  `InvoiceDate` date NOT NULL,
   `ItemNo` int(10) NOT NULL,
   `AssetID` varchar(10) NOT NULL,
   `Price` decimal(10,2) NOT NULL,
@@ -522,23 +521,24 @@ CREATE TABLE `purchaseslineitem` (
 LOCK TABLES `purchaseslineitem` WRITE;
 /*!40000 ALTER TABLE `purchaseslineitem` DISABLE KEYS */;
 
-INSERT INTO `purchaseslineitem` (`InvoiceNo`, `InvoiceDate`, `ItemNo`, `AssetID`, `Price`)
+INSERT INTO `purchaseslineitem` (`InvoiceNo`, `ItemNo`, `AssetID`, `Price`)
 VALUES
-	('IN0001','2014-08-30',1,'A0009',86000.00),
-	('IN0002','2014-09-17',1,'A0013',13600.00),
-	('IN0003','2014-09-18',1,'A0001',62000.00),
-	('IN0004','2014-09-18',1,'A0007',13750.00),
-	('IN0005','2014-09-19',1,'A0008',8400.00),
-	('IN0006','2014-09-20',1,'A0002',75000.00),
-	('IN0007','2014-09-24',1,'A0014',65900.00),
-	('IN0008','2014-09-25',1,'A0003',56000.00),
-	('IN0009','2014-10-01',1,'A0004',75000.00),
-	('IN0010','2014-10-01',1,'A0010',7470.00),
-	('IN0011','2014-10-02',1,'A0006',32250.00),
-	('IN0012','2014-10-02',1,'A0011',27900.00),
-	('IN0013','2014-10-02',1,'A0005',45000.00),
-	('IN0014','2014-10-02',1,'A0015',22470.00),
-	('IN0015','2014-10-05',1,'A0012',32000.00);
+	('IN0001',1,'A0009',86000.00),
+	('IN0002',1,'A0013',13600.00),
+	('IN0003',1,'A0001',62000.00),
+	('IN0004',1,'A0007',13750.00),
+	('IN0005',1,'A0008',8400.00),
+	('IN0006',1,'A0002',75000.00),
+	('IN0007',1,'A0014',65900.00),
+	('IN0008',1,'A0003',56000.00),
+	('IN0009',1,'A0004',75000.00),
+	('IN0010',1,'A0010',7470.00),
+	('IN0011',1,'A0006',32250.00),
+	('IN0012',1,'A0011',27900.00),
+	('IN0013',1,'A0005',45000.00),
+	('IN0014',1,'A0015',22470.00),
+	('IN0015',1,'A0012',32000.00),
+	('IN0007',2,'A0015',22470.00);
 
 /*!40000 ALTER TABLE `purchaseslineitem` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -565,9 +565,9 @@ VALUES
 	('S0002','Powell Computer Co., Ltd.','100/199 Rama 9 Huakwang'),
 	('S0003','Dell Computer Co., Ltd','1558/40 Similan Office, Sanfran 9 ,Office Park , Bangna, Bangkok 10260 Thailand'),
 	('S0004','IBM Thailand Co., Ltd','IBM Building 388 Phaholyothin Road Bangkok 10400. Thailand'),
-	('S0005','Jebsen & Jessen Marketing (T) Ltd','23/110-113, Sorachai Building. 25th-28th floor.\r\nSukhumvit 63 (Ekamai)SukhumvitNorth KlongtonWattana'),
+	('S0005','Jebsen & Jessen Marketing (T) Ltd','23/110-113, Sorachai Building. 25th-28th floor., Sukhumvit 63 (Ekamai) Sukhumvit, North Klongton, Wattana'),
 	('S0006','Thai Samsung Electronics Co.,Ltd.','313 Moo 1  Sriracha Industrail Park  Sukhapibal 8  Banbung  Sriracha  Chonburi  20230'),
-	('S0007','Hewlett-Packard (Thailand) Ltd.','2nd- 3rd Floor U Chu Liang Building\r\n968 Rama IV Road\r\nSilom, Bangrak, Bangkok 10500'),
+	('S0007','Hewlett-Packard (Thailand) Ltd.','2nd- 3rd Floor U Chu Liang Building, 968 Rama IV Road, Silom, Bangrak, Bangkok 10500'),
 	('S0008','Canon Marketing (Thailand) Co., Ltd.','98 Sathorn Square Office Tower 21st - 24th floor, North Sathorn Rd. Silom,Bangrak, Bangkok 10500'),
 	('S0009','Cisco systems (Thailand) Ltd.','Central World 999/9 Rama I Road, Patumwan Bangkok 10330'),
 	('S0010','Brother Commercial (Thailand) Limited. ','Screen Printing Products Supplier, Bangkok, Bangkok 10330, Thailand'),

@@ -273,7 +273,7 @@ class AssetsPurchaseController extends BaseController {
 					$purchaselineitem = new PurchaseLineItem();
 					$purchaselineitem->InvoiceNo = Session::get('InvoiceNo');
 					$purchaselineitem->ItemNo = $i;
-					$purchaselineitem->AssetID = Session::get('AssetID');
+					$purchaselineitem->AssetID = $itm['AssetID'];
 					$purchaselineitem->Price = $itm['Price'];
 					$purchaselineitem->save();
 				}
