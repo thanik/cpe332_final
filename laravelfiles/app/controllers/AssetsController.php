@@ -100,6 +100,11 @@ class AssetsController extends BaseController {
 			}
 			else if(Input::get('action') == 'save')
 			{
+				if(count(Session::get('lineitem')) == 0)
+				{
+					echo '<script type="text/javascript">alert("Error: There isn\'t any items in lineitem.");</script>';
+					return View::make('assets', $this->page);
+				}
 				/* get new asset_id */
 				$newid = sprintf("A%04d",intval(substr(Asset::max('asset_id'), 1)) + 1);
 				
@@ -249,6 +254,11 @@ class AssetsController extends BaseController {
 			}
 			else if(Input::get('action') == 'save')
 			{
+				if(count(Session::get('lineitem')) == 0)
+				{
+					echo '<script type="text/javascript">alert("Error: There isn\'t any items in lineitem.");</script>';
+					return View::make('assets', $this->page);
+				}
 				$asset = Asset::where('asset_id','=',Session::get('asset_id'))->first();
 				$asset->asset_name = Session::get('asset_name');
 				$asset->asset_type = Session::get('asset_type');

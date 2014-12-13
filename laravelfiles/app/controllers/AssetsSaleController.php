@@ -112,6 +112,11 @@ class AssetsSaleController extends BaseController {
 			}
 			else if(Input::get('action') == 'save')
 			{
+				if(count(Session::get('lineitem')) == 0)
+				{
+					echo '<script type="text/javascript">alert("Error: There isn\'t any items in lineitem.");</script>';
+					return View::make('assets', $this->page);
+				}
 				/* get new asset_id */
 				$newid = sprintf("IN%04d",intval(substr(Sale::max('InvoiceNo'), 2)) + 1);
 				
@@ -264,6 +269,11 @@ class AssetsSaleController extends BaseController {
 			}
 			else if(Input::get('action') == 'save')
 			{
+				if(count(Session::get('lineitem')) == 0)
+				{
+					echo '<script type="text/javascript">alert("Error: There isn\'t any items in lineitem.");</script>';
+					return View::make('assets', $this->page);
+				}
 				$sale = Sale::where('InvoiceNo','=',Session::get('InvoiceNo'))->first();
 				$sale->InvoiceDate = Session::get('InvoiceDate');
 				$sale->CustomerCode = Session::get('CustomerCode');
