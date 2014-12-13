@@ -15,9 +15,9 @@ function checkRequiredField()
 		return false;
 	}
 	
-	if($('input[name="yearly_depreciation"]').val() == '' || parseFloat($('input[name="yearly_depreciation"]').val()) < 0 || parseFloat($('input[name="yearly_depreciation"]').val()) > 100)
+	if($('input[name="yearly_depreciation"]').val() == '')
 	{
-		alert('Error: Please enter valid yearly depreciation.');
+		alert('Error: Please enter yearly depreciation.');
 		$('input[name="yearly_depreciation"]').focus();
 		return false;
 	}
@@ -180,7 +180,7 @@ function getListOfValueSearch()
 	);
 }
 
-function getListOfValueAll(table_name)
+function getListOfValueAll()
 {
 	$.ajax(
 		{
@@ -204,17 +204,10 @@ function getListOfValueAll(table_name)
 
 function addSearchColumn()
 {
-	$('#columnName').empty();
 	selectValues = {"asset_id": "Asset ID", "asset_name": "Asset Name"};
 	$.each(selectValues, function(key, value) {   
      $('#columnName')
           .append($('<option>', { value : key })
           .text(value)); 
 	});
-}
-
-function calculateDepreciated()
-{
-	$('input[name="depreciated_value"]').val(parseFloat($('input[name="yearly_depreciation"]').val()) * parseFloat($('input[name="beginning_value"]').val()) / 100);
-	$('input[name="current_value"]').val(parseFloat($('input[name="beginning_value"]').val()) - parseFloat($('input[name="depreciated_value"]').val()));
 }

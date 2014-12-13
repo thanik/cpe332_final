@@ -29,12 +29,12 @@
 				</ul>
 			</div>
 			<div class="app_name"><h1 style="clear:both">Asset Management</h1></div>
-			<div class="form_name container"><p style="clear:both">Asset ID with Components</p></div>
+			<div class="form_name container"><p style="clear:both">{{ $form_name }}</p></div>
 			<div class="head_button_section container">
 				<form method="post">
 					<button type="submit" name="action" value="new" onclick="if(checkDirtyBit()) return true; return false;" class="head_button btn"><span class="glyphicon glyphicon-plus"></span><br/>new</button>
-					<button type="button" class="head_button btn" onclick="if(checkDirtyBit()) { addSearchColumn(); openListOfValue('asset_id','edit'); }"><span class="glyphicon glyphicon-pencil"></span><br/>edit</button>
-					<button type="button" class="head_button btn" onclick="if(checkDirtyBit()) { addSearchColumn(); openListOfValue('asset_id','copy'); }"><span class="glyphicon glyphicon-file"></span><br/>copy</button>
+					<button type="button" class="head_button btn" onclick="if(checkDirtyBit()) { addSearchColumn('{{ $table_name }}'); openListOfValue('{{ $table_name }}','edit'); }"><span class="glyphicon glyphicon-pencil"></span><br/>edit</button>
+					<button type="button" class="head_button btn" onclick="if(checkDirtyBit()) { addSearchColumn('{{ $table_name }}'); openListOfValue('{{ $table_name }}','copy'); }"><span class="glyphicon glyphicon-file"></span><br/>copy</button>
 					<button type="button" name="action" value="save" onclick="if(checkRequiredField()) return save_asset();" class="head_button btn"><span class="glyphicon glyphicon-floppy-disk"></span><br/>save</button>
 					<button type="submit" name="action" value="delete" onclick="return delete_asset();" class="head_button btn"><span class="glyphicon glyphicon-trash"></span><br/>delete</button>
 					<button type="button" class="head_button btn"><span class="glyphicon glyphicon-print"></span><br/>print</button>

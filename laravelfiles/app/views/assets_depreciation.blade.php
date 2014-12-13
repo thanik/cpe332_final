@@ -1,5 +1,5 @@
 @include('header')
-{{ HTML::script('static/js/asset_id.js') }}
+{{ HTML::script('static/js/asset_depreciation.js') }}
 
 <div class="modal fade" id="newLineItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -75,14 +75,14 @@
 		<table width="100%">
 			<tr>
 				<td>
-					<b>* Asset ID :</b>
+					<b>* Depreciation No. :</b>
 				</td>
 				<td>
-					<input name="asset_id" type="text" value="{{{ Session::get('asset_id') }}}" readonly>
+					<input name="depreciation_no" type="text" value="{{{ Session::get('depreciation_no') }}}" readonly>
 				</td>
 				
 				<td>
-					<b>* Purchase Value :</b>
+					<b>* Depreciation Date :</b>
 				</td>
 				<td>
 					<input type="number" step="0.25" placeholder="0.00" name="purchase_value" value="{{ Session::get('purchase_value') }}">
@@ -130,7 +130,7 @@
 					<b>* Beginning Value :</b>
 				</td>
 				<td>
-					<input name="beginning_value" type="number" step="0.25" min="0" placeholder="0.00 " value="{{ Session::get('beginning_value') }}" onchange="calculateDepreciated();">
+					<input name="beginning_value" type="number" step="0.25" min="0" placeholder="0.00 " value="{{ Session::get('beginning_value') }}">
 				</td>
 			</tr>
 			
@@ -146,7 +146,7 @@
 					<b>Depreciated Value :</b>
 				</td>
 				<td>
-					<input name="depreciated_value" type="number" step="0.25" min="0" placeholder="0.00" value="{{{ Session::get('depreciated_value') }}}" readonly>
+					<input name="depreciated_value" type="number" step="0.25" min="0" placeholder="0.00" value="{{{ Session::get('depreciated_value') }}}">
 				</td>
 			</tr>
 			
@@ -156,7 +156,7 @@
 				</td>
 				
 				<td>
-					<input name="yearly_depreciation" type="text" value="{{{ Session::get('yearly_depreciation') }}}" onchange="calculateDepreciated();"> %
+					<input name="yearly_depreciation" type="text" min="0" value="{{{ Session::get('yearly_depreciation') }}}"> %
 				</td>
 				
 				<td>
@@ -164,7 +164,7 @@
 				</td>
 				
 				<td>
-					<input name="current_value" type="number" step="0.25" min="0" placeholder="0.00" value="{{ Session::get('current_value') }}" readonly>
+					<input name="current_value" type="number" step="0.25" min="0" placeholder="0.00" value="{{ Session::get('current_value') }}">
 				</td>
 			</tr>
 			

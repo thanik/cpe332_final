@@ -1,48 +1,34 @@
 function checkRequiredField()
 {
 	
-	if($('input[name="asset_name"]').val() == '')
+	if($('input[name="InvoiceNo"]').val() == '')
 	{
-		alert('Error: Please enter asset name.');
-		$('input[name="asset_name"]').focus();
+		alert('Error: Please enter invoice no.');
+		$('input[name="InvoiceNo"]').focus();
 		return false;
 	}
 	
-	if($('input[name="unit"]').val() == '')
+	if($('input[name="InvoiceDate"]').val() == '')
 	{
-		alert('Error: Please enter unit.');
-		$('input[name="unit"]').focus();
+		alert('Error: Please enter invoice date.');
+		$('input[name="InvoiceDate"]').focus();
 		return false;
 	}
 	
-	if($('input[name="yearly_depreciation"]').val() == '' || parseFloat($('input[name="yearly_depreciation"]').val()) < 0 || parseFloat($('input[name="yearly_depreciation"]').val()) > 100)
+	if($('input[name="SupplierCode"]').val() == '')
 	{
-		alert('Error: Please enter valid yearly depreciation.');
-		$('input[name="yearly_depreciation"]').focus();
+		alert('Error: Please enter supplier code.');
+		$('input[name="SupplierCode"]').focus();
 		return false;
 	}
 	
-	if($('input[name="purchase_value"]').val() == '')
+	if($('input[name="PaymentDueDate"]').val() == '')
 	{
-		alert('Error: Please enter purchase value.');
-		$('input[name="purchase_value"]').focus();
+		alert('Error: Please enter payment due date.');
+		$('input[name="PaymentDueDate"]').focus();
 		return false;
 	}
-	
-	if($('input[name="purchase_date"]').val() == '')
-	{
-		alert('Error: Please enter purchase date.');
-		$('input[name="purchase_date"]').focus();
-		return false;
-	}
-	
-	if($('input[name="beginning_value"]').val() == '')
-	{
-		alert('Error: Please enter beginning value.');
-		$('input[name="beginning_value"]').focus();
-		return false;
-	}
-	
+		
 	return true;
 }
 
@@ -51,7 +37,7 @@ function sendFormDataAjax()
 	var form_data = $('#mainform').serialize();
 	$.ajax(
 		{
-			url: '/ajax/update/assets',
+			url: '/ajax/update/assets_purchase',
 			data: form_data,
 			type: 'POST',
 			dataType: 'html',
@@ -82,7 +68,7 @@ function editLineItem(num)
 		{
 			url: '/ajax/editlistofvalue',
 			type: 'GET',
-			data: {item: num,table_name: 'assets'},
+			data: {item: num,table_name: 'purchases'},
 			dataType: 'html',
 			success: function (data) {
 				$('#edit').html(data);
@@ -98,14 +84,14 @@ function editLineItem(num)
 
 function delete_asset()
 {
-	if($('input[name="asset_id"').val() != 'NEW') 
+	if($('input[name="InvoiceNo"').val() != 'NEW') 
 	{ 
-		var ans = confirm('Are you sure to delete this asset?'); 
+		var ans = confirm('Are you sure to delete this invoice?'); 
 		return ans;
 	} 
 	else 
 	{
-		alert('Error: Please select asset to delete!');
+		alert('Error: Please select invoice to delete!');
 		return false;
 	}
 }
@@ -117,7 +103,7 @@ function save_asset()
 		var form_data = $('#mainform').serialize();
 		$.ajax(
 			{
-				url: '/ajax/update/assets',
+				url: '/ajax/update/assets_purchase',
 				data: form_data,
 				type: 'POST',
 				dataType: 'html',
@@ -180,7 +166,7 @@ function getListOfValueSearch()
 	);
 }
 
-function getListOfValueAll(table_name)
+function getListOfValueAll()
 {
 	$.ajax(
 		{
@@ -202,19 +188,34 @@ function getListOfValueAll(table_name)
 	);
 }
 
-function addSearchColumn()
+function addSearchColumn(table_name)
 {
-	$('#columnName').empty();
-	selectValues = {"asset_id": "Asset ID", "asset_name": "Asset Name"};
-	$.each(selectValues, function(key, value) {   
-     $('#columnName')
-          .append($('<option>', { value : key })
-          .text(value)); 
-	});
+	if(table_name == 'purchases')
+	{
+		$('#columnName').empty();
+		selectValues = {"InvoiceNo": "Invoice No", "InvoiceDate": "Invoice Date"};
+		$.each(selectValues, function(key, value) {   
+	     $('#columnName')
+	          .append($('<option>', { value : key })
+	          .text(value)); 
+		});
+	}
+	else if(table_name == 'supplier')
+	{
+		$('#columnName').empty();
+		selectValues = {"Code": "Supplier Code", "Name": "Supplier Name"};
+		$.each(selectValues, function(key, value) {   
+	     $('#columnName')
+	          .append($('<option>', { value : key })
+	          .text(value)); 
+		});
+	}
 }
 
-function calculateDepreciated()
+function chooseSupplier(code,name,address)
 {
-	$('input[name="depreciated_value"]').val(parseFloat($('input[name="yearly_depreciation"]').val()) * parseFloat($('input[name="beginning_value"]').val()) / 100);
-	$('input[name="current_value"]').val(parseFloat($('input[name="beginning_value"]').val()) - parseFloat($('input[name="depreciated_value"]').val()));
+	$('input[name="dirtybit"]').val('true');
+	$('input[name="SupplierCode"]').val(code);
+	$('input[name="SupplierName"]').val(name);
+	$('input[name="SupplierAddress"]').val(address);
 }

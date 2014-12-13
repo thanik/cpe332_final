@@ -1,6 +1,11 @@
 <?php
 
 class AssetsController extends BaseController {
+	public $page = array(
+		'table_name' => 'asset_id',
+		'form_name' => 'Asset ID with Components',
+	);
+	
 	public function showNewItem()
 	{
 		Session::flush();
@@ -9,7 +14,7 @@ class AssetsController extends BaseController {
 		Session::put('table','asset_id');
 		Session::put('mode','new');
 		Session::put('lineitem', array());
-		return View::make('assets');
+		return View::make('assets', $this->page);
 	}
 	
 	public function showDebug()
@@ -43,9 +48,9 @@ class AssetsController extends BaseController {
 				Session::put('total_component_value', $select_asset->total_component_value);
 				$lineitems = AssetLineItem::where('asset_id','=',Input::get('id'))->get()->toArray();
 				Session::put('lineitem',$lineitems);
-				Session::put('dirtybit','false');
+				Session::put('dirtybit','true');
 				Session::put('table','asset_id');
-				return View::make('assets');
+				return View::make('assets', $this->page);
 			}
 			else if(Input::get('action') == 'insertLine')
 			{
@@ -56,7 +61,7 @@ class AssetsController extends BaseController {
 					if(Input::get('newLine_component_name') == $itm['component_name'] || Input::get('newLine_component_type') == $itm['component_type'])
 					{
 						echo '<script type="text/javascript">alert("Error: Duplicated lineitem");</script>';
-						return View::make('assets');
+						return View::make('assets', $this->page);
 					}
 				}
 				/* add to lineitem session */
@@ -70,7 +75,7 @@ class AssetsController extends BaseController {
 				array_push($temp_lineitem, $data);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
-				return View::make('assets');
+				return View::make('assets', $this->page);
 			}
 			else if(Input::get('action') == 'editLine')
 			{
@@ -82,7 +87,7 @@ class AssetsController extends BaseController {
 				$temp_lineitem[intval(Input::get('item'))]['notes'] = Input::get('notes');
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
-				return View::make('assets');
+				return View::make('assets', $this->page);
 			}
 			else if(Input::get('action') == 'deleteLine')
 			{
@@ -91,7 +96,7 @@ class AssetsController extends BaseController {
 				array_splice($temp_lineitem, intval(Input::get('item')), 1);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
-				return View::make('assets');
+				return View::make('assets', $this->page);
 			}
 			else if(Input::get('action') == 'save')
 			{
@@ -157,7 +162,7 @@ class AssetsController extends BaseController {
 		Session::put('lineitem',$lineitems);
 		Session::put('dirtybit','false');
 		Session::put('table','asset_id');
-		return View::make('assets');
+		return View::make('assets', $this->page);
 	}
 	
 	public function postItem($id)
@@ -186,9 +191,9 @@ class AssetsController extends BaseController {
 				Session::put('total_component_value', $select_asset->total_component_value);
 				$lineitems = AssetLineItem::where('asset_id','=',Input::get('id'))->get()->toArray();
 				Session::put('lineitem',$lineitems);
-				Session::put('dirtybit','false');
+				Session::put('dirtybit','true');
 				Session::put('table','asset_id');
-				return View::make('assets');	
+				return View::make('assets', $this->page);	
 			}
 			else if(Input::get('action') == 'insertLine')
 			{
@@ -199,7 +204,7 @@ class AssetsController extends BaseController {
 					if(Input::get('newLine_component_name') == $itm['component_name'] || Input::get('newLine_component_type') == $itm['component_type'])
 					{
 						echo '<script type="text/javascript">alert("Error: Duplicated lineitem");</script>';
-						return View::make('assets');
+						return View::make('assets', $this->page);
 					}
 				}
 				/* add to lineitem session */
@@ -213,7 +218,7 @@ class AssetsController extends BaseController {
 				array_push($temp_lineitem, $data);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
-				return View::make('assets');
+				return View::make('assets', $this->page);
 			}
 			else if(Input::get('action') == 'editLine')
 			{
@@ -225,7 +230,7 @@ class AssetsController extends BaseController {
 				$temp_lineitem[intval(Input::get('item'))]['notes'] = Input::get('notes');
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
-				return View::make('assets');
+				return View::make('assets', $this->page);
 			}
 			else if(Input::get('action') == 'deleteLine')
 			{
@@ -234,7 +239,7 @@ class AssetsController extends BaseController {
 				array_splice($temp_lineitem, intval(Input::get('item')), 1);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
-				return View::make('assets');
+				return View::make('assets', $this->page);
 			}
 			else if(Input::get('action') == 'delete')
 			{
@@ -278,7 +283,7 @@ class AssetsController extends BaseController {
 				Session::put('dirtybit','false');
 				Session::put('table','asset_id');
 				$asset->save();
-				return View::make('assets');
+				return View::make('assets', $this->page);
 			}
 		}
 	}

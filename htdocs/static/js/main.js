@@ -62,10 +62,10 @@ function checkDirtyBit()
 }
 
 $(document).ready(function() {
-	$('input').on('change keypress', function() {
+	$('form#mainform input').on('change keypress', function() {
 		$('input[name="dirtybit"]').val('true');
 	});
-	$('select').on('change', function() {
+	$('form#mainform select').on('change', function() {
 		$('input[name="dirtybit"]').val('true');
 	});
 });

@@ -42,12 +42,68 @@ class ListOfValueController extends BaseController {
 				}
 				echo '</tbody>';
 			}
-			else if(Input::get('table_name') == '')
+			else if(Input::get('table_name') == 'purchases')
 			{
 				echo '<thead><tr><th>Select</th>';
-				echo '<th>Asset ID</th>';
-				echo '<th>Asset Name</th></tr></thead>';
+				echo '<th>Invoice No</th>';
+				echo '<th>Invoice Date</th>';
+				echo '<th>Supplier Name</th></tr></thead>';
+				$itms_obj = Purchase::all();
+				if(Input::has('search'))
+				{
+					$itms_obj = Purchase::whereRaw(Input::get('search'))->get();
+				}
+				$itms = $itms_obj->toArray();
 				
+				echo '<tbody>';
+				foreach($itms as $itm)
+				{
+					echo '<tr>';
+					if(Input::get('mode') == 'edit')
+					{
+						echo '<td><a href="'.URL::action('AssetsPurchaseController@showItem',$itm['InvoiceNo']).'" class="btn btn-primary btn-xs" style="width: 100%">select</a></td>';
+					}
+					else if(Input::get('mode') == 'copy')
+					{
+						echo '<td><button onclick="post(\'/assets_purchase\',{action: \'copy\', id: \''.$itm['InvoiceNo'].'\'});" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					}
+					else
+					{
+						echo '<td><button onclick="'.Input::get('mode').'();" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					}
+					echo '<td>';
+					echo $itm['InvoiceNo'];
+					echo '</td><td>';
+					echo $itm['InvoiceDate'];
+					echo '</td><td>';
+					echo Supplier::where('Code','=',$itm['SupplierCode'])->firstOrFail()->Name;
+					echo '</td></tr>';
+				}
+				echo '</tbody>';
+			}
+			else if(Input::get('table_name') == 'supplier')
+			{
+				echo '<thead><tr><th>Select</th>';
+				echo '<th>Supplier Code</th>';
+				echo '<th>Supplier Name</th></tr></thead>';
+				$itms_obj = Supplier::all();
+				if(Input::has('search'))
+				{
+					$itms_obj = Supplier::whereRaw(Input::get('search'))->get();
+				}
+				$itms = $itms_obj->toArray();
+				echo '<tbody>';
+				foreach($itms as $itm)
+				{
+					echo '<tr>';
+					echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['Code'].'\',\''.$itm['Name'].'\',\''.$itm['Address'].'\'); $(\'#ListOfValueModal\').modal(\'hide\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					echo '<td>';
+					echo $itm['Code'];
+					echo '</td><td>';
+					echo $itm['Name'];
+					echo '</td></tr>';
+				}
+				echo '</tbody>';
 			}
 		}
 	}
@@ -92,6 +148,10 @@ class ListOfValueController extends BaseController {
 					<td><input type="text" name="notes" step="1" value="'.Session::get('lineitem')[intval(Input::get('item'))]['notes'].'"></td>
 				</tr>
 			</table>';
+			}
+			else if(Input::get('table_name') == 'purchases')
+			{
+				
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 @include('header')
-{{ HTML::script('static/js/asset_id.js') }}
+{{ HTML::script('static/js/asset_purchase.js') }}
 
 <div class="modal fade" id="newLineItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -12,28 +12,20 @@
 				<div class="modal-body">
 					<table width="100%">
 						<tr>
-							<td><b>* Component Name :</b></td>
-							<td><input type="text" name="newLine_component_name" required></td>
+							<td><b>* Asset ID :</b></td>
+							<td><input type="text" name="newLine_AssetID" required><button type="button" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 						<tr>
-							<td><b>* Component Type :</b></td>
-							<td><select name="newLine_component_type">
-							<?php foreach(AssetType::all()->ToArray() as $option): ?>
-							<option value="{{ $option['asset_type'] }}">{{ $option['asset_type'] }}</option>
-							<?php endforeach; ?>	
-							</select></td>
+							<td><b>Asset Name :</b></td>
+							<td><input type="text" name="newLine_AssetName" readonly></td>
 						</tr>
 						<tr>
-							<td><b>* Quantity :</b></td>
-							<td><input type="number" name="newLine_quantity" step="1" min="1" required></td>
+							<td><b>Units :</b></td>
+							<td><input type="text" name="newLine_Units" readonly></td>
 						</tr>
 						<tr>
-							<td><b>Rough Value of this part :</b></td>
-							<td><input type="number" name="newLine_rough_value" step="0.25" placeholder="0.00"></td>
-						</tr>
-						<tr>
-							<td><b>Notes :</b></td>
-							<td><input type="text" name="newLine_notes" step="1"></td>
+							<td><b>Price :</b></td>
+							<td><input type="number" name="newLine_rough_value" step="0.25" placeholder="0.00" required></td>
 						</tr>
 					</table>
 	    		</div>
@@ -75,102 +67,62 @@
 		<table width="100%">
 			<tr>
 				<td>
-					<b>* Asset ID :</b>
+					<b>* Invoice No. :</b>
 				</td>
 				<td>
-					<input name="asset_id" type="text" value="{{{ Session::get('asset_id') }}}" readonly>
+					<input name="InvoiceNo" type="text" value="{{{ Session::get('InvoiceNo') }}}" readonly>
 				</td>
 				
 				<td>
-					<b>* Purchase Value :</b>
+					<b>* Invoice Date :</b>
 				</td>
 				<td>
-					<input type="number" step="0.25" placeholder="0.00" name="purchase_value" value="{{ Session::get('purchase_value') }}">
+					<input type="date" name="InvoiceDate" value="{{ Session::get('InvoiceDate') }}">
 				</td>
 			</tr>
 			
 			<tr>
 				<td>
-					<b>* Asset Name :</b>
+					<b>* Supplier Code :</b>
 				</td>
 				<td>
-					<input name="asset_name" type="text" value="{{{ Session::get('asset_name') }}}">
+					<input name="SupplierCode" type="text" value="{{{ Session::get('SupplierCode') }}}" required readonly>
+					<button type="button" onclick="addSearchColumn('supplier'); openListOfValue('supplier','chooseSupplier');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button>
 				</td>
 				
 				<td>
-					<b>* Purchase Date :</b>
+					<b>Supplier Name :</b>
 				</td>
 				<td>
-					<input name="purchase_date" type="date" value="{{{ Session::get('purchase_date') }}}">
+					<input name="SupplierName" type="text" value="{{{ Session::get('SupplierName') }}}" readonly>
 				</td>
 			</tr>
 			
 			<tr>
 				<td>
-					<b>* Asset Type :</b>
+					<b>Address :</b>
+				</td>
+				<td colspan="3">
+					<input name="SupplierAddress" style="width: 100%" type="text" value="{{{ Session::get('SupplierAddress') }}}" readonly>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<b>* Payment Due Date :</b>
 				</td>
 				<td>
-					<select name="asset_type">
-						<?php foreach(AssetType::all()->ToArray() as $option)
-							{
-								if($option['asset_type'] == Session::get('asset_type'))
-								{ ?>
-									<option value="{{{ $option['asset_type'] }}}" selected>{{{ $option['asset_type'] }}}</option>
-						<?php		} 
-								else
-								{ ?>
-									<option value="{{{ $option['asset_type'] }}}">{{{ $option['asset_type'] }}}</option>
-						<?php		}
-							}
-						?>
+					<input name="PaymentDueDate" type="date" value="{{{ Session::get('PaymentDueDate') }}}">	
+				</td>
+				
+				<td>
+					<b>Payment Term :</b>
+				</td>
+				<td>
+					<select name="PaymentTerm">
+						<option value="cash" <?php if(Session::get('PaymentTerm') == 'cash') echo 'selected'; ?>>Cash</option>
+						<option value="check" <?php if(Session::get('PaymentTerm') == 'check') echo 'selected'; ?>>Check</option>
 					</select>
-				</td>
-				
-				<td>
-					<b>* Beginning Value :</b>
-				</td>
-				<td>
-					<input name="beginning_value" type="number" step="0.25" min="0" placeholder="0.00 " value="{{ Session::get('beginning_value') }}" onchange="calculateDepreciated();">
-				</td>
-			</tr>
-			
-			<tr>
-				<td>
-					<b>* Unit :</b>
-				</td>
-				<td>
-					<input name="unit" type="text" value="{{{ Session::get('unit') }}}">	
-				</td>
-				
-				<td>
-					<b>Depreciated Value :</b>
-				</td>
-				<td>
-					<input name="depreciated_value" type="number" step="0.25" min="0" placeholder="0.00" value="{{{ Session::get('depreciated_value') }}}" readonly>
-				</td>
-			</tr>
-			
-			<tr>
-				<td>
-					<b>* Yearly Depreciation :</b>
-				</td>
-				
-				<td>
-					<input name="yearly_depreciation" type="text" value="{{{ Session::get('yearly_depreciation') }}}" onchange="calculateDepreciated();"> %
-				</td>
-				
-				<td>
-					<b>Current Value :</b>
-				</td>
-				
-				<td>
-					<input name="current_value" type="number" step="0.25" min="0" placeholder="0.00" value="{{ Session::get('current_value') }}" readonly>
-				</td>
-			</tr>
-			
-			<tr>
-				<td>
-					<b>Components :</b>
 				</td>
 			</tr>
 		</table>
@@ -179,11 +131,10 @@
 			<thead>
 				<th></th>
 				<th>#</th>
-				<th>* Component Name</th>
-				<th>* Component Type</th>
-				<th>* Quantity</th>
-				<th>Rough Value of this part</th>
-				<th>Notes</th>
+				<th>Asset ID</th>
+				<th>Asset Name</th>
+				<th>Units</th>
+				<th>Price</th>
 			</thead>
 			<tbody>
 				<?php $i = 0; ?>
@@ -197,29 +148,44 @@
 						{{ $i+1 }}
 					</td>
 					<td>
-						{{ $itm['component_name'] }}
+						{{ $itm['AssetID'] }}
 					</td>
 					<td>
-						{{ $itm['component_type']}}
+						{{ Asset::where('asset_id','=',$itm['AssetID'])->first()->asset_name }}
 					</td>
 					<td>
-						{{ $itm['quantity'] }}
+						{{ Asset::where('asset_id','=',$itm['AssetID'])->first()->unit }}
 					</td>
 					<td>
-						{{ $itm['rough_value' ]}}
-					</td>
-					<td>
-						{{ $itm['notes'] }}
+						{{ $itm['Price'] }}
 					</td>
 				</tr>
 				<?php $i++; ?>
 				@endforeach
 				<tr>
-					<td colspan="7" style="border: none;">
+					<td colspan="6" style="border: none;">
 						<button type="button" class="btn btn-success btn-lg btn-block" onclick="sendFormDataAjax(); $('#newLineItemModal').modal();"><span class="glyphicon glyphicon-plus"></span> add new lineitem</button>
 					</td>
 				</tr>
 			</tbody>
+		</table>
+		
+		<table width="100%" style="text-align: right; margin-bottom: 20px;">
+			<tr>
+				<td style="width: 65%"></td>
+				<td>Total :</td>
+				<td><input type="text" name="Total" style="text-align:right;" value="{{{ Session::get('Total') }}}" readonly></td>
+			</tr>
+			<tr>
+				<td style="width: 65%"></td>
+				<td>VAT :</td>
+				<td><input type="text" name="VAT" style="text-align:right;" value="{{{ Session::get('VAT') }}}" readonly></td>
+			</tr>
+			<tr>
+				<td style="width: 65%"></td>
+				<td>Amount Due :</td>
+				<td><input type="text" name="AmountDue" style="text-align:right;" value="{{{ Session::get('AmountDue') }}}" readonly></td>
+			</tr>
 		</table>
 		
 		<input type="hidden" name="dirtybit" value="{{ Session::get('dirtybit') }}">
