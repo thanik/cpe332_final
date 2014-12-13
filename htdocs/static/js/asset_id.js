@@ -22,7 +22,7 @@ function checkRequiredField()
 		return false;
 	}
 	
-	if($('input[name="purchase_value"]').val() == '')
+	if($('input[name="purchase_value"]').val() == ''  || parseFloat($('input[name="purchase_value"]').val()) < 0)
 	{
 		alert('Error: Please enter purchase value.');
 		$('input[name="purchase_value"]').focus();
@@ -36,7 +36,7 @@ function checkRequiredField()
 		return false;
 	}
 	
-	if($('input[name="beginning_value"]').val() == '')
+	if($('input[name="beginning_value"]').val() == '' || parseFloat($('input[name="beginning_value"]').val()) < 0)
 	{
 		alert('Error: Please enter beginning value.');
 		$('input[name="beginning_value"]').focus();
