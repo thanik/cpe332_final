@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.21)
 # Database: asset
-# Generation Time: 2014-12-13 12:56:31 +0000
+# Generation Time: 2014-12-13 13:19:47 +0000
 # ************************************************************
 
 
@@ -41,7 +41,7 @@ CREATE TABLE `asset_id` (
   `current_location` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`asset_id`),
   KEY `asset_type` (`asset_type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `asset_id` WRITE;
 /*!40000 ALTER TABLE `asset_id` DISABLE KEYS */;
@@ -50,8 +50,8 @@ INSERT INTO `asset_id` (`asset_id`, `asset_name`, `asset_type`, `unit`, `yearly_
 VALUES
 	('A0001','HP Z420 Workstation','Desktop','unit',5.00,62000.00,'2014-09-18',62000.00,3100.00,58900.00,3,28500.00,'room20'),
 	('A0002','Dell Precision T3610','Desktop','unit',10.00,75000.00,'2014-09-20',75000.00,7500.00,67500.00,1,4000.00,'room06'),
-	('A0003','iMac 27\" with 4K display','Desktop','unit',0.00,56000.00,'2014-09-25',56000.00,0.00,56000.00,2,4580.00,'room16'),
-	('A0004','Macbook Pro 15\" with Retina Display','Laptop','pcs',3.50,75000.00,'2014-10-01',75000.00,2625.00,72375.00,3,3370.00,'room15'),
+	('A0003','iMac 27-inch with 4K display','Desktop','unit',0.00,56000.00,'2014-09-25',56000.00,0.00,56000.00,2,4580.00,'room16'),
+	('A0004','Macbook Pro 15-inch with Retina Display','Laptop','pcs',3.50,75000.00,'2014-10-01',75000.00,2625.00,72375.00,3,3370.00,'room15'),
 	('A0005','Dell Inspiron 5547','Laptop','pcs',6.75,45000.00,'2014-10-02',45000.00,3037.50,41962.50,2,9000.00,'room45'),
 	('A0006','Lenovo Z510','Laptop','pcs',15.00,32250.00,'2014-10-02',32250.00,4837.50,27412.50,1,590.00,'room03'),
 	('A0007','Canon PIXMA IX7000','Printer','pcs',10.00,13750.00,'2014-09-18',13750.00,1375.00,12375.00,2,4580.00,'room01'),
@@ -83,7 +83,7 @@ CREATE TABLE `asset_id_lineitem` (
   `notes` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`no`,`asset_id`),
   KEY `asset_id` (`asset_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `asset_id_lineitem` WRITE;
 /*!40000 ALTER TABLE `asset_id_lineitem` DISABLE KEYS */;
@@ -128,7 +128,7 @@ DROP TABLE IF EXISTS `asset_type`;
 CREATE TABLE `asset_type` (
   `asset_type` varchar(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`asset_type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `asset_type` WRITE;
 /*!40000 ALTER TABLE `asset_type` DISABLE KEYS */;
@@ -156,7 +156,7 @@ CREATE TABLE `assetlocation` (
   `location` varchar(20) NOT NULL,
   `description` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`location`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `assetlocation` WRITE;
 /*!40000 ALTER TABLE `assetlocation` DISABLE KEYS */;
@@ -198,7 +198,7 @@ CREATE TABLE `assetmove` (
   `movementDate` date NOT NULL,
   `assetmoveReason` varchar(10) NOT NULL,
   PRIMARY KEY (`assetmoveNo`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `assetmove` WRITE;
 /*!40000 ALTER TABLE `assetmove` DISABLE KEYS */;
@@ -239,7 +239,7 @@ CREATE TABLE `assetmoveline` (
   PRIMARY KEY (`assetmoveNo`,`asset_id`),
   KEY `asset_id` (`asset_id`),
   KEY `currentLocation` (`currentLocation`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `assetmoveline` WRITE;
 /*!40000 ALTER TABLE `assetmoveline` DISABLE KEYS */;
@@ -284,7 +284,7 @@ CREATE TABLE `customer` (
   `Name` varchar(50) NOT NULL,
   `Address` varchar(200) NOT NULL,
   PRIMARY KEY (`Code`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
@@ -323,7 +323,7 @@ CREATE TABLE `depreciation` (
   `for_year` varchar(10) NOT NULL,
   `total_depreciation` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`depreciation_no`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `depreciation` WRITE;
 /*!40000 ALTER TABLE `depreciation` DISABLE KEYS */;
@@ -359,7 +359,7 @@ CREATE TABLE `depreciation_line` (
   PRIMARY KEY (`depreciation_no`,`asset_id`),
   KEY `asset_id` (`asset_id`),
   KEY `asset_type` (`asset_type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `depreciation_line` WRITE;
 /*!40000 ALTER TABLE `depreciation_line` DISABLE KEYS */;
@@ -390,7 +390,7 @@ CREATE TABLE `purchases` (
   `AmountDue` decimal(10,2) NOT NULL,
   PRIMARY KEY (`InvoiceNo`),
   KEY `SupplierCode` (`SupplierCode`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `purchases` WRITE;
 /*!40000 ALTER TABLE `purchases` DISABLE KEYS */;
@@ -426,32 +426,34 @@ CREATE TABLE `purchaseslineitem` (
   `InvoiceNo` varchar(10) NOT NULL,
   `ItemNo` int(10) NOT NULL,
   `AssetID` varchar(10) NOT NULL,
+  `AssetName` varchar(50) NOT NULL DEFAULT '',
+  `Units` varchar(10) NOT NULL DEFAULT '',
   `Price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`InvoiceNo`,`ItemNo`),
   KEY `AssetID` (`AssetID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `purchaseslineitem` WRITE;
 /*!40000 ALTER TABLE `purchaseslineitem` DISABLE KEYS */;
 
-INSERT INTO `purchaseslineitem` (`InvoiceNo`, `ItemNo`, `AssetID`, `Price`)
+INSERT INTO `purchaseslineitem` (`InvoiceNo`, `ItemNo`, `AssetID`, `AssetName`, `Units`, `Price`)
 VALUES
-	('IN0001',1,'A0009',86000.00),
-	('IN0002',1,'A0013',13600.00),
-	('IN0003',1,'A0001',62000.00),
-	('IN0004',1,'A0007',13750.00),
-	('IN0005',1,'A0008',8400.00),
-	('IN0006',1,'A0002',75000.00),
-	('IN0007',1,'A0014',65900.00),
-	('IN0008',1,'A0003',56000.00),
-	('IN0009',1,'A0004',75000.00),
-	('IN0010',1,'A0010',7470.00),
-	('IN0011',1,'A0006',32250.00),
-	('IN0012',1,'A0011',27900.00),
-	('IN0013',1,'A0005',45000.00),
-	('IN0014',1,'A0015',22470.00),
-	('IN0015',1,'A0012',32000.00),
-	('IN0007',2,'A0015',22470.00);
+	('IN0001',1,'A0009','Cisco UCS C220 M3','unit',86000.00),
+	('IN0002',1,'A0013','Cisco SF302-08MPP','pcs',13600.00),
+	('IN0003',1,'A0001','HP Z420 Workstation','unit',62000.00),
+	('IN0004',1,'A0007','Canon PIXMA IX7000','pcs',13750.00),
+	('IN0005',1,'A0008','BROTHER MFC-J825DW','pcs',8400.00),
+	('IN0006',1,'A0002','Dell Precision T3610','unit',75000.00),
+	('IN0007',1,'A0014','D-Link DES-3828P','pcs',65900.00),
+	('IN0007',2,'A0015','D-Link DES-3052','pcs',22470.00),
+	('IN0008',1,'A0003','iMac 27-inch with 4K display','unit',56000.00),
+	('IN0009',1,'A0004','Macbook Pro 15-inch with Retina Display','pcs',75000.00),
+	('IN0010',1,'A0010','Samsung CLP-325','pcs',7470.00),
+	('IN0011',1,'A0006','Lenovo Z510','pcs',32250.00),
+	('IN0012',1,'A0011','IBM System x3250 M5','unit',27900.00),
+	('IN0013',1,'A0005','Dell Inspiron 5547','pcs',45000.00),
+	('IN0014',1,'A0015','D-Link DES-3052','pcs',22470.00),
+	('IN0015',1,'A0012','Dell PowerEdge R210 II','unit',32000.00);
 
 /*!40000 ALTER TABLE `purchaseslineitem` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -472,7 +474,7 @@ CREATE TABLE `sales` (
   `AmountDue` decimal(10,2) NOT NULL,
   PRIMARY KEY (`InvoiceNo`),
   KEY `1` (`CustomerCode`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `sales` WRITE;
 /*!40000 ALTER TABLE `sales` DISABLE KEYS */;
@@ -505,35 +507,37 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `saleslineitem`;
 
 CREATE TABLE `saleslineitem` (
-  `ItemNo` int(10) NOT NULL,
   `InvoiceNo` varchar(10) NOT NULL,
+  `ItemNo` int(10) NOT NULL,
   `AssetID` varchar(10) NOT NULL,
+  `AssetName` varchar(50) DEFAULT NULL,
+  `Units` varchar(10) DEFAULT NULL,
   `Price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`ItemNo`,`InvoiceNo`),
   KEY `1` (`AssetID`),
   KEY `InvoiceNo` (`InvoiceNo`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `saleslineitem` WRITE;
 /*!40000 ALTER TABLE `saleslineitem` DISABLE KEYS */;
 
-INSERT INTO `saleslineitem` (`ItemNo`, `InvoiceNo`, `AssetID`, `Price`)
+INSERT INTO `saleslineitem` (`InvoiceNo`, `ItemNo`, `AssetID`, `AssetName`, `Units`, `Price`)
 VALUES
-	(1,'IN0001','A0001',58900.00),
-	(1,'IN0009','A0001',58900.00),
-	(1,'IN0002','A0002',67500.00),
-	(1,'IN0006','A0002',67500.00),
-	(1,'IN0010','A0003',56000.00),
-	(1,'IN0015','A0004',72375.00),
-	(1,'IN0012','A0006',27412.50),
-	(1,'IN0007','A0004',72375.00),
-	(1,'IN0011','A0008',7560.00),
-	(1,'IN0003','A0009',79120.00),
-	(1,'IN0004','A0011',26505.00),
-	(1,'IN0005','A0012',31680.00),
-	(1,'IN0008','A0013',13600.00),
-	(1,'IN0013','A0014',62275.50),
-	(1,'IN0014','A0015',21458.85);
+	('IN0001',1,'A0001','HP Z420 Workstation','unit',58900.00),
+	('IN0002',1,'A0002','Dell Precision T3610','unit',67500.00),
+	('IN0003',1,'A0009','Cisco UCS C220 M3','unit',79120.00),
+	('IN0004',1,'A0011','IBM System x3250 M5','unit',26505.00),
+	('IN0005',1,'A0012','Dell PowerEdge R210 II','unit',31680.00),
+	('IN0006',1,'A0002','Dell Precision T3610','unit',67500.00),
+	('IN0007',1,'A0004','Macbook Pro 15\" with Retina Display','pcs',72375.00),
+	('IN0008',1,'A0013','Cisco SF302-08MPP','pcs',13600.00),
+	('IN0009',1,'A0001','HP Z420 Workstation','unit',58900.00),
+	('IN0010',1,'A0003','iMac 27\" with 4K display','unit',56000.00),
+	('IN0011',1,'A0008','BROTHER MFC-J825DW','pcs',7560.00),
+	('IN0012',1,'A0006','Lenovo Z510','pcs',27412.50),
+	('IN0013',1,'A0014','D-Link DES-3828P','pcs',62275.50),
+	('IN0014',1,'A0015','D-Link DES-3052','pcs',21458.85),
+	('IN0015',1,'A0004','Macbook Pro 15\" with Retina Display','pcs',72375.00);
 
 /*!40000 ALTER TABLE `saleslineitem` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -549,7 +553,7 @@ CREATE TABLE `supplier` (
   `Name` varchar(50) NOT NULL,
   `Address` varchar(200) NOT NULL,
   PRIMARY KEY (`Code`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `supplier` WRITE;
 /*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
