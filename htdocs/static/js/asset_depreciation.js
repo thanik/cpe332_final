@@ -223,7 +223,7 @@ function selectAsset(asset_id,asset_name,asset_type,depreciation,purchase_value,
 }
 
 
-function selectEditAsset(asset_id,asset_name,asset_type,depreciation,purchase_value,beginning_value,current_value)
+function selectEditAsset(asset_id,asset_name,asset_type,depreciation,purchase_value,beginning_value,depreciation_value,current_value)
 {
 	$('input[name="AssetID"]').val(asset_id);
 	$('input[name="AssetName"]').val(asset_name);
@@ -238,4 +238,14 @@ function selectEditAsset(asset_id,asset_name,asset_type,depreciation,purchase_va
 	$('input[name="NewDepreciationValueMonth"').val(parseFloat($('input[name="CurrentValue"]').val()) - depreciationpermonth.toFixed(2));
 	$('#ListOfValueModal').modal('hide');
 	$('#editLineItemModal').modal('show');
+}
+
+function calculateNewValue()
+{
+	$('input[name="newLine_NewDepreciationValueMonth"]').val((parseFloat($('input[name="newLine_CurrentValue"]').val()) - parseFloat($('input[name="newLine_DepreciationValueMonth"]').val())).toFixed(2));
+}
+
+function calculateNewValueEdit()
+{
+	$('input[name="NewDepreciationValueMonth"]').val((parseFloat($('input[name="CurrentValue"]').val()) - parseFloat($('input[name="DepreciationValueMonth"]').val())).toFixed(2));
 }

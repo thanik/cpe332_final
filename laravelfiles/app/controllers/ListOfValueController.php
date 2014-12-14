@@ -406,43 +406,43 @@ class ListOfValueController extends BaseController {
 				echo '<table width="100%">
 						<tr>
 							<td><b>* Asset ID :</b></td>
-							<td><input type="text" name="newLine_AssetID" required><button type="button" onclick="addSearchColumn(\'asset\'); openListOfValue(\'asset_id\',\'selectAssetDe\'); $(\'#newLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+							<td><input type="text" name="AssetID" value="'.Session::get('lineitem')[intval(Input::get('item'))]['asset_id'].'" required><button type="button" onclick="addSearchColumn(\'asset\'); openListOfValue(\'asset_id_all\',\'selectEditAsset\'); $(\'#editLineItemModal\').modal(\'hide\');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 						<tr>
 							<td><b>Asset Name :</b></td>
-							<td><input type="text" name="newLine_AssetName" readonly></td>
+							<td><input type="text" name="AssetName" value="'.Session::get('lineitem')[intval(Input::get('item'))]['asset_name'].'" readonly></td>
 						</tr>
 						<tr>
 							<td><b>Asset Type :</b></td>
-							<td><input type="text" name="newLine_AssetType" readonly></td>
+							<td><input type="text" name="AssetType" value="'.Session::get('lineitem')[intval(Input::get('item'))]['asset_type'].'" readonly></td>
 						</tr>
 						<tr>
 							<td><b>Depreciation Percent :</b></td>
-							<td><input type="number" name="newLine_DepreciationPercent" step="0.25" min="0.25" placeholder="0.00" readonly> %</td>
+							<td><input type="number" name="DepreciationPercent" value="'.Session::get('lineitem')[intval(Input::get('item'))]['depreciation_percent'].'" step="0.01" min="0.00" placeholder="0.00" readonly> %</td>
 						</tr>
 						<tr>
 							<td><b>Purchase Value :</b></td>
-							<td><input type="number" name="newLine_PurchaseValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+							<td><input type="number" name="PurchaseValue" value="'.Session::get('lineitem')[intval(Input::get('item'))]['purchase_value'].'" step="0.01" min="0.00" placeholder="0.00" readonly></td>
 						</tr>
 						<tr>
 							<td><b>Beginning Value :</b></td>
-							<td><input type="number" name="newLine_BeginningValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+							<td><input type="number" name="BeginningValue" value="'.Session::get('lineitem')[intval(Input::get('item'))]['beginning_value'].'" step="0.01" min="0.00" placeholder="0.00" readonly></td>
 						</tr>
 						<tr>
 							<td><b>Depreciation Value :</b></td>
-							<td><input type="number" name="newLine_DepreciationValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+							<td><input type="number" name="DepreciationValue" value="'.Session::get('lineitem')[intval(Input::get('item'))]['depreciation_value'].'" step="0.01" min="0.00" placeholder="0.00" readonly></td>
 						</tr>
 						<tr>
 							<td><b>Current Value :</b></td>
-							<td><input type="number" name="newLine_CurrentValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+							<td><input type="number" name="CurrentValue" value="'.Session::get('lineitem')[intval(Input::get('item'))]['current_value'].'" step="0.01" min="0.00" placeholder="0.00" readonly></td>
 						</tr>
 						<tr>
 							<td><b>Depreciation This Month :</b></td>
-							<td><input type="number" name="newLine_DepreciationValueMonth" step="0.25" min="0.25" placeholder="0.00"></td>
+							<td><input type="number" name="DepreciationValueMonth" value="'.Session::get('lineitem')[intval(Input::get('item'))]['depreciation_value_month'].'" step="0.01" min="0.00" placeholder="0.00" onchange="calculateNewValueEdit();"></td>
 						</tr>
 						<tr>
 							<td><b>New Value After This Month :</b></td>
-							<td><input type="number" name="newLine_NewDepreciationValueMonth" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+							<td><input type="number" name="NewDepreciationValueMonth" value="'.Session::get('lineitem')[intval(Input::get('item'))]['new_depreciation_value_month'].'" step="0.01" min="0.00" placeholder="0.00" readonly></td>
 						</tr>
 					</table>';
 			}

@@ -164,6 +164,36 @@ class AssetsDepreciationController extends BaseController {
 				$depreciation->save();
 				return Redirect::action('AssetsDepreciationController@showItem', array($newid));
 			}
+			else if(Input::get('action') == 'getallasset')
+			{
+				$temp_lineitem = array();
+				foreach(Asset::all()->toArray() as $asset)
+				{
+					$data = array(
+						'asset_id' => $asset['asset_id'],
+						'asset_name' => $asset['asset_name'],
+						'asset_type' => $asset['asset_type'],
+						'depreciation_percent' => $asset['yearly_depreciation'],
+						'purchase_value' => $asset['purchase_value'],
+						'beginning_value' => $asset['beginning_value'],
+						'depreciation_value' => $asset['depreciated_value'],
+						'current_value' => $asset['current_value'],
+						'depreciation_value_month' => round((floatval($asset['yearly_depreciation']) * floatval($asset['purchase_value']) / 100) / 12,2),
+						'new_depreciation_value_month' => round((floatval($asset['current_value']) - (floatval($asset['yearly_depreciation']) * floatval($asset['purchase_value']) / 100) / 12),2),
+					);
+					array_push($temp_lineitem, $data);
+				}
+				Session::put('lineitem', $temp_lineitem);
+				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['depreciation_value_month']);
+				}
+				Session::put('total_depreciation', $Total);
+				return View::make('assets_depreciation', $this->page);
+			}
 		}
 	}
 	
@@ -330,6 +360,36 @@ class AssetsDepreciationController extends BaseController {
 				Session::put('dirtybit','false');
 				Session::put('table','depreciation');
 				$depreciation->save();
+				return View::make('assets_depreciation', $this->page);
+			}
+			else if(Input::get('action') == 'getallasset')
+			{
+				$temp_lineitem = array();
+				foreach(Asset::all()->toArray() as $asset)
+				{
+					$data = array(
+						'asset_id' => $asset['asset_id'],
+						'asset_name' => $asset['asset_name'],
+						'asset_type' => $asset['asset_type'],
+						'depreciation_percent' => $asset['yearly_depreciation'],
+						'purchase_value' => $asset['purchase_value'],
+						'beginning_value' => $asset['beginning_value'],
+						'depreciation_value' => $asset['depreciated_value'],
+						'current_value' => $asset['current_value'],
+						'depreciation_value_month' => round((floatval($asset['yearly_depreciation']) * floatval($asset['purchase_value']) / 100) / 12,2),
+						'new_depreciation_value_month' => round((floatval($asset['current_value']) - (floatval($asset['yearly_depreciation']) * floatval($asset['purchase_value']) / 100) / 12),2),
+					);
+					array_push($temp_lineitem, $data);
+				}
+				Session::put('lineitem', $temp_lineitem);
+				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['depreciation_value_month']);
+				}
+				Session::put('total_depreciation', $Total);
 				return View::make('assets_depreciation', $this->page);
 			}
 		}

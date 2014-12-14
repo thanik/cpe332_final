@@ -70,10 +70,3 @@ Route::post('assets_movement/{id}', array('as' => 'post_assets_mo', 'uses' => 'A
 
 /* AJAX Request */
 Route::post('ajax/update/assets_movement', array('as' => 'asset_update_ajax', 'uses' => 'AssetsMovementController@ajaxUpdateSession'));
-
-/* Print */
-Route::get('print/asset_id', array('as' => 'print_asset_id', 'uses' => 'PrintController@print_assets'));
-Route::get('print/sales', array('as' => 'print_sales', 'uses' => 'PrintController@print_sales'));
-Route::get('print/depreciation', array('as' => 'print_depreciation', 'uses' => 'PrintController@print_depreciation'));
-Route::get('print/movement', array('as' => 'print_movement', 'uses' => 'PrintController@print_movement'));
-Route::get('print/purchases', array('as' => 'print_purchases', 'uses' => 'PrintController@print_purchases'));

@@ -25,27 +25,27 @@
 						</tr>
 						<tr>
 							<td><b>Depreciation Percent :</b></td>
-							<td><input type="number" name="newLine_DepreciationPercent" step="0.25" min="0.25" placeholder="0.00" readonly> %</td>
+							<td><input type="number" name="newLine_DepreciationPercent" min="0.00" step="0.01" placeholder="0.00" readonly> %</td>
 						</tr>
 						<tr>
 							<td><b>Purchase Value :</b></td>
-							<td><input type="number" name="newLine_PurchaseValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+							<td><input type="number" name="newLine_PurchaseValue" min="0.00" step="0.01" placeholder="0.00" readonly></td>
 						</tr>
 						<tr>
 							<td><b>Beginning Value :</b></td>
-							<td><input type="number" name="newLine_BeginningValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+							<td><input type="number" name="newLine_BeginningValue" min="0.00" step="0.01" placeholder="0.00" readonly></td>
 						</tr>
 						<tr>
 							<td><b>Depreciation Value :</b></td>
-							<td><input type="number" name="newLine_DepreciationValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+							<td><input type="number" name="newLine_DepreciationValue" min="0.00" step="0.01" placeholder="0.00" readonly></td>
 						</tr>
 						<tr>
 							<td><b>Current Value :</b></td>
-							<td><input type="number" name="newLine_CurrentValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+							<td><input type="number" name="newLine_CurrentValue" min="0.00" step="0.01" placeholder="0.00" readonly></td>
 						</tr>
 						<tr>
 							<td><b>* Depreciation This Month :</b></td>
-							<td><input type="number" name="newLine_DepreciationValueMonth" min="0.00" step="0.01" placeholder="0.00" required></td>
+							<td><input type="number" name="newLine_DepreciationValueMonth" min="0.00" step="0.01" onchange="calculateNewValue();" placeholder="0.00" required></td>
 						</tr>
 						<tr>
 							<td><b>New Value After This Month :</b></td>
@@ -125,7 +125,7 @@
 				<td>
 				</td>
 				<td>
-					<button type="button" class="btn btn-success btn-nm btn-block" onclick=""> Load All Asset</button>
+					<button type="button" class="btn btn-success btn-nm btn-block" onclick="sendFormDataAjax(); post('/assets_depreciation',{action: 'getallasset'});">Load All Asset</button>
 				</td>
 			</tr>
 		</table>

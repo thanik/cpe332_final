@@ -37,7 +37,7 @@
 					<button type="button" class="head_button btn" onclick="if(checkDirtyBit()) { addSearchColumn('{{ $table_name }}'); openListOfValue('{{ $table_name }}','copy'); }"><span class="glyphicon glyphicon-file"></span><br/>copy</button>
 					<button type="button" name="action" value="save" onclick="if(checkRequiredField()) return save_asset();" class="head_button btn"><span class="glyphicon glyphicon-floppy-disk"></span><br/>save</button>
 					<button type="submit" name="action" value="delete" onclick="return delete_asset();" class="head_button btn"><span class="glyphicon glyphicon-trash"></span><br/>delete</button>
-					<a href="/print/{{ $table_name }}" class="head_button btn"><span class="glyphicon glyphicon-print"></span><br/>print</a>
+					<a href="/print/{{ $table_name }}.php" target="_blank" class="head_button btn"><span class="glyphicon glyphicon-print"></span><br/>print</a>
 				</form>
 			</div>
 		</div>
