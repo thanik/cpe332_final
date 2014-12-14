@@ -125,7 +125,7 @@
 				<td>
 				</td>
 				<td>
-					<button type="button" class="btn btn-success btn-nm btn-block" onclick="sendFormDataAjax(); post('/assets_depreciation',{action: 'getallasset'});">Load All Asset</button>
+					<button type="button" class="btn btn-success btn-nm btn-block" onclick="getallasset();">Load All Asset</button>
 				</td>
 			</tr>
 		</table>

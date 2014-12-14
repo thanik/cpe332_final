@@ -44,6 +44,28 @@ function sendFormDataAjax()
 	);
 }
 
+function getallasset()
+{
+	var form_data = $('#mainform').serialize();
+	$.ajax(
+		{
+			url: '/ajax/update/assets_depreciation',
+			data: form_data,
+			type: 'POST',
+			dataType: 'html',
+			success: function (data) {
+				console.log(data);
+			},
+			error: function (xhr, status) {
+				alert("Sorry, there is an error while updating data.");
+			},
+			complete: function(xhr, status) {
+				post('',{action: 'getallasset'});
+			}
+		}
+	);
+}
+
 function deleteLineItem(num)
 {
 	var ans = confirm('Are you sure to delete this item?');
