@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.21)
 # Database: asset
-# Generation Time: 2014-12-14 06:43:57 +0000
+# Generation Time: 2014-12-14 08:38:51 +0000
 # ************************************************************
 
 
@@ -203,9 +203,9 @@ LOCK TABLES `depreciation` WRITE;
 
 INSERT INTO `depreciation` (`depreciation_no`, `depreciation_date`, `for_month`, `for_year`, `total_depreciation`)
 VALUES
-	('D001','2014-10-15','10','2014',573.33),
-	('D002','2014-11-19','11','2014',1943.28),
-	('D003','2014-12-02','12','2014',3138.07);
+	('D0001','2014-10-15','10','2014',573.33),
+	('D0002','2014-11-19','11','2014',1943.28),
+	('D0003','2014-12-02','12','2014',3138.07);
 
 /*!40000 ALTER TABLE `depreciation` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -239,9 +239,9 @@ LOCK TABLES `depreciation_line` WRITE;
 
 INSERT INTO `depreciation_line` (`depreciation_no`, `asset_type`, `asset_id`, `asset_name`, `depreciation_percent`, `purchase_value`, `beginning_value`, `depreciation_value`, `current_value`, `depreciation_value_month`, `new_depreciation_value_month`, `item_no`)
 VALUES
-	('D001','Server','A0009','Cisco UCS C220 M3',8.00,86000.00,86000.00,6880.00,79120.00,573.33,85426.67,1),
-	('D002','Desktop','A0001','HP Z420 Workstation',5.00,62000.00,62000.00,3100.00,58900.00,258.33,61741.67,1),
-	('D003','Desktop','A0001','HP Z420 Workstation',5.00,62000.00,62000.00,3100.00,58900.00,258.33,61741.67,1);
+	('D0001','Server','A0009','Cisco UCS C220 M3',8.00,86000.00,86000.00,6880.00,79120.00,573.33,85426.67,1),
+	('D0002','Desktop','A0001','HP Z420 Workstation',5.00,62000.00,62000.00,3100.00,58900.00,258.33,61741.67,1),
+	('D0003','Desktop','A0001','HP Z420 Workstation',5.00,62000.00,62000.00,3100.00,58900.00,258.33,61741.67,1);
 
 /*!40000 ALTER TABLE `depreciation_line` ENABLE KEYS */;
 UNLOCK TABLES;
