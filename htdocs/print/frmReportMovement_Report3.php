@@ -7,8 +7,8 @@
 	$mysqli = new mysqli("localhost", "root", "qwertyu1", "asset");
 	$mysqli -> set_charset('utf8');
 	if ($stmt = $mysqli->prepare(" SELECT L.asset_id, A.asset_name, count(*)
-								   FROM 	assetmoveheader H
-								   Join assetmoveline L on H.assetmoveNo = L.assetmoveNo
+								   FROM 	movement H
+								   Join movementline L on H.assetmoveNo = L.assetmoveNo
 								   Join asset_id A on L.asset_id = A.asset_id 
 								   WHERE 	H.movementDate >= ? and H.movementDate <= ?
 								   Group by L.asset_id, A.asset_name ")) {
@@ -25,8 +25,8 @@
 		}
 				
 		if ($stmt = $mysqli->prepare(" SELECT L.asset_id, A.asset_name, count(*)
-								   FROM 	assetmoveheader H
-								   Join assetmoveline L on H.assetmoveNo = L.assetmoveNo
+								   FROM 	movement H
+								   Join movementline L on H.assetmoveNo = L.assetmoveNo
 								   Join asset_id A on L.asset_id = A.asset_id 
 								   WHERE 	H.movementDate >= ? and H.movementDate <= ?
 								   Group by L.asset_id, A.asset_name ")) {

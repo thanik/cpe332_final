@@ -7,8 +7,8 @@
 	$mysqli -> set_charset('utf8');
 	if ($stmt = $mysqli->prepare(" SELECT 	H.assetmoveNo, H.movementDate, H.assetmoveReason, L.currentLocation,
 										    L.newLocation, A.asset_id, A.asset_name
-								   FROM 	assetmoveheader H
-								   Join assetmoveline L on H.assetmoveNo = L.assetmoveNo
+								   FROM 	movement H
+								   Join movementline L on H.assetmoveNo = L.assetmoveNo
 								   Join asset_id A on L.asset_id = A.asset_id 
 								   WHERE 	A.asset_id =  ?")) {
 		/* Execute the prepared Statement */
@@ -26,8 +26,8 @@
 				
 		if ($stmt = $mysqli->prepare("SELECT 	H.assetmoveNo, H.movementDate, H.assetmoveReason, L.currentLocation,
 										   	    L.newLocation
-								   FROM 	assetmoveheader H
-								   Join assetmoveline L on H.assetmoveNo = L.assetmoveNo
+								   FROM 	movement H
+								   Join movementline L on H.assetmoveNo = L.assetmoveNo
 								   Join asset_id A on L.asset_id = A.asset_id 
 								   WHERE 	A.asset_id =  ?")) {
 				

@@ -7,8 +7,8 @@
 	$mysqli -> set_charset('utf8');
 	if ($stmt = $mysqli->prepare(" SELECT 	H.assetmoveNo, H.movementDate, L.asset_id,
 										    A.asset_name, L.currentLocation, L.newLocation, H.assetmoveReason
-								   FROM 	assetmoveheader H
-								   Join assetmoveline L on H.assetmoveNo = L.assetmoveNo
+								   FROM 	movement H
+								   Join movementline L on H.assetmoveNo = L.assetmoveNo
 								   Join asset_id A on L.asset_id = A.asset_id 
 								   WHERE 	H.assetmoveReason =  ?")) {
 		/* Execute the prepared Statement */
@@ -25,8 +25,8 @@
 				
 		if ($stmt = $mysqli->prepare("SELECT 	H.assetmoveNo, H.movementDate, L.asset_id,
 										    	A.asset_name, L.currentLocation, L.newLocation
-								   FROM 	assetmoveheader H
-								   Join assetmoveline L on H.assetmoveNo = L.assetmoveNo
+								   FROM 	movement H
+								   Join movementline L on H.assetmoveNo = L.assetmoveNo
 								   Join asset_id A on L.asset_id = A.asset_id 
 								   WHERE 	H.assetmoveReason =  ?
 								   ORDER by H.assetmoveNo, L.moveList")) {
@@ -89,7 +89,7 @@
 	
 	
 	/* check data in lineitem */
-	if(count($lineItemData)>0)
+	if($i>0)
 	{
 		/* set width of each column */
 		$w	=	array(10,35,45,35,55,45,45);
