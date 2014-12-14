@@ -204,3 +204,38 @@ function addSearchColumn(table_name)
 		});
 	}
 }
+
+function selectAsset(asset_id,asset_name,asset_type,depreciation,purchase_value,beginning_value,depreciation_value,current_value)
+{
+	$('input[name="newLine_AssetID"]').val(asset_id);
+	$('input[name="newLine_AssetName"]').val(asset_name);
+	$('input[name="newLine_AssetType"]').val(asset_type);
+	$('input[name="newLine_DepreciationPercent"]').val(depreciation);
+	$('input[name="newLine_PurchaseValue"]').val(purchase_value);
+	$('input[name="newLine_BeginningValue"]').val(beginning_value);
+	$('input[name="newLine_DepreciationValue"]').val(depreciation_value);
+	$('input[name="newLine_CurrentValue"]').val(current_value);
+	var depreciationpermonth = ((parseFloat($('input[name="newLine_DepreciationPercent"]').val()) * parseFloat($('input[name="newLine_PurchaseValue"]').val())) / 100) / 12;
+	$('input[name="newLine_DepreciationValueMonth"').val(depreciationpermonth.toFixed(2));
+	$('input[name="newLine_NewDepreciationValueMonth"').val(parseFloat($('input[name="newLine_CurrentValue"]').val()) - depreciationpermonth.toFixed(2));
+	$('#ListOfValueModal').modal('hide');
+	$('#newLineItemModal').modal('show');
+}
+
+
+function selectEditAsset(asset_id,asset_name,asset_type,depreciation,purchase_value,beginning_value,current_value)
+{
+	$('input[name="AssetID"]').val(asset_id);
+	$('input[name="AssetName"]').val(asset_name);
+	$('input[name="AssetType"]').val(asset_type);
+	$('input[name="DepreciationPercent"]').val(depreciation);
+	$('input[name="PurchaseValue"]').val(purchase_value);
+	$('input[name="BeginningValue"]').val(beginning_value);
+	$('input[name="DepreciationValue"]').val(depreciation_value);
+	$('input[name="CurrentValue"]').val(current_value);
+	var depreciationpermonth = ((parseFloat($('input[name="DepreciationPercent"]').val()) * parseFloat($('input[name="PurchaseValue"]').val())) / 100) / 12;
+	$('input[name="DepreciationValueMonth"').val(depreciationpermonth.toFixed(2));
+	$('input[name="NewDepreciationValueMonth"').val(parseFloat($('input[name="CurrentValue"]').val()) - depreciationpermonth.toFixed(2));
+	$('#ListOfValueModal').modal('hide');
+	$('#editLineItemModal').modal('show');
+}

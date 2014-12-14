@@ -268,6 +268,32 @@ class ListOfValueController extends BaseController {
 				}
 				echo '</tbody>';
 			}
+			else if(Input::get('table_name') == 'asset_id_all')
+			{
+				echo '<thead><tr><th>Select</th>';
+				echo '<th>Asset ID</th>';
+				echo '<th>Asset Name</th></tr></thead>';
+				$itms_obj = Asset::all();
+				if(Input::has('search'))
+				{
+					$itms_obj = Asset::whereRaw(Input::get('search'))->get();
+				}
+				$itms = $itms_obj->toArray();
+				
+				echo '<tbody>';
+				foreach($itms as $itm)
+				{
+					echo '<tr>';
+					echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['asset_id'].'\',\''.$itm['asset_name'].'\',\''.$itm['asset_type'].'\',\''.$itm['yearly_depreciation'].'\',\''.$itm['purchase_value'].'\',\''.$itm['beginning_value'].'\',\''.$itm['depreciated_value'].'\',\''.$itm['current_value'].'\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					
+					echo '<td>';
+					echo $itm['asset_id'];
+					echo '</td><td>';
+					echo $itm['asset_name'];
+					echo '</td></tr>';
+				}
+				echo '</tbody>';
+			}
 		}
 	}
 	

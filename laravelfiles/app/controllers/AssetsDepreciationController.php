@@ -10,6 +10,7 @@ class AssetsDepreciationController extends BaseController {
 	{
 		Session::flush();
 		Session::put('depreciation_no','NEW');
+		Session::put('total_depreciation','0.00');
 		Session::put('dirtybit','false');
 		Session::put('table','depreciation');
 		Session::put('mode','new');
@@ -47,7 +48,7 @@ class AssetsDepreciationController extends BaseController {
 				/* check for duplicated lineitem */
 				foreach($temp_lineitem as $itm)
 				{
-					if(Input::get('newLine_AssetID') == $itm['component_name'])
+					if(Input::get('newLine_AssetID') == $itm['asset_id'])
 					{
 						echo '<script type="text/javascript">alert("Error: Duplicated lineitem");</script>';
 						return View::make('assets_depreciation', $this->page);
@@ -55,27 +56,52 @@ class AssetsDepreciationController extends BaseController {
 				}
 				/* add to lineitem session */
 				$data = array(
-					'component_name' => Input::get('newLine_component_name'),
-					'component_type' => Input::get('newLine_component_type'),
-					'quantity' => intval(Input::get('newLine_quantity')),
-					'rough_value' => floatval(Input::get('newLine_rough_value')),
-					'notes' => Input::get('newLine_notes'),
+					'asset_id' => Input::get('newLine_AssetID'),
+					'asset_name' => Input::get('newLine_AssetName'),
+					'asset_type' => Input::get('newLine_AssetType'),
+					'depreciation_percent' => floatval(Input::get('newLine_DepreciationPercent')),
+					'purchase_value' => Input::get('newLine_PurchaseValue'),
+					'beginning_value' => Input::get('newLine_BeginningValue'),
+					'depreciation_value' => Input::get('newLine_DepreciationValue'),
+					'current_value' => Input::get('newLine_CurrentValue'),
+					'depreciation_value_month' => Input::get('newLine_DepreciationValueMonth'),
+					'new_depreciation_value_month' => Input::get('newLine_NewDepreciationValueMonth'),
 				);
 				array_push($temp_lineitem, $data);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['depreciation_value_month']);
+				}
+				Session::put('total_depreciation', $Total);
+
 				return View::make('assets_depreciation', $this->page);
 			}
 			else if(Input::get('action') == 'editLine')
 			{
 				$temp_lineitem = Session::get('lineitem');
-				$temp_lineitem[intval(Input::get('item'))]['component_name'] = Input::get('component_name');
-				$temp_lineitem[intval(Input::get('item'))]['component_type'] = Input::get('component_type');
-				$temp_lineitem[intval(Input::get('item'))]['quantity'] = intval(Input::get('quantity'));
-				$temp_lineitem[intval(Input::get('item'))]['rough_value'] = floatval(Input::get('rough_value'));
-				$temp_lineitem[intval(Input::get('item'))]['notes'] = Input::get('notes');
+				$temp_lineitem[intval(Input::get('item'))]['asset_id'] = Input::get('AssetID');
+				$temp_lineitem[intval(Input::get('item'))]['asset_name'] = Input::get('AssetName');
+				$temp_lineitem[intval(Input::get('item'))]['asset_type'] = Input::get('AssetType');
+				$temp_lineitem[intval(Input::get('item'))]['depreciation_percent'] = Input::get('DepreciationPercent');
+				$temp_lineitem[intval(Input::get('item'))]['purchase_value'] = Input::get('PurchaseValue');
+				$temp_lineitem[intval(Input::get('item'))]['beginning_value'] = Input::get('BeginningValue');
+				$temp_lineitem[intval(Input::get('item'))]['depreciation_value'] = Input::get('DepreciationValue');
+				$temp_lineitem[intval(Input::get('item'))]['current_value'] = Input::get('CurrentValue');
+				$temp_lineitem[intval(Input::get('item'))]['depreciation_value_month'] = Input::get('DepreciationValueMonth');
+				$temp_lineitem[intval(Input::get('item'))]['new_depreciation_value_month'] = Input::get('NewDepreciationValueMonth');
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['depreciation_value_month']);
+				}
+				Session::put('total_depreciation', $Total);
 				return View::make('assets_depreciation', $this->page);
 			}
 			else if(Input::get('action') == 'deleteLine')
@@ -85,43 +111,53 @@ class AssetsDepreciationController extends BaseController {
 				array_splice($temp_lineitem, intval(Input::get('item')), 1);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['depreciation_value_month']);
+				}
+				Session::put('total_depreciation', $Total);
 				return View::make('assets_depreciation', $this->page);
 			}
 			else if(Input::get('action') == 'save')
 			{
 				/* get new asset_id */
-				$newid = sprintf("D%04d",intval(substr(Depreciation::max('asset_id'), 1)) + 1);
+				$newid = sprintf("D%04d",intval(substr(Depreciation::max('depreciation_no'), 1)) + 1);
 				
 				$depreciation = new Depreciation;
-				$depreciation->asset_id = $newid;
-				$depreciation->asset_name = Session::get('asset_name');
-				$depreciation->asset_type = Session::get('asset_type');
-				$depreciation->unit = Session::get('unit');
-				$depreciation->yearly_depreciation = Session::get('yearly_depreciation');
-				$depreciation->purchase_value = Session::get('purchase_value');
-				$depreciation->purchase_date = Session::get('purchase_date');
-				$depreciation->beginning_value = Session::get('beginning_value');
-				$depreciation->depreciated_value = Session::get('depreciated_value');
-				$depreciation->current_value = Session::get('current_value');
+				if(count(Session::get('lineitem')) == 0)
+				{
+					echo '<script type="text/javascript">alert("Error: There isn\'t any items in lineitem.");</script>';
+					return View::make('assets_depreciation', $this->page);
+				}
+				$depreciation->depreciation_no = $newid;
+				$depreciation->depreciation_date = Session::get('depreciation_date');
+				$depreciation->for_month = Session::get('for_month');
+				$depreciation->for_year = Session::get('for_year');
 
 				$i = 0;
-				$total_rough_value = 0;
+				$total_depreciation_value = 0;
 				foreach(Session::get('lineitem') as $itm)
 				{
 					$i++;
 					$depreciationlineitem = new DepreciationLineItem();
-					$depreciationlineitem->no = $i;
-					$depreciationlineitem->asset_id = $newid;
-					$depreciationlineitem->component_name = $itm['component_name'];
-					$depreciationlineitem->component_type = $itm['component_type'];
-					$depreciationlineitem->quantity = $itm['quantity'];
-					$depreciationlineitem->rough_value = $itm['rough_value'];
-					$depreciationlineitem->notes = $itm['notes'];
-					$total_rough_value += (floatval($itm['rough_value']) * floatval($itm['quantity']));
+					$depreciationlineitem->item_no = $i;
+					$depreciationlineitem->depreciation_no = $newid;
+					$depreciationlineitem->asset_id = $itm['asset_id'];
+					$depreciationlineitem->asset_name = $itm['asset_name'];
+					$depreciationlineitem->asset_type = $itm['asset_type'];
+					$depreciationlineitem->depreciation_percent = $itm['depreciation_percent'];
+					$depreciationlineitem->purchase_value = $itm['purchase_value'];
+					$depreciationlineitem->beginning_value = $itm['beginning_value'];
+					$depreciationlineitem->depreciation_value = $itm['depreciation_value'];
+					$depreciationlineitem->current_value = $itm['current_value'];
+					$depreciationlineitem->depreciation_value_month = $itm['depreciation_value_month'];
+					$depreciationlineitem->new_depreciation_value_month = $itm['new_depreciation_value_month'];
+					$total_depreciation_value += floatval($itm['depreciation_value_month']);
 					$depreciationlineitem->save();
 				}
-				$depreciation->total_component = $i;
-				$depreciation->total_component_value = $total_rough_value;
+				$depreciation->total_depreciation = $total_depreciation_value;
 				
 				Session::put('dirtybit','false');
 				Session::put('table','depreciation');
@@ -178,7 +214,7 @@ class AssetsDepreciationController extends BaseController {
 				/* check for duplicated lineitem */
 				foreach($temp_lineitem as $itm)
 				{
-					if(Input::get('newLine_component_name') == $itm['component_name'] || Input::get('newLine_component_type') == $itm['component_type'])
+					if(Input::get('newLine_AssetID') == $itm['asset_id'])
 					{
 						echo '<script type="text/javascript">alert("Error: Duplicated lineitem");</script>';
 						return View::make('assets_depreciation', $this->page);
@@ -186,27 +222,51 @@ class AssetsDepreciationController extends BaseController {
 				}
 				/* add to lineitem session */
 				$data = array(
-					'component_name' => Input::get('newLine_component_name'),
-					'component_type' => Input::get('newLine_component_type'),
-					'quantity' => intval(Input::get('newLine_quantity')),
-					'rough_value' => floatval(Input::get('newLine_rough_value')),
-					'notes' => Input::get('newLine_notes'),
+					'asset_id' => Input::get('newLine_AssetID'),
+					'asset_name' => Input::get('newLine_AssetName'),
+					'asset_type' => Input::get('newLine_AssetType'),
+					'depreciation_percent' => floatval(Input::get('newLine_DepreciationPercent')),
+					'purchase_value' => Input::get('newLine_PurchaseValue'),
+					'beginning_value' => Input::get('newLine_BeginningValue'),
+					'depreciation_value' => Input::get('newLine_DepreciationValue'),
+					'current_value' => Input::get('newLine_CurrentValue'),
+					'depreciation_value_month' => Input::get('newLine_DepreciationValueMonth'),
+					'new_depreciation_value_month' => Input::get('newLine_NewDepreciationValueMonth'),
 				);
 				array_push($temp_lineitem, $data);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['depreciation_value_month']);
+				}
+				Session::put('total_depreciation', $Total);
 				return View::make('assets_depreciation', $this->page);
 			}
 			else if(Input::get('action') == 'editLine')
 			{
 				$temp_lineitem = Session::get('lineitem');
-				$temp_lineitem[intval(Input::get('item'))]['component_name'] = Input::get('component_name');
-				$temp_lineitem[intval(Input::get('item'))]['component_type'] = Input::get('component_type');
-				$temp_lineitem[intval(Input::get('item'))]['quantity'] = intval(Input::get('quantity'));
-				$temp_lineitem[intval(Input::get('item'))]['rough_value'] = floatval(Input::get('rough_value'));
-				$temp_lineitem[intval(Input::get('item'))]['notes'] = Input::get('notes');
+				$temp_lineitem[intval(Input::get('item'))]['asset_id'] = Input::get('AssetID');
+				$temp_lineitem[intval(Input::get('item'))]['asset_name'] = Input::get('AssetName');
+				$temp_lineitem[intval(Input::get('item'))]['asset_type'] = Input::get('AssetType');
+				$temp_lineitem[intval(Input::get('item'))]['depreciation_percent'] = Input::get('DepreciationPercent');
+				$temp_lineitem[intval(Input::get('item'))]['purchase_value'] = Input::get('PurchaseValue');
+				$temp_lineitem[intval(Input::get('item'))]['beginning_value'] = Input::get('BeginningValue');
+				$temp_lineitem[intval(Input::get('item'))]['depreciation_value'] = Input::get('DepreciationValue');
+				$temp_lineitem[intval(Input::get('item'))]['current_value'] = Input::get('CurrentValue');
+				$temp_lineitem[intval(Input::get('item'))]['depreciation_value_month'] = Input::get('DepreciationValueMonth');
+				$temp_lineitem[intval(Input::get('item'))]['new_depreciation_value_month'] = Input::get('NewDepreciationValueMonth');
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['depreciation_value_month']);
+				}
+				Session::put('total_depreciation', $Total);
 				return View::make('assets_depreciation', $this->page);
 			}
 			else if(Input::get('action') == 'deleteLine')
@@ -216,6 +276,13 @@ class AssetsDepreciationController extends BaseController {
 				array_splice($temp_lineitem, intval(Input::get('item')), 1);
 				Session::put('lineitem', $temp_lineitem);
 				Session::put('dirtybit','true');
+				/* recalculate */
+				$Total = 0;
+				foreach($temp_lineitem as $itm)
+				{
+					$Total += floatval($itm['depreciation_value_month']);
+				}
+				Session::put('total_depreciation', $Total);
 				return View::make('assets_depreciation', $this->page);
 			}
 			else if(Input::get('action') == 'delete')
@@ -226,39 +293,42 @@ class AssetsDepreciationController extends BaseController {
 			}
 			else if(Input::get('action') == 'save')
 			{
-				$depreciation = Depreciation::where('asset_id','=',Session::get('asset_id'))->first();
-				$depreciation->asset_name = Session::get('asset_name');
-				$depreciation->asset_type = Session::get('asset_type');
-				$depreciation->unit = Session::get('unit');
-				$depreciation->yearly_depreciation = Session::get('yearly_depreciation');
-				$depreciation->purchase_value = Session::get('purchase_value');
-				$depreciation->purchase_date = Session::get('purchase_date');
-				$depreciation->beginning_value = Session::get('beginning_value');
-				$depreciation->depreciated_value = Session::get('depreciated_value');
-				$depreciation->current_value = Session::get('current_value');
+				if(count(Session::get('lineitem')) == 0)
+				{
+					echo '<script type="text/javascript">alert("Error: There isn\'t any items in lineitem.");</script>';
+					return View::make('assets_depreciation', $this->page);
+				}
+				$depreciation = Depreciation::where('depreciation_no','=',Session::get('depreciation_no'))->first();
+				$depreciation->depreciation_date = Session::get('depreciation_date');
+				$depreciation->for_month = Session::get('for_month');
+				$depreciation->for_year = Session::get('for_year');
 				
-				DepreciationLineItem::where('asset_id','=',Session::get('asset_id'))->delete();
+				DepreciationLineItem::where('depreciation_no','=',Session::get('depreciation_no'))->delete();
 				$i = 0;
-				$total_rough_value = 0;
+				$total_depreciation_value = 0;
 				foreach(Session::get('lineitem') as $itm)
 				{
 					$i++;
 					$depreciationlineitem = new DepreciationLineItem();
-					$depreciationlineitem->no = $i;
-					$depreciationlineitem->asset_id = Session::get('asset_id');
-					$depreciationlineitem->component_name = $itm['component_name'];
-					$depreciationlineitem->component_type = $itm['component_type'];
-					$depreciationlineitem->quantity = $itm['quantity'];
-					$depreciationlineitem->rough_value = $itm['rough_value'];
-					$depreciationlineitem->notes = $itm['notes'];
-					$total_rough_value += (floatval($itm['rough_value']) * floatval($itm['quantity']));
+					$depreciationlineitem->item_no = $i;
+					$depreciationlineitem->depreciation_no = Session::get('depreciation_no');
+					$depreciationlineitem->asset_id = $itm['asset_id'];
+					$depreciationlineitem->asset_name = $itm['asset_name'];
+					$depreciationlineitem->asset_type = $itm['asset_type'];
+					$depreciationlineitem->depreciation_percent = $itm['depreciation_percent'];
+					$depreciationlineitem->purchase_value = $itm['purchase_value'];
+					$depreciationlineitem->beginning_value = $itm['beginning_value'];
+					$depreciationlineitem->depreciation_value = $itm['depreciation_value'];
+					$depreciationlineitem->current_value = $itm['current_value'];
+					$depreciationlineitem->depreciation_value_month = $itm['depreciation_value_month'];
+					$depreciationlineitem->new_depreciation_value_month = $itm['new_depreciation_value_month'];
+					$total_depreciation_value += floatval($itm['depreciation_value_month']);
 					$depreciationlineitem->save();
 				}
-				$depreciation->total_component = $i;
-				$depreciation->total_component_value = $total_rough_value;
+				$depreciation->total_depreciation = $total_depreciation_value;
 				
 				Session::put('dirtybit','false');
-				Session::put('table','asset_id');
+				Session::put('table','depreciation');
 				$depreciation->save();
 				return View::make('assets_depreciation', $this->page);
 			}
@@ -267,18 +337,10 @@ class AssetsDepreciationController extends BaseController {
 	
 	public function ajaxUpdateSession()
 	{
-		Session::put('asset_id', Input::get('asset_id'));
-		Session::put('asset_name', Input::get('asset_name'));
-		Session::put('asset_type', Input::get('asset_type'));
-		Session::put('unit', Input::get('unit'));
-		Session::put('yearly_depreciation', Input::get('yearly_depreciation'));
-		Session::put('purchase_value', Input::get('purchase_value'));
-		Session::put('purchase_date', Input::get('purchase_date'));
-		Session::put('beginning_value', Input::get('beginning_value'));
-		Session::put('depreciated_value', Input::get('depreciated_value'));
-		Session::put('current_value', Input::get('current_value'));
-		Session::put('total_component', Input::get('total_component'));
-		Session::put('total_component_value', Input::get('total_component_value'));
+		Session::put('depreciation_no', Input::get('depreciation_no'));
+		Session::put('depreciation_date', Input::get('depreciation_date'));
+		Session::put('for_month', Input::get('for_month'));
+		Session::put('for_year', Input::get('for_year'));
 		Session::put('dirtybit',Input::get('dirtybit'));
 		Session::put('table',Input::get('table'));
 		echo 'Success';

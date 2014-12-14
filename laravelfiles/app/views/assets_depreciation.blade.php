@@ -8,12 +8,12 @@
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 				<h4 class="modal-title" id="myModalLabel">Add new lineitem</h4>
     		</div>
-			<form method="post">
+			<form method="post" id="newLine_Form">
 				<div class="modal-body">
 					<table width="100%">
 						<tr>
 							<td><b>* Asset ID :</b></td>
-							<td><input type="text" name="newLine_AssetID" required><button type="button" onclick="addSearchColumn('asset'); openListOfValue('asset_id','selectAsset'); $('#newLineItemModal').modal('hide');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
+							<td><input type="text" name="newLine_AssetID" required><button type="button" onclick="addSearchColumn('asset'); openListOfValue('asset_id_all','selectAsset'); $('#newLineItemModal').modal('hide');" class="form_button btn"><span class="glyphicon glyphicon-search"></span></button></td>
 						</tr>
 						<tr>
 							<td><b>Asset Name :</b></td>
@@ -44,19 +44,19 @@
 							<td><input type="number" name="newLine_CurrentValue" step="0.25" min="0.25" placeholder="0.00" readonly></td>
 						</tr>
 						<tr>
-							<td><b>Depreciation This Month :</b></td>
-							<td><input type="number" name="newLine_DepreciationValueMonth" step="0.25" min="0.25" placeholder="0.00"></td>
+							<td><b>* Depreciation This Month :</b></td>
+							<td><input type="number" name="newLine_DepreciationValueMonth" min="0.00" step="0.01" placeholder="0.00" required></td>
 						</tr>
 						<tr>
 							<td><b>New Value After This Month :</b></td>
-							<td><input type="number" name="newLine_NewDepreciationValueMonth" step="0.25" min="0.25" placeholder="0.00" readonly></td>
+							<td><input type="number" name="newLine_NewDepreciationValueMonth" min="0.00" step="0.01" placeholder="0.00" readonly></td>
 						</tr>
 					</table>
 	    		</div>
 				
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-primary btn-lg" name="action" value="insertLine">Add</button>
-					<button type="button" class="btn btn-default btn-lg" onclick="$('#newLineItemModal').modal('hide');">Cancel</button>
+					<button type="button" class="btn btn-default btn-lg" onclick="$('#newLine_Form')[0].reset(); $('#newLineItemModal').modal('hide');">Cancel</button>
 	    		</div>
 			</form>
     	</div>
