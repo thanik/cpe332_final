@@ -96,7 +96,7 @@ class ListOfValueController extends BaseController {
 				foreach($itms as $itm)
 				{
 					echo '<tr>';
-					echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['Code'].'\',\''.$itm['Name'].'\',\''.$itm['Address'].'\'); $(\'#ListOfValueModal\').modal(\'hide\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['Code'].'\',\''.addslashes($itm['Name']).'\',\''.addslashes($itm['Address']).'\'); $(\'#ListOfValueModal\').modal(\'hide\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
 					echo '<td>';
 					echo $itm['Code'];
 					echo '</td><td>';
@@ -159,7 +159,7 @@ class ListOfValueController extends BaseController {
 				foreach($itms as $itm)
 				{
 					echo '<tr>';
-					echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['Code'].'\',\''.$itm['Name'].'\',\''.$itm['Address'].'\'); $(\'#ListOfValueModal\').modal(\'hide\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
+					echo '<td><button onclick="'.Input::get('mode').'(\''.$itm['Code'].'\',\''.addslashes($itm['Name']).'\',\''.addslashes($itm['Address']).'\'); $(\'#ListOfValueModal\').modal(\'hide\');" class="btn btn-primary btn-xs" style="width: 100%">select</button></td>';
 					echo '<td>';
 					echo $itm['Code'];
 					echo '</td><td>';
