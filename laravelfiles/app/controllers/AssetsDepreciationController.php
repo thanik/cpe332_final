@@ -37,7 +37,7 @@ class AssetsDepreciationController extends BaseController {
 
 				$lineitems = DepreciationLineItem::where('depreciation_no','=',Input::get('id'))->get()->toArray();
 				Session::put('lineitem',$lineitems);
-				Session::put('dirtybit','false');
+				Session::put('dirtybit','true');
 				Session::put('table','depreciation');
 				return View::make('assets_depreciation', $this->page);
 			}
@@ -168,7 +168,7 @@ class AssetsDepreciationController extends BaseController {
 				
 				$lineitems = DepreciationLineItem::where('depreciation_no','=',$id)->get()->toArray();
 				Session::put('lineitem',$lineitems);
-				Session::put('dirtybit','false');
+				Session::put('dirtybit','true');
 				Session::put('table','asset_id');
 				return View::make('assets_depreciation', $this->page);	
 			}

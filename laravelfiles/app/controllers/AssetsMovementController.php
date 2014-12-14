@@ -220,7 +220,7 @@ class AssetsMovementController extends BaseController {
 				{
 					$i++;
 					$movementlineitem = new MovementLineItem();
-					$movementlineitem->assetmoveNo = $newid;
+					$movementlineitem->assetmoveNo = Session::get('assetmoveNo');
 					$movementlineitem->moveList = $i;
 					$movementlineitem->asset_id = $itm['asset_id'];
 					$movementlineitem->asset_name = $itm['asset_name'];
