@@ -393,7 +393,7 @@ class ListOfValueController extends BaseController {
 						</tr>
 						<tr>
 							<td><b>Current Location :</b></td>
-							<td><input type="text" name="currentLocation" value="'.Session::get('lineitem')[intval(Input::get('item'))]['currentLocation'].'" readonly></td>
+							<td><input type="text" name="currentLocation" value="'.Asset::where('asset_id','=',Session::get('lineitem')[intval(Input::get('item'))]['asset_id'])->first()->current_location.'" readonly></td>
 						</tr>
 						<tr>
 							<td><b>New Location :</b></td>

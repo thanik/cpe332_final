@@ -35,7 +35,7 @@ class AssetsMovementController extends BaseController {
 
 				$lineitems = MovementLineItem::where('assetmoveNo','=',Input::get('id'))->get()->toArray();
 				Session::put('lineitem',$lineitems);
-				Session::put('dirtybit','true');
+				Session::put('dirtybit','false');
 				Session::put('table','movement');
 				return View::make('assets_movement', $this->page);
 			}
@@ -158,7 +158,7 @@ class AssetsMovementController extends BaseController {
 
 				$lineitems = MovementLineItem::where('assetmoveNo','=',Input::get('id'))->get()->toArray();
 				Session::put('lineitem',$lineitems);
-				Session::put('dirtybit','true');
+				Session::put('dirtybit','false');
 				Session::put('table','movement');
 				return View::make('assets_movement', $this->page);
 			}
@@ -215,6 +215,7 @@ class AssetsMovementController extends BaseController {
 				$movement->movementDate = Session::get('movementDate');
 				$movement->assetmoveReason = Session::get('assetmoveReason');
 
+				MovementLineItem::where('assetmoveNo','=',Session::get('assetmoveNo'))->delete();
 				$i = 0;
 				foreach(Session::get('lineitem') as $itm)
 				{
